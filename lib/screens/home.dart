@@ -820,8 +820,8 @@ class _HomeScreenState extends State<HomeScreen> {
         int x = get1DPosfrom2D(int.parse("$row$col"));
         // int position = getActualposition(x, pos);
 
-        double bottom = MediaQuery.of(context).size.width * 0.0667 * row;
-        double left = MediaQuery.of(context).size.width * 0.0667 * col;
+        double bottom = getBottom(row);
+        double left = getLeft(col);
         Map<dynamic, dynamic> currentOffsets = offsets;
 
         layoutItems.add(Positioned(
@@ -832,11 +832,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ? IgnorePointer(child: Container())
                 : GestureDetector(
                     onTap: () {
-                      print('Row: ' + row.toString());
-                      print('Col: ' + col.toString());
-                      print('moveItem: ' + moveItem.toString());
-                      // Check is move is legal
-                      print(isLegal(row, col, moveItem));
                       if (move && isLegal(row, col, moveItem)) {
                         currentOffsets[moveItem]["bottom"] = bottom * 1.05;
                         currentOffsets[moveItem]["left"] = left;
@@ -1372,5 +1367,27 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
     return true;
+  }
+
+  double getBottom(row) {
+    double correction = MediaQuery.of(context).size.height / 61.3026819923;
+    if(row < 7) {
+      return MediaQuery.of(context).size.width * 0.0667 * row + ((correction * (row - 7).abs()) / 7);
+    }
+    if(row > 7) {
+      return MediaQuery.of(context).size.width * 0.0667 * row - ((correction * (row - 7).abs()) / 7);
+    }
+    return MediaQuery.of(context).size.width * 0.0667 * row;
+  }
+
+  double getLeft(col) {
+    double correction = MediaQuery.of(context).size.width / 72;
+    if(col < 7) {
+      return MediaQuery.of(context).size.width * 0.0667 * col + ((correction * (col - 7).abs()) / 7);
+    }
+    if(col > 7) {
+      return MediaQuery.of(context).size.width * 0.0667 * col - ((correction * (col - 7).abs()) / 7);
+    }
+    return MediaQuery.of(context).size.width * 0.0667 * col;
   }
 }
