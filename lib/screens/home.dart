@@ -297,7 +297,6 @@ class _HomeScreenState extends State<HomeScreen> {
     },
   };
 
-
   // Board map UI format
   Map<dynamic, dynamic> offsets = {
     00: {
@@ -873,9 +872,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       currentOffsets[moveItem]["highlighted"] = false;
                       currentOffsets[moveItem]["predicted"] = false;
                       // check if it is a non safe position so kill
-                      if(isSafePosition(offsets[int.parse("$count$position")]["xPosition"]) == false) {
+                      if(isSafePosition(currentOffsets[int.parse("$count$position")]["xPosition"]) == false) {
                         print("KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        offsets[int.parse("$count$position")] = default_offsets[int.parse("$count$position")];
+                        currentOffsets[int.parse("$count$position")] = default_offsets[int.parse("$count$position")];
                       }
                     }
 
@@ -939,6 +938,19 @@ class _HomeScreenState extends State<HomeScreen> {
             int.parse(moveItem.toString().split("").last));
     print('############ 1 SETTING xPosition to' + x.toString());
     currentOffsets[moveItem]["xPosition"] = x;
+
+    var temp = currentOffsets[moveItem];
+
+    // loop over all the offsets to see agar kissi ka xPossition same as this one to nahi
+    currentOffsets.forEach((key, value) {
+      if((key != moveItem) && (currentOffsets[key]["xPosition"] == x) && (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
+        print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        currentOffsets[key] = default_offsets[key];
+      }
+    });
+
+    currentOffsets[moveItem] = temp;
+
     setState(() {
       move = false;
       offsets = currentOffsets;
