@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+//import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:ludo_planner/widgets/appbar.dart';
 import 'package:ludo_planner/widgets/bottomLeft.dart';
@@ -832,8 +832,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 ? IgnorePointer(child: Container())
                 : GestureDetector(
                     onTap: () {
-                      print(x);
-                      if (move) {
+                      print('Row: ' + row.toString());
+                      print('Col: ' + col.toString());
+                      print('moveItem: ' + moveItem.toString());
+                      // Check is move is legal
+                      print(isLegal(row, col, moveItem));
+                      if (move && isLegal(row, col, moveItem)) {
                         currentOffsets[moveItem]["bottom"] = bottom * 1.05;
                         currentOffsets[moveItem]["left"] = left;
                         currentOffsets[moveItem]["moved"] = true;
@@ -1292,6 +1296,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   int getActualposition(int x, int pos) {
+    print('In getActualposition');
     int offset =
         pos == 0 ? 0 : pos == 1 ? 13 : pos == 2 ? 26 : pos == 3 ? 39 : null;
 
@@ -1304,5 +1309,68 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       return 0;
     }
+  }
+
+  bool isLegal(row, col, moveItem) {
+    if((row == 7 && col == 7) ||
+        (row == 8 && col == 8) ||
+        (row == 6 && col == 8) ||
+        (row == 6 && col == 6) ||
+        (row == 8 && col == 6)) {
+      return false;
+    }
+
+    // for player at bottom left
+    if(moveItem == 0 || moveItem == 10 || moveItem == 20 || moveItem == 30) {
+      if(row == 7 && col <= 6 && col >= 1) {
+        return false;
+      }
+      if(col == 7 && row <= 13 && row >= 8) {
+        return false;
+      }
+      if(row == 7 && col <= 13 && col >= 8) {
+        return false;
+      }
+    }
+
+    // for player at top left
+    if(moveItem == 1 || moveItem == 11 || moveItem == 21 || moveItem == 31) {
+      if(col == 7 && row <= 13 && row >= 8) {
+        return false;
+      }
+      if(row == 7 && col <= 13 && col >= 8) {
+        return false;
+      }
+      if(col == 7 && row <= 6 && row >= 1) {
+        return false;
+      }
+    }
+
+    // for player at top right
+    if(moveItem == 2 || moveItem == 12 || moveItem == 22 || moveItem == 32) {
+      if(row == 7 && col <= 6 && col >= 1) {
+        return false;
+      }
+      if(row == 7 && col <= 13 && col >= 8) {
+        return false;
+      }
+      if(col == 7 && row <= 6 && row >= 1) {
+        return false;
+      }
+    }
+
+    // for player at top right
+    if(moveItem == 3 || moveItem == 13 || moveItem == 23 || moveItem == 33) {
+      if(row == 7 && col <= 6 && col >= 1) {
+        return false;
+      }
+      if(col == 7 && row <= 13 && row >= 8) {
+        return false;
+      }
+      if(col == 7 && row <= 6 && row >= 1) {
+        return false;
+      }
+    }
+    return true;
   }
 }
