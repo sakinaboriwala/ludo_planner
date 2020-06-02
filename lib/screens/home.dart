@@ -38,6 +38,266 @@ class _HomeScreenState extends State<HomeScreen> {
   static const double BASELEFT2 = 2.0;
   static const double BASELEFT13 = 13.0;
 
+  Map<dynamic, dynamic> default_offsets = {
+    00: {
+      "initBottom": BASEBOTTOM2,
+      "initLeft": BASELEFT2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    10: {
+      "initBottom": BASEBOTTOM2 * 2.2,
+      "initLeft": BASELEFT2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    20: {
+      "initBottom": BASEBOTTOM2 * 2.3,
+      "initLeft": BASELEFT2 * 2.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    30: {
+      "initBottom": BASEBOTTOM2,
+      "initLeft": BASELEFT2 * 2.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    01: {
+      "initBottom": BASEBOTTOM13,
+      "initLeft": BASELEFT2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    11: {
+      "initBottom": BASEBOTTOM13 * 1.2,
+      "initLeft": BASELEFT2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    21: {
+      "initBottom": BASEBOTTOM13 * 1.2,
+      "initLeft": BASELEFT2 * 2.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    31: {
+      "initBottom": BASEBOTTOM13,
+      "initLeft": BASELEFT2 * 2.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    02: {
+      "initBottom": BASEBOTTOM13,
+      "initLeft": BASELEFT13,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    12: {
+      "initBottom": BASEBOTTOM13 * 1.2,
+      "initLeft": BASELEFT13,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    22: {
+      "initBottom": BASEBOTTOM13 * 1.2,
+      "initLeft": BASELEFT13 * 1.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    32: {
+      "initBottom": BASEBOTTOM13,
+      "initLeft": BASELEFT13 * 1.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    03: {
+      "initBottom": BASEBOTTOM2,
+      "initLeft": BASELEFT13,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    13: {
+      "initBottom": BASEBOTTOM2 * 2.3,
+      "initLeft": BASELEFT13,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    23: {
+      "initBottom": BASEBOTTOM2 * 2.3,
+      "initLeft": BASELEFT13 * 1.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    33: {
+      "initBottom": BASEBOTTOM2,
+      "initLeft": BASELEFT13 * 1.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+  };
+
+
   // Board map UI format
   Map<dynamic, dynamic> offsets = {
     00: {
@@ -602,6 +862,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       currentOffsets[moveItem]["highlighted"] = false;
                       currentOffsets[moveItem]["predicted"] = false;
                     } else {
+                      print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+                      // this will set xPosition
+                      currentOffsets[moveItem]["xPosition"] = offsets[int.parse("$count$position")]["xPosition"];
                       currentOffsets[moveItem]["bottom"] =
                           offsets[int.parse("$count$position")]["bottom"];
                       currentOffsets[moveItem]["left"] =
@@ -609,12 +872,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       currentOffsets[moveItem]["moved"] = true;
                       currentOffsets[moveItem]["highlighted"] = false;
                       currentOffsets[moveItem]["predicted"] = false;
+                      // check if it is a non safe position so kill
+                      if(isSafePosition(offsets[int.parse("$count$position")]["xPosition"]) == false) {
+                        print("KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        offsets[int.parse("$count$position")] = default_offsets[int.parse("$count$position")];
+                      }
                     }
 
                     setState(() {
                       move = false;
                       offsets = currentOffsets;
                     });
+
+                    // itterate over the offsets to check ki kis kis ka
                   } else {
                     print("SET MOVE TRUE");
                     Map<dynamic, dynamic> currentOffsets = offsets;
@@ -959,10 +1229,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         margin: EdgeInsets.only(
                           bottom: 5,
                         ),
-                        // child: Text(
-                        //   "$x",
-                        //   style: TextStyle(color: Colors.white),
-                        // ),
+//                         child: Text(
+//                           "$x",
+//                           style: TextStyle(color: Colors.black),
+//                         ),
                         color: Colors.transparent,
                         width: MediaQuery.of(context).size.width * 0.0667,
                         height: MediaQuery.of(context).size.width * 0.0667))));
@@ -1259,6 +1529,17 @@ class _HomeScreenState extends State<HomeScreen> {
         offsets = currentOffsets;
       });
     }
+  }
+
+  bool isSafePosition(int xPosition) {
+    print('isSafePosition: ' + xPosition.toString());
+    List<int> safePositions = [0, 8, 13, 21, 26, 34, 39, 47];
+    for(int i=0; i<safePositions.length; i++) {
+      if(safePositions[i] == xPosition) {
+        return true;
+      }
+    }
+    return false;
   }
 
   int get1DPosfrom2D(int rowcol) {
