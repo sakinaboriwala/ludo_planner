@@ -901,7 +901,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         print("KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
                         currentOffsets[int.parse("$count$position")] =
                             default_offsets[int.parse("$count$position")];
-                        currentOffsets[int.parse("$count$position")]["moved"] = false;
+                        currentOffsets[int.parse("$count$position")]["moved"] =
+                            false;
                       }
                     }
 
@@ -1075,30 +1076,33 @@ class _HomeScreenState extends State<HomeScreen> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40)),
               scrollable: true,
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    "SELECT COLOR",
-                    style: TextStyle(color: Colors.green.shade400),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                              color: Colors.green.shade400, width: 6)),
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.green.shade400,
-                      ),
+              title: Container(
+                width: MediaQuery.of(context).size.width * 0.66,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "SELECT COLOR",
+                      style: TextStyle(color: Colors.green.shade400),
                     ),
-                  )
-                ],
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                                color: Colors.green.shade400, width: 6)),
+                        child: Icon(
+                          Icons.close,
+                          color: Colors.green.shade400,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
               content: new Container(
                   // height: 250,
@@ -1371,7 +1375,7 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
           border: Border.all(color: Colors.green.shade400, width: 2),
           borderRadius: BorderRadius.circular(25)),
-      width: MediaQuery.of(context).size.width * 0.67,
+      width: MediaQuery.of(context).size.width * 0.66,
       child: DropdownButton(
         style: TextStyle(fontSize: 18, fontFamily: 'Roboto'),
         elevation: 20,
