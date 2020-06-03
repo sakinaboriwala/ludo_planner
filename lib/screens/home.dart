@@ -31,12 +31,17 @@ class _HomeScreenState extends State<HomeScreen> {
   bool move = false;
   int moveItem;
   int diceNo;
+  Image image = Image.asset("assets/board_wireframe.png");
+  Image image1 = Image.asset("assets/ludo_background.png");
+
+  bool showSplash = true;
 
   static const double BASEBOTTOM2 = 2.0;
   static const double BASEBOTTOM13 = 13.0;
 
   static const double BASELEFT2 = 2.0;
   static const double BASELEFT13 = 13.0;
+  static const SPLASH_DURATION = 5000;
 
   Map<dynamic, dynamic> default_offsets = {
     00: {
@@ -801,6 +806,22 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    precacheImage(image.image, context);
+  }
+
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: SPLASH_DURATION), () {
+      setState(() {
+        showSplash = false;
+      });
+    });
+  }
+
   Widget renderGoti(int count, int position) {
     print('------------->in renderGoti()');
     if (selectedColorList[position] != null) {
@@ -863,7 +884,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     } else {
                       print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
                       // this will set xPosition
-                      currentOffsets[moveItem]["xPosition"] = offsets[int.parse("$count$position")]["xPosition"];
+                      currentOffsets[moveItem]["xPosition"] =
+                          offsets[int.parse("$count$position")]["xPosition"];
                       currentOffsets[moveItem]["bottom"] =
                           offsets[int.parse("$count$position")]["bottom"];
                       currentOffsets[moveItem]["left"] =
@@ -872,9 +894,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       currentOffsets[moveItem]["highlighted"] = false;
                       currentOffsets[moveItem]["predicted"] = false;
                       // check if it is a non safe position so kill
-                      if(isSafePosition(currentOffsets[int.parse("$count$position")]["xPosition"]) == false) {
+                      if (isSafePosition(
+                              currentOffsets[int.parse("$count$position")]
+                                  ["xPosition"]) ==
+                          false) {
                         print("KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        currentOffsets[int.parse("$count$position")] = default_offsets[int.parse("$count$position")];
+                        currentOffsets[int.parse("$count$position")] =
+                            default_offsets[int.parse("$count$position")];
                       }
                     }
 
@@ -887,17 +913,26 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else {
                     print("SET MOVE TRUE");
                     Map<dynamic, dynamic> currentOffsets = offsets;
-                    if(currentOffsets[int.parse("$count$position")]["predicted"] == true) {
+                    if (currentOffsets[int.parse("$count$position")]
+                            ["predicted"] ==
+                        true) {
                       print("---------------------> PREDICTED");
                       List<int> rowClm;
-                      if(currentOffsets[int.parse("$count$position")]["xPosition"] == -1) {
+                      if (currentOffsets[int.parse("$count$position")]
+                              ["xPosition"] ==
+                          -1) {
                         rowClm = get2Dfrom1D(0);
-                      }else {
-                        rowClm = get2Dfrom1D(currentOffsets[int.parse("$count$position")]["xPosition"] + diceNo);
+                      } else {
+                        rowClm = get2Dfrom1D(
+                            currentOffsets[int.parse("$count$position")]
+                                    ["xPosition"] +
+                                diceNo);
                       }
-                      moveGotiTo(rowClm[0], rowClm[1], currentOffsets, int.parse("$count$position"));
-                    }else {
-                      currentOffsets[int.parse("$count$position")]["highlighted"] = true;
+                      moveGotiTo(rowClm[0], rowClm[1], currentOffsets,
+                          int.parse("$count$position"));
+                    } else {
+                      currentOffsets[int.parse("$count$position")]
+                          ["highlighted"] = true;
                       setState(() {
                         move = true;
                         moveItem = int.parse("$count$position");
@@ -924,7 +959,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void moveGotiTo(int row, int clm, currentOffsets, moveItem) {
-    print('moveGotiTo: ' + row.toString() + ' : ' + clm.toString() + ' : ' + currentOffsets.toString() + ' : ' + moveItem.toString());
+    print('moveGotiTo: ' +
+        row.toString() +
+        ' : ' +
+        clm.toString() +
+        ' : ' +
+        currentOffsets.toString() +
+        ' : ' +
+        moveItem.toString());
     double bottom = getBottom(row);
     double left = getLeft(clm);
     int x = get1DPosfrom2D(int.parse("$row$clm"));
@@ -934,8 +976,7 @@ class _HomeScreenState extends State<HomeScreen> {
     currentOffsets[moveItem]["highlighted"] = false;
     currentOffsets[moveItem]["predicted"] = false;
     currentOffsets[moveItem]["position"] =
-        getActualposition(x,
-            int.parse(moveItem.toString().split("").last));
+        getActualposition(x, int.parse(moveItem.toString().split("").last));
     print('############ 1 SETTING xPosition to' + x.toString());
     currentOffsets[moveItem]["xPosition"] = x;
 
@@ -943,7 +984,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // loop over all the offsets to see agar kissi ka xPossition same as this one to nahi
     currentOffsets.forEach((key, value) {
-      if((key != moveItem) && (currentOffsets[key]["xPosition"] == x) && (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
+      if ((key != moveItem) &&
+          (currentOffsets[key]["xPosition"] == x) &&
+          (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
         print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
         currentOffsets[key] = default_offsets[key];
       }
@@ -957,47 +1000,68 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void initState() {
-    print('------------->in initState()');
-    super.initState();
-    // print(startGameSuggestion(getCurrentBoardStatus()));
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage("assets/ludo_background.png"),
-              fit: BoxFit.cover)),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: appBar(),
-        body:
-            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[playerAddButton(1), playerAddButton(2)],
-          ),
-          Center(
-            child: Container(
-                height: MediaQuery.of(context).size.width,
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black)),
-                child: Stack(
-                  children: layout(),
-                )),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[playerAddButton(0), playerAddButton(3)],
-          ),
-          screenBottomRow()
-        ]),
+    return Stack(children: [
+      Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/ludo_background.png"),
+                fit: BoxFit.cover)),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: appBar(),
+          body: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[playerAddButton(1), playerAddButton(2)],
+                ),
+                Center(
+                  child: Container(
+                      height: MediaQuery.of(context).size.width,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.black)),
+                      child: Stack(
+                        children: layout(),
+                      )),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[playerAddButton(0), playerAddButton(3)],
+                ),
+                screenBottomRow()
+              ]),
+        ),
       ),
-    );
+      showSplash
+          ? Container(
+              height: MediaQuery.of(context).size.height,
+              // decoration: BoxDecoration(
+              //     image:
+              //         DecorationImage(image: image1.image, fit: BoxFit.cover)),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox.fromSize(
+                      // child: Image.asset('assets/logo.png'),\
+                      child: CircularProgressIndicator(),
+                      size: Size(30, 30),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : Container()
+    ]);
   }
 
   void addMemberDialog(int position) {
@@ -1194,12 +1258,12 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     layoutItems.add(
-      Image.asset(
-        "assets/board_wireframe.png",
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.width,
-      ),
-    );
+        // Image.asset(
+        //   "assets/board_wireframe.png",
+        //   width: MediaQuery.of(context).size.width,
+        //   height: MediaQuery.of(context).size.width,
+        // ),
+        image);
     List<List<Widget>> gridArray = List.generate(15, (_) => new List(15));
 
     gridArray.asMap().forEach((row, items) {
@@ -1228,7 +1292,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         currentOffsets[moveItem]["position"] =
                             getActualposition(x,
                                 int.parse(moveItem.toString().split("").last));
-                        print('############ 2 SETTING xPosition to' + x.toString());
+                        print('############ 2 SETTING xPosition to' +
+                            x.toString());
                         currentOffsets[moveItem]["xPosition"] = x;
                         setState(() {
                           move = false;
@@ -1546,8 +1611,8 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isSafePosition(int xPosition) {
     print('isSafePosition: ' + xPosition.toString());
     List<int> safePositions = [0, 8, 13, 21, 26, 34, 39, 47];
-    for(int i=0; i<safePositions.length; i++) {
-      if(safePositions[i] == xPosition) {
+    for (int i = 0; i < safePositions.length; i++) {
+      if (safePositions[i] == xPosition) {
         return true;
       }
     }
@@ -1962,7 +2027,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   bool isLegal(row, col, moveItem) {
-    if((row == 7 && col == 7) ||
+    if ((row == 7 && col == 7) ||
         (row == 8 && col == 8) ||
         (row == 6 && col == 8) ||
         (row == 6 && col == 6) ||
@@ -1971,53 +2036,53 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     // for player at bottom left
-    if(moveItem == 0 || moveItem == 10 || moveItem == 20 || moveItem == 30) {
-      if(row == 7 && col <= 6 && col >= 1) {
+    if (moveItem == 0 || moveItem == 10 || moveItem == 20 || moveItem == 30) {
+      if (row == 7 && col <= 6 && col >= 1) {
         return false;
       }
-      if(col == 7 && row <= 13 && row >= 8) {
+      if (col == 7 && row <= 13 && row >= 8) {
         return false;
       }
-      if(row == 7 && col <= 13 && col >= 8) {
+      if (row == 7 && col <= 13 && col >= 8) {
         return false;
       }
     }
 
     // for player at top left
-    if(moveItem == 1 || moveItem == 11 || moveItem == 21 || moveItem == 31) {
-      if(col == 7 && row <= 13 && row >= 8) {
+    if (moveItem == 1 || moveItem == 11 || moveItem == 21 || moveItem == 31) {
+      if (col == 7 && row <= 13 && row >= 8) {
         return false;
       }
-      if(row == 7 && col <= 13 && col >= 8) {
+      if (row == 7 && col <= 13 && col >= 8) {
         return false;
       }
-      if(col == 7 && row <= 6 && row >= 1) {
-        return false;
-      }
-    }
-
-    // for player at top right
-    if(moveItem == 2 || moveItem == 12 || moveItem == 22 || moveItem == 32) {
-      if(row == 7 && col <= 6 && col >= 1) {
-        return false;
-      }
-      if(row == 7 && col <= 13 && col >= 8) {
-        return false;
-      }
-      if(col == 7 && row <= 6 && row >= 1) {
+      if (col == 7 && row <= 6 && row >= 1) {
         return false;
       }
     }
 
     // for player at top right
-    if(moveItem == 3 || moveItem == 13 || moveItem == 23 || moveItem == 33) {
-      if(row == 7 && col <= 6 && col >= 1) {
+    if (moveItem == 2 || moveItem == 12 || moveItem == 22 || moveItem == 32) {
+      if (row == 7 && col <= 6 && col >= 1) {
         return false;
       }
-      if(col == 7 && row <= 13 && row >= 8) {
+      if (row == 7 && col <= 13 && col >= 8) {
         return false;
       }
-      if(col == 7 && row <= 6 && row >= 1) {
+      if (col == 7 && row <= 6 && row >= 1) {
+        return false;
+      }
+    }
+
+    // for player at top right
+    if (moveItem == 3 || moveItem == 13 || moveItem == 23 || moveItem == 33) {
+      if (row == 7 && col <= 6 && col >= 1) {
+        return false;
+      }
+      if (col == 7 && row <= 13 && row >= 8) {
+        return false;
+      }
+      if (col == 7 && row <= 6 && row >= 1) {
         return false;
       }
     }
@@ -2026,22 +2091,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   double getBottom(row) {
     double correction = MediaQuery.of(context).size.height / 61.3026819923;
-    if(row < 7) {
-      return MediaQuery.of(context).size.width * 0.0667 * row + ((correction * (row - 7).abs()) / 7);
+    if (row < 7) {
+      return MediaQuery.of(context).size.width * 0.0667 * row +
+          ((correction * (row - 7).abs()) / 7);
     }
-    if(row > 7) {
-      return MediaQuery.of(context).size.width * 0.0667 * row - ((correction * (row - 7).abs()) / 7);
+    if (row > 7) {
+      return MediaQuery.of(context).size.width * 0.0667 * row -
+          ((correction * (row - 7).abs()) / 7);
     }
     return MediaQuery.of(context).size.width * 0.0667 * row;
   }
 
   double getLeft(col) {
     double correction = MediaQuery.of(context).size.width / 72;
-    if(col < 7) {
-      return MediaQuery.of(context).size.width * 0.0667 * col + ((correction * (col - 7).abs()) / 7);
+    if (col < 7) {
+      return MediaQuery.of(context).size.width * 0.0667 * col +
+          ((correction * (col - 7).abs()) / 7);
     }
-    if(col > 7) {
-      return MediaQuery.of(context).size.width * 0.0667 * col - ((correction * (col - 7).abs()) / 7);
+    if (col > 7) {
+      return MediaQuery.of(context).size.width * 0.0667 * col -
+          ((correction * (col - 7).abs()) / 7);
     }
     return MediaQuery.of(context).size.width * 0.0667 * col;
   }
