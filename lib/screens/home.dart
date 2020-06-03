@@ -32,13 +32,13 @@ class _HomeScreenState extends State<HomeScreen> {
   int moveItem;
   int diceNo;
 
-  static const double BASEBOTTOM2 = 2.1;
-  static const double BASEBOTTOM13 = 13.1;
+  static const double BASEBOTTOM2 = 2.0;
+  static const double BASEBOTTOM13 = 13.0;
 
   static const double BASELEFT2 = 2.0;
   static const double BASELEFT13 = 13.0;
 
-  Map<dynamic, dynamic> offsets = {
+  Map<dynamic, dynamic> default_offsets = {
     00: {
       "initBottom": BASEBOTTOM2,
       "initLeft": BASELEFT2,
@@ -49,8 +49,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     10: {
       "initBottom": BASEBOTTOM2 * 2.2,
@@ -62,8 +65,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     20: {
       "initBottom": BASEBOTTOM2 * 2.3,
@@ -75,8 +81,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     30: {
       "initBottom": BASEBOTTOM2,
@@ -88,8 +97,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     01: {
       "initBottom": BASEBOTTOM13,
@@ -101,8 +113,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     11: {
       "initBottom": BASEBOTTOM13 * 1.2,
@@ -114,8 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     21: {
       "initBottom": BASEBOTTOM13 * 1.2,
@@ -127,8 +145,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     31: {
       "initBottom": BASEBOTTOM13,
@@ -140,8 +161,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     02: {
       "initBottom": BASEBOTTOM13,
@@ -153,8 +177,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     12: {
       "initBottom": BASEBOTTOM13 * 1.2,
@@ -166,8 +193,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     22: {
       "initBottom": BASEBOTTOM13 * 1.2,
@@ -179,8 +209,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     32: {
       "initBottom": BASEBOTTOM13,
@@ -192,8 +225,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     03: {
       "initBottom": BASEBOTTOM2,
@@ -205,8 +241,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     13: {
       "initBottom": BASEBOTTOM2 * 2.3,
@@ -218,8 +257,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     23: {
       "initBottom": BASEBOTTOM2 * 2.3,
@@ -231,8 +273,11 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
     33: {
       "initBottom": BASEBOTTOM2,
@@ -244,12 +289,276 @@ class _HomeScreenState extends State<HomeScreen> {
       "moved": false,
       "position": -1,
       "highlighted": false,
+      "predicted": false,
       "xPosition": -1,
-      "sizeMultiplier": 1
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+  };
+
+  // Board map UI format
+  Map<dynamic, dynamic> offsets = {
+    00: {
+      "initBottom": BASEBOTTOM2,
+      "initLeft": BASELEFT2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    10: {
+      "initBottom": BASEBOTTOM2 * 2.2,
+      "initLeft": BASELEFT2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    20: {
+      "initBottom": BASEBOTTOM2 * 2.3,
+      "initLeft": BASELEFT2 * 2.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    30: {
+      "initBottom": BASEBOTTOM2,
+      "initLeft": BASELEFT2 * 2.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    01: {
+      "initBottom": BASEBOTTOM13,
+      "initLeft": BASELEFT2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    11: {
+      "initBottom": BASEBOTTOM13 * 1.2,
+      "initLeft": BASELEFT2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    21: {
+      "initBottom": BASEBOTTOM13 * 1.2,
+      "initLeft": BASELEFT2 * 2.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    31: {
+      "initBottom": BASEBOTTOM13,
+      "initLeft": BASELEFT2 * 2.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    02: {
+      "initBottom": BASEBOTTOM13,
+      "initLeft": BASELEFT13,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    12: {
+      "initBottom": BASEBOTTOM13 * 1.2,
+      "initLeft": BASELEFT13,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    22: {
+      "initBottom": BASEBOTTOM13 * 1.2,
+      "initLeft": BASELEFT13 * 1.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    32: {
+      "initBottom": BASEBOTTOM13,
+      "initLeft": BASELEFT13 * 1.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    03: {
+      "initBottom": BASEBOTTOM2,
+      "initLeft": BASELEFT13,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    13: {
+      "initBottom": BASEBOTTOM2 * 2.3,
+      "initLeft": BASELEFT13,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    23: {
+      "initBottom": BASEBOTTOM2 * 2.3,
+      "initLeft": BASELEFT13 * 1.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
+    },
+    33: {
+      "initBottom": BASEBOTTOM2,
+      "initLeft": BASELEFT13 * 1.2,
+      "bottom": null,
+      "left": null,
+      "sameBottom": null,
+      "sameLeft": null,
+      "moved": false,
+      "position": -1,
+      "highlighted": false,
+      "predicted": false,
+      "xPosition": -1,
+      "sizeMultiplier": 1,
+      "row": null,
+      "col": null
     },
   };
 
   void reset() {
+    print('------------->in reset()');
     setState(() {
       availableColors = [
         {"name": "red", "value": Colors.red},
@@ -274,6 +583,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -287,6 +597,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -300,6 +611,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -313,6 +625,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -326,6 +639,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -339,6 +653,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -352,6 +667,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -365,6 +681,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -378,6 +695,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -391,6 +709,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -404,6 +723,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -417,6 +737,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -430,6 +751,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -443,6 +765,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -456,6 +779,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -469,6 +793,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "moved": false,
           "position": -1,
           "highlighted": false,
+          "predicted": false,
           "xPosition": -1,
           "sizeMultiplier": 1
         },
@@ -477,6 +802,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget renderGoti(int count, int position) {
+    print('------------->in renderGoti()');
     if (selectedColorList[position] != null) {
       double init = MediaQuery.of(context).size.width * 0.054;
       double size = MediaQuery.of(context).size.width *
@@ -503,6 +829,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Map<dynamic, dynamic> currentOffsets = offsets;
                     currentOffsets[moveItem]["moved"] = false;
                     currentOffsets[moveItem]["highlighted"] = false;
+                    currentOffsets[moveItem]["predicted"] = false;
                     currentOffsets[moveItem]["postion"] = -1;
 
                     setState(() {
@@ -532,29 +859,51 @@ class _HomeScreenState extends State<HomeScreen> {
                           offsets[int.parse("$count$position")]["initLeft"];
                       currentOffsets[moveItem]["moved"] = false;
                       currentOffsets[moveItem]["highlighted"] = false;
+                      currentOffsets[moveItem]["predicted"] = false;
                     } else {
+                      print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
+                      // this will set xPosition
+                      currentOffsets[moveItem]["xPosition"] = offsets[int.parse("$count$position")]["xPosition"];
                       currentOffsets[moveItem]["bottom"] =
                           offsets[int.parse("$count$position")]["bottom"];
                       currentOffsets[moveItem]["left"] =
                           offsets[int.parse("$count$position")]["left"];
                       currentOffsets[moveItem]["moved"] = true;
                       currentOffsets[moveItem]["highlighted"] = false;
+                      currentOffsets[moveItem]["predicted"] = false;
+                      // check if it is a non safe position so kill
+                      if(isSafePosition(currentOffsets[int.parse("$count$position")]["xPosition"]) == false) {
+                        print("KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        currentOffsets[int.parse("$count$position")] = default_offsets[int.parse("$count$position")];
+                      }
                     }
 
                     setState(() {
                       move = false;
                       offsets = currentOffsets;
                     });
+
+                    // itterate over the offsets to check ki kis kis ka
                   } else {
                     print("SET MOVE TRUE");
                     Map<dynamic, dynamic> currentOffsets = offsets;
-                    currentOffsets[int.parse("$count$position")]
-                        ["highlighted"] = true;
-                    setState(() {
-                      move = true;
-                      moveItem = int.parse("$count$position");
-                      offsets = currentOffsets;
-                    });
+                    if(currentOffsets[int.parse("$count$position")]["predicted"] == true) {
+                      print("---------------------> PREDICTED");
+                      List<int> rowClm;
+                      if(currentOffsets[int.parse("$count$position")]["xPosition"] == -1) {
+                        rowClm = get2Dfrom1D(0);
+                      }else {
+                        rowClm = get2Dfrom1D(currentOffsets[int.parse("$count$position")]["xPosition"] + diceNo);
+                      }
+                      moveGotiTo(rowClm[0], rowClm[1], currentOffsets, int.parse("$count$position"));
+                    }else {
+                      currentOffsets[int.parse("$count$position")]["highlighted"] = true;
+                      setState(() {
+                        move = true;
+                        moveItem = int.parse("$count$position");
+                        offsets = currentOffsets;
+                      });
+                    }
                   }
                 },
                 child: Container(
@@ -574,7 +923,42 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  void moveGotiTo(int row, int clm, currentOffsets, moveItem) {
+    print('moveGotiTo: ' + row.toString() + ' : ' + clm.toString() + ' : ' + currentOffsets.toString() + ' : ' + moveItem.toString());
+    double bottom = getBottom(row);
+    double left = getLeft(clm);
+    int x = get1DPosfrom2D(int.parse("$row$clm"));
+    currentOffsets[moveItem]["bottom"] = bottom * 1.05;
+    currentOffsets[moveItem]["left"] = left;
+    currentOffsets[moveItem]["moved"] = true;
+    currentOffsets[moveItem]["highlighted"] = false;
+    currentOffsets[moveItem]["predicted"] = false;
+    currentOffsets[moveItem]["position"] =
+        getActualposition(x,
+            int.parse(moveItem.toString().split("").last));
+    print('############ 1 SETTING xPosition to' + x.toString());
+    currentOffsets[moveItem]["xPosition"] = x;
+
+    var temp = currentOffsets[moveItem];
+
+    // loop over all the offsets to see agar kissi ka xPossition same as this one to nahi
+    currentOffsets.forEach((key, value) {
+      if((key != moveItem) && (currentOffsets[key]["xPosition"] == x) && (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
+        print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        currentOffsets[key] = default_offsets[key];
+      }
+    });
+
+    currentOffsets[moveItem] = temp;
+
+    setState(() {
+      move = false;
+      offsets = currentOffsets;
+    });
+  }
+
   void initState() {
+    print('------------->in initState()');
     super.initState();
     // print(startGameSuggestion(getCurrentBoardStatus()));
   }
@@ -617,6 +1001,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void addMemberDialog(int position) {
+    print('------------->in addMemberDialog()');
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -722,6 +1107,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void resetDialog() {
+    print('------------->in resetDialog()');
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -798,6 +1184,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<Widget> layout() {
+    print('------------->in layout()');
     List<Widget> layoutItems = [
       colorBox(0),
       colorBox(1),
@@ -837,9 +1224,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         currentOffsets[moveItem]["left"] = left;
                         currentOffsets[moveItem]["moved"] = true;
                         currentOffsets[moveItem]["highlighted"] = false;
+                        currentOffsets[moveItem]["predicted"] = false;
                         currentOffsets[moveItem]["position"] =
                             getActualposition(x,
                                 int.parse(moveItem.toString().split("").last));
+                        print('############ 2 SETTING xPosition to' + x.toString());
                         currentOffsets[moveItem]["xPosition"] = x;
                         setState(() {
                           move = false;
@@ -852,10 +1241,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         margin: EdgeInsets.only(
                           bottom: 5,
                         ),
-                        // child: Text(
-                        //   "$x",
-                        //   style: TextStyle(color: Colors.white),
-                        // ),
+//                         child: Text(
+//                           "$x",
+//                           style: TextStyle(color: Colors.black),
+//                         ),
                         color: Colors.transparent,
                         width: MediaQuery.of(context).size.width * 0.0667,
                         height: MediaQuery.of(context).size.width * 0.0667))));
@@ -885,6 +1274,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void changeSize(x, moveItem) {
+    print('------------->in changeSize()');
     Map<dynamic, dynamic> currentOffsets = offsets;
 
     List keysToBeModfied = [];
@@ -909,6 +1299,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget colorDropDown(String label, Function setStateFunc) {
+    print('------------->in colorDropDown()');
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
@@ -971,6 +1362,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget bottomRow(int position) {
+    print('------------->in bottomRow()');
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Stack(children: [
         GestureDetector(
@@ -1050,6 +1442,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void savePlayer(int position) {
+    print('------------->in savePlayer()');
     List<Map<String, dynamic>> currentList = selectedColorList;
     currentList[position] = availableColors
         .firstWhere((element) => element["name"] == selectedColor);
@@ -1098,6 +1491,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget screenBottomRow() {
+    print('------------->in screenBottomRow()');
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -1136,15 +1530,28 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void onDiceTap(int number) {
+    print('------------->in onDiceTap()');
     Map<dynamic, dynamic> currentOffsets = offsets;
-
+    diceNo = number;
     int index = startGameSuggestion(getCurrentBoardStatus(number));
     if (index != -1) {
       currentOffsets[int.parse("${index}0")]["highlighted"] = true;
+      currentOffsets[int.parse("${index}0")]["predicted"] = true;
       setState(() {
         offsets = currentOffsets;
       });
     }
+  }
+
+  bool isSafePosition(int xPosition) {
+    print('isSafePosition: ' + xPosition.toString());
+    List<int> safePositions = [0, 8, 13, 21, 26, 34, 39, 47];
+    for(int i=0; i<safePositions.length; i++) {
+      if(safePositions[i] == xPosition) {
+        return true;
+      }
+    }
+    return false;
   }
 
   int get1DPosfrom2D(int rowcol) {
@@ -1249,18 +1656,265 @@ class _HomeScreenState extends State<HomeScreen> {
         return 48;
       case 08:
         return 49;
-      // case 18:
-      //   return 50;
-      // case 08:
-      //   return 51;
       case 07:
         return 50;
+      case 17:
+        return 51;
+      case 27:
+        return 52;
+      case 37:
+        return 53;
+      case 47:
+        return 54;
+      case 57:
+        return 55;
+      case 67:
+        return 56;
       default:
         return -1;
     }
   }
 
+  List<int> get2Dfrom1D(int x) {
+    List<int> rowClm = List<int>();
+    switch (x) {
+      case 0:
+        rowClm.add(1);
+        rowClm.add(6);
+        return rowClm;
+      case 1:
+        rowClm.add(2);
+        rowClm.add(6);
+        return rowClm;
+      case 2:
+        rowClm.add(3);
+        rowClm.add(6);
+        return rowClm;
+      case 3:
+        rowClm.add(4);
+        rowClm.add(6);
+        return rowClm;
+      case 4:
+        rowClm.add(5);
+        rowClm.add(6);
+        return rowClm;
+      case 5:
+        rowClm.add(6);
+        rowClm.add(5);
+        return rowClm;
+      case 6:
+        rowClm.add(6);
+        rowClm.add(4);
+        return rowClm;
+      case 7:
+        rowClm.add(6);
+        rowClm.add(3);
+        return rowClm;
+      case 8:
+        rowClm.add(6);
+        rowClm.add(2);
+        return rowClm;
+      case 9:
+        rowClm.add(6);
+        rowClm.add(1);
+        return rowClm;
+      case 10:
+        rowClm.add(6);
+        rowClm.add(0);
+        return rowClm;
+      case 11:
+        rowClm.add(7);
+        rowClm.add(0);
+        return rowClm;
+      case 12:
+        rowClm.add(8);
+        rowClm.add(0);
+        return rowClm;
+      case 13:
+        rowClm.add(8);
+        rowClm.add(1);
+        return rowClm;
+      case 14:
+        rowClm.add(8);
+        rowClm.add(2);
+        return rowClm;
+      case 15:
+        rowClm.add(8);
+        rowClm.add(3);
+        return rowClm;
+      case 16:
+        rowClm.add(8);
+        rowClm.add(4);
+        return rowClm;
+      case 17:
+        rowClm.add(8);
+        rowClm.add(5);
+        return rowClm;
+      case 18:
+        rowClm.add(9);
+        rowClm.add(6);
+        return rowClm;
+      case 19:
+        rowClm.add(10);
+        rowClm.add(6);
+        return rowClm;
+      case 20:
+        rowClm.add(11);
+        rowClm.add(6);
+        return rowClm;
+      case 21:
+        rowClm.add(12);
+        rowClm.add(6);
+        return rowClm;
+      case 22:
+        rowClm.add(13);
+        rowClm.add(6);
+        return rowClm;
+      case 23:
+        rowClm.add(14);
+        rowClm.add(6);
+        return rowClm;
+      case 24:
+        rowClm.add(14);
+        rowClm.add(7);
+        return rowClm;
+      case 25:
+        rowClm.add(14);
+        rowClm.add(8);
+        return rowClm;
+      case 26:
+        rowClm.add(13);
+        rowClm.add(8);
+        return rowClm;
+      case 27:
+        rowClm.add(12);
+        rowClm.add(8);
+        return rowClm;
+      case 28:
+        rowClm.add(11);
+        rowClm.add(8);
+        return rowClm;
+      case 29:
+        rowClm.add(10);
+        rowClm.add(8);
+        return rowClm;
+      case 30:
+        rowClm.add(9);
+        rowClm.add(8);
+        return rowClm;
+      case 31:
+        rowClm.add(8);
+        rowClm.add(9);
+        return rowClm;
+      case 32:
+        rowClm.add(8);
+        rowClm.add(10);
+        return rowClm;
+      case 33:
+        rowClm.add(8);
+        rowClm.add(11);
+        return rowClm;
+      case 34:
+        rowClm.add(8);
+        rowClm.add(12);
+        return rowClm;
+      case 35:
+        rowClm.add(8);
+        rowClm.add(13);
+        return rowClm;
+      case 36:
+        rowClm.add(8);
+        rowClm.add(14);
+        return rowClm;
+      case 37:
+        rowClm.add(7);
+        rowClm.add(14);
+        return rowClm;
+      case 38:
+        rowClm.add(6);
+        rowClm.add(14);
+        return rowClm;
+      case 39:
+        rowClm.add(6);
+        rowClm.add(13);
+        return rowClm;
+      case 40:
+        rowClm.add(6);
+        rowClm.add(12);
+        return rowClm;
+      case 41:
+        rowClm.add(6);
+        rowClm.add(11);
+        return rowClm;
+      case 42:
+        rowClm.add(6);
+        rowClm.add(10);
+        return rowClm;
+      case 43:
+        rowClm.add(6);
+        rowClm.add(9);
+        return rowClm;
+      case 44:
+        rowClm.add(5);
+        rowClm.add(8);
+        return rowClm;
+      case 45:
+        rowClm.add(4);
+        rowClm.add(8);
+        return rowClm;
+      case 46:
+        rowClm.add(3);
+        rowClm.add(8);
+        return rowClm;
+      case 47:
+        rowClm.add(2);
+        rowClm.add(8);
+        return rowClm;
+      case 48:
+        rowClm.add(1);
+        rowClm.add(8);
+        return rowClm;
+      case 49:
+        rowClm.add(0);
+        rowClm.add(8);
+        return rowClm;
+      case 50:
+        rowClm.add(0);
+        rowClm.add(7);
+        return rowClm;
+      case 51:
+        rowClm.add(1);
+        rowClm.add(7);
+        return rowClm;
+      case 52:
+        rowClm.add(2);
+        rowClm.add(7);
+        return rowClm;
+      case 53:
+        rowClm.add(3);
+        rowClm.add(7);
+        return rowClm;
+      case 54:
+        rowClm.add(4);
+        rowClm.add(7);
+        return rowClm;
+      case 55:
+        rowClm.add(5);
+        rowClm.add(7);
+        return rowClm;
+      case 56:
+        rowClm.add(6);
+        rowClm.add(7);
+        return rowClm;
+      default:
+        rowClm.add(null);
+        rowClm.add(null);
+        return rowClm;
+    }
+  }
+
   Map getCurrentBoardStatus(int noOnDice) {
+    print('------------->in getCurrentBoardStatus()');
     return {
       "0": {
         "0": offsets[00]["position"],
@@ -1290,8 +1944,9 @@ class _HomeScreenState extends State<HomeScreen> {
     };
   }
 
+  // x is xposition and pos is playerIndex
   int getActualposition(int x, int pos) {
-    print('In getActualposition');
+    print('------------->in getActualposition()');
     int offset =
         pos == 0 ? 0 : pos == 1 ? 13 : pos == 2 ? 26 : pos == 3 ? 39 : null;
 
