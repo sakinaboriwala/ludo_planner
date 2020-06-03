@@ -901,6 +901,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         print("KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
                         currentOffsets[int.parse("$count$position")] =
                             default_offsets[int.parse("$count$position")];
+                        currentOffsets[int.parse("$count$position")]["moved"] = false;
                       }
                     }
 
