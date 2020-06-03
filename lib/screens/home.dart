@@ -991,6 +991,7 @@ class _HomeScreenState extends State<HomeScreen> {
           (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
         print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
         currentOffsets[key] = default_offsets[key];
+        currentOffsets[key]["moved"] = false;
       }
     });
 
@@ -1375,10 +1376,11 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
           border: Border.all(color: Colors.green.shade400, width: 2),
           borderRadius: BorderRadius.circular(25)),
-      width: MediaQuery.of(context).size.width * 0.66,
+      width: MediaQuery.of(context).size.width * 0.65,
       child: DropdownButton(
+        underline: Container(),
         style: TextStyle(fontSize: 18, fontFamily: 'Roboto'),
-        elevation: 20,
+        elevation: 0,
         isExpanded: true,
         items: availableColors
             .map((e) => new DropdownMenuItem(
