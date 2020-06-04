@@ -7,8 +7,9 @@ Widget topRight(
         alignment: Alignment.topRight,
         child: Container(
             // color: Colors.red,
+            margin: EdgeInsets.only(top: 1),
             height: MediaQuery.of(context).size.width * 0.4,
-            width: MediaQuery.of(context).size.width * 0.53,
+            width: MediaQuery.of(context).size.width * 0.534,
             child: Row(
               children: <Widget>[
                 Align(
@@ -16,7 +17,7 @@ Widget topRight(
                     child: Container(
                         margin: EdgeInsets.only(
                             top: MediaQuery.of(context).size.width * 0.075),
-                        width: MediaQuery.of(context).size.width * 0.130,
+                        width: MediaQuery.of(context).size.width * 0.132,
                         height: MediaQuery.of(context).size.width * 0.34,
                         child: Image.asset(
                           "assets/${positions[position]}_${selectedColorObject["name"]}L.png",

@@ -1050,6 +1050,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     // itterate over the offsets to check ki kis kis ka
                   } else {
                     print("SET MOVE TRUE");
+                    print(int.parse("$count$position"));
+                    print(offsets[01]);
                     Map<int, dynamic> currentOffsets = offsets;
 
                     // Check if multiple Gotis are in the same box
@@ -1478,7 +1480,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         currentOffsets[moveItem]["position"] =
                             getActualposition(x,
                                 int.parse(moveItem.toString().split("").last));
-                        print('############ 2 SETTING xPosition to' +
+                        print('############ 2 SETTING xPosition OF $moveItem' +
                             x.toString());
                         currentOffsets[moveItem]["xPosition"] = x;
                         setState(() {

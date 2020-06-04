@@ -7,7 +7,8 @@ Widget bottomLeft(
         alignment: Alignment.bottomLeft,
         child: Container(
             height: MediaQuery.of(context).size.width * 0.41,
-            width: MediaQuery.of(context).size.width * 0.53,
+            width: MediaQuery.of(context).size.width * 0.55,
+            margin: EdgeInsets.only(left:1),
             child: Row(
               children: <Widget>[
                 Container(
