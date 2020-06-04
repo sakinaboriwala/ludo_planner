@@ -973,7 +973,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () {
                   print('onTap #1 move: ' + move.toString());
                   if (move) {
-                    Map<dynamic, dynamic> currentOffsets = offsets;
+                    Map<int, dynamic> currentOffsets = offsets;
                     currentOffsets[moveItem]["moved"] = false;
                     currentOffsets[moveItem]["highlighted"] = false;
                     currentOffsets[moveItem]["predicted"] = false;
@@ -999,7 +999,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   if (move) {
                     print("SET MOVE FALSE");
 
-                    Map<dynamic, dynamic> currentOffsets = offsets;
+                    Map<int, dynamic> currentOffsets = offsets;
 
                     if (moveItem == int.parse("$count$position") &&
                         currentOffsets[moveItem]["moved"] == false) {
@@ -1071,25 +1071,33 @@ class _HomeScreenState extends State<HomeScreen> {
                     // itterate over the offsets to check ki kis kis ka
                   } else {
                     print("SET MOVE TRUE");
-                    Map<dynamic, dynamic> currentOffsets = offsets;
+                    print(int.parse("$count$position"));
+                    print(offsets[01]);
+                    Map<int, dynamic> currentOffsets = offsets;
 
                     // Check if multiple Gotis are in the same box
 
                     if (currentOffsets[int.parse("$count$position")]
                         ["onMultiple"]) {
                       List<int> keys = [];
+                      List<int> countpos = [];
 
-                      int x = currentOffsets[
-                              currentOffsets[int.parse("$count$position")]]
+                      int x = currentOffsets[int.parse("$count$position")]
                           ["xPosition"];
                       // for(int i; i < currentOffsets.length; i++) {
                       //   currentOffsets[i]
                       // }
                       currentOffsets.forEach((index, value) {
-                        if (value == x) {
-                          keys.add(value);
+                        print(index);
+                        if (value["xPosition"] == x) {
+                          keys.add(index);
                         }
                       });
+                      List<int> currentOffsetkeys =
+                          currentOffsets.keys.toList();
+                      for (int i = 0; i < keys.length; i++) {
+                        countpos.add(currentOffsetkeys[i]);
+                      }
                       moveGotiDialog(keys);
                     }
 
@@ -1147,15 +1155,14 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Map<dynamic, dynamic> adjustForMultipleOnOne(
-      Map<dynamic, dynamic> currentOffsets) {
+  Map<int, dynamic> adjustForMultipleOnOne(Map<int, dynamic> currentOffsets) {
     for (int xPosition = 0; xPosition < 57; xPosition++) {
-      print('in adjustForMultipleOnOne xPosition: ' + xPosition.toString());
+      // print('in adjustForMultipleOnOne xPosition: ' + xPosition.toString());
       List<int> rowClm = get2Dfrom1D(xPosition);
       int row = rowClm[0];
       int clm = rowClm[1];
-      print("ROW: " + row.toString());
-      print("CLM: " + clm.toString());
+      // //print("ROW: " + row.toString());
+      // //print("CLM: " + clm.toString());
       List<int> overlapingKeys = [];
       currentOffsets.forEach((key, value) {
         if (value['xPosition'] == xPosition) {
@@ -1171,7 +1178,7 @@ class _HomeScreenState extends State<HomeScreen> {
         for (int i = 0; i < overlapingKeys.length; i++) {
           int center = (overlapingKeys.length / 2).floor();
           if ((overlapingKeys.length % 2) == 0) {
-            print("even");
+            //print("even");
             if (i < center) {
               print(i.toString() +
                   ' : ' +
@@ -1214,7 +1221,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return currentOffsets;
   }
 
-  Map<dynamic, dynamic> unhighlightAll(Map<dynamic, dynamic> currentOffsets) {
+  Map<int, dynamic> unhighlightAll(Map<int, dynamic> currentOffsets) {
     currentOffsets.forEach((key, value) {
       value["highlighted"] = false;
       value["predicted"] = false;
@@ -1470,7 +1477,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
         double bottom = getBottom(context, row);
         double left = getLeft(context, col);
-        Map<dynamic, dynamic> currentOffsets = offsets;
+        Map<int, dynamic> currentOffsets = offsets;
 
         layoutItems.add(Positioned(
             bottom: bottom,
@@ -1494,7 +1501,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         currentOffsets[moveItem]["position"] =
                             getActualposition(x,
                                 int.parse(moveItem.toString().split("").last));
-                        print('############ 2 SETTING xPosition to' +
+                        print('############ 2 SETTING xPosition OF $moveItem' +
                             x.toString());
                         currentOffsets[moveItem]["xPosition"] = x;
                         setState(() {
@@ -1542,7 +1549,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void changeSize(x, moveItem) {
     print('------------->in changeSize()');
-    Map<dynamic, dynamic> currentOffsets = offsets;
+    Map<int, dynamic> currentOffsets = offsets;
 
     List keysToBeModfied = [];
 
@@ -1804,7 +1811,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void onDiceTap(int number) {
     print('------------->in onDiceTap()');
-    Map<dynamic, dynamic> currentOffsets = offsets;
+    Map<int, dynamic> currentOffsets = offsets;
     diceNo = number;
     int index = startGameSuggestion(getCurrentBoardStatus(number));
     if (index != -1) {
@@ -1877,8 +1884,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void moveGotiDialog(List<int> positions) {
-    print("MULTIPLE MOVE DIALOG");
+    print("MULTIPLE MOVE DIALOG $positions");
     double size = MediaQuery.of(context).size.width * 0.064;
+    Map<int, dynamic> currentOffsets = offsets;
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -1891,28 +1900,57 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: MediaQuery.of(context).size.width * 0.66,
                 child: topRow(context, "SELECT TOKEN"),
               ),
-              content: new Wrap(
-                  // height: 250,
-                  children: positions
-                      .map((e) => GestureDetector(
-                          onTap: () {
-                            Map<dynamic, dynamic> currentOffsets = offsets;
-
-                            currentOffsets[e]["highlighted"] = true;
-                            setState(() {
-                              move = true;
-                              moveItem = e;
-                              offsets = currentOffsets;
-                            });
-                          },
-                          child: Container(
-                              child: Image.asset(
-                            "assets/_goti_${selectedColorList[int.parse(e.toString().split("").last)]["name"]}.png",
-                            width: size,
-                            height: size,
-                            fit: BoxFit.fitHeight,
-                          ))))
-                      .toList()),
+              content: Column(children: [
+                new Wrap(
+                    // height: 250,
+                    children: positions
+                        .map((e) => GestureDetector(
+                            onTap: () {
+                              // currentOffsets[e]["highlighted"] = true;
+                              for (int i = 0; i < positions.length; i++) {
+                                if (e != positions[i]) {
+                                  currentOffsets[positions[i]]["highlighted"] =
+                                      false;
+                                } else {
+                                  currentOffsets[positions[i]]["highlighted"] =
+                                      true;
+                                }
+                              }
+                              setState(() {
+                                move = true;
+                                moveItem = e;
+                                offsets = currentOffsets;
+                              });
+                            },
+                            child: Container(
+                                child: Image.asset(
+                              currentOffsets[e]["highlighted"]
+                                  ? "assets/_goti_${selectedColorList[int.parse(e.toString().split("").last)]["name"]}.png"
+                                  : "assets/goti_${selectedColorList[int.parse(e.toString().split("").last)]["name"]}.png",
+                              width: size,
+                              height: size,
+                              fit: BoxFit.fitHeight,
+                            ))))
+                        .toList()),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                        margin: EdgeInsets.all(10),
+                        width: 140,
+                        height: 40,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Colors.green.shade400,
+                            borderRadius: BorderRadius.circular(30),
+                            border: Border.all(
+                                color: Colors.green.shade400, width: 6)),
+                        child: Text(
+                          'OK',
+                          style: TextStyle(color: Colors.white),
+                        )))
+              ]),
             );
           });
         });
