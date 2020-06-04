@@ -6,7 +6,13 @@ import 'package:ludo_planner/widgets/bottomLeft.dart';
 import 'package:ludo_planner/widgets/topLeft.dart';
 import 'package:ludo_planner/widgets/topRight.dart';
 import 'package:ludo_planner/widgets/bottomRight.dart';
+
 import 'package:ludo_planner/utils/positions.dart';
+import 'package:ludo_planner/utils/isLegalPosition.dart';
+import 'package:ludo_planner/utils/getBottomLeftSpacing.dart';
+import 'package:ludo_planner/utils/get1Dfrom2D.dart';
+import 'package:ludo_planner/utils/get2Dfrom1D.dart';
+
 import 'package:ludo_planner/service/service.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -969,8 +975,8 @@ class _HomeScreenState extends State<HomeScreen> {
         currentOffsets.toString() +
         ' : ' +
         moveItem.toString());
-    double bottom = getBottom(row);
-    double left = getLeft(clm);
+    double bottom = getBottom(context, row);
+    double left = getLeft(context, clm);
     int x = get1DPosfrom2D(int.parse("$row$clm"));
     currentOffsets[moveItem]["bottom"] = bottom * 1.05;
     currentOffsets[moveItem]["left"] = left;
@@ -1026,8 +1032,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: MediaQuery.of(context).size.width,
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(color: Colors.black)),
+                        color: Colors.white,
+                      ),
                       child: Stack(
                         children: layout(),
                       )),
@@ -1277,8 +1283,8 @@ class _HomeScreenState extends State<HomeScreen> {
         int x = get1DPosfrom2D(int.parse("$row$col"));
         // int position = getActualposition(x, pos);
 
-        double bottom = getBottom(row);
-        double left = getLeft(col);
+        double bottom = getBottom(context, row);
+        double left = getLeft(context, col);
         Map<dynamic, dynamic> currentOffsets = offsets;
 
         layoutItems.add(Positioned(
@@ -1626,365 +1632,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return false;
   }
 
-  int get1DPosfrom2D(int rowcol) {
-    switch (rowcol) {
-      case 16:
-        return 0;
-      case 26:
-        return 1;
-      case 36:
-        return 2;
-      case 46:
-        return 3;
-      case 56:
-        return 4;
-      case 65:
-        return 5;
-      case 64:
-        return 6;
-      case 63:
-        return 7;
-      case 62:
-        return 8;
-      case 61:
-        return 9;
-      case 60:
-        return 10;
-      case 70:
-        return 11;
-      case 80:
-        return 12;
-      case 81:
-        return 13;
-      case 82:
-        return 14;
-      case 83:
-        return 15;
-      case 84:
-        return 16;
-      case 85:
-        return 17;
-      case 96:
-        return 18;
-      case 106:
-        return 19;
-      case 116:
-        return 20;
-      case 126:
-        return 21;
-      case 136:
-        return 22;
-      case 146:
-        return 23;
-      case 147:
-        return 24;
-      case 148:
-        return 25;
-      case 138:
-        return 26;
-      case 128:
-        return 27;
-      case 118:
-        return 28;
-      case 108:
-        return 29;
-      case 98:
-        return 30;
-      case 89:
-        return 31;
-      case 810:
-        return 32;
-      case 811:
-        return 33;
-      case 812:
-        return 34;
-      case 813:
-        return 35;
-      case 814:
-        return 36;
-      case 714:
-        return 37;
-      case 614:
-        return 38;
-      case 613:
-        return 39;
-      case 612:
-        return 40;
-      case 611:
-        return 41;
-      case 610:
-        return 42;
-      case 69:
-        return 43;
-      case 58:
-        return 44;
-      case 48:
-        return 45;
-      case 38:
-        return 46;
-      case 28:
-        return 47;
-      case 18:
-        return 48;
-      case 08:
-        return 49;
-      case 07:
-        return 50;
-      case 17:
-        return 51;
-      case 27:
-        return 52;
-      case 37:
-        return 53;
-      case 47:
-        return 54;
-      case 57:
-        return 55;
-      case 67:
-        return 56;
-      default:
-        return -1;
-    }
-  }
-
-  List<int> get2Dfrom1D(int x) {
-    List<int> rowClm = List<int>();
-    switch (x) {
-      case 0:
-        rowClm.add(1);
-        rowClm.add(6);
-        return rowClm;
-      case 1:
-        rowClm.add(2);
-        rowClm.add(6);
-        return rowClm;
-      case 2:
-        rowClm.add(3);
-        rowClm.add(6);
-        return rowClm;
-      case 3:
-        rowClm.add(4);
-        rowClm.add(6);
-        return rowClm;
-      case 4:
-        rowClm.add(5);
-        rowClm.add(6);
-        return rowClm;
-      case 5:
-        rowClm.add(6);
-        rowClm.add(5);
-        return rowClm;
-      case 6:
-        rowClm.add(6);
-        rowClm.add(4);
-        return rowClm;
-      case 7:
-        rowClm.add(6);
-        rowClm.add(3);
-        return rowClm;
-      case 8:
-        rowClm.add(6);
-        rowClm.add(2);
-        return rowClm;
-      case 9:
-        rowClm.add(6);
-        rowClm.add(1);
-        return rowClm;
-      case 10:
-        rowClm.add(6);
-        rowClm.add(0);
-        return rowClm;
-      case 11:
-        rowClm.add(7);
-        rowClm.add(0);
-        return rowClm;
-      case 12:
-        rowClm.add(8);
-        rowClm.add(0);
-        return rowClm;
-      case 13:
-        rowClm.add(8);
-        rowClm.add(1);
-        return rowClm;
-      case 14:
-        rowClm.add(8);
-        rowClm.add(2);
-        return rowClm;
-      case 15:
-        rowClm.add(8);
-        rowClm.add(3);
-        return rowClm;
-      case 16:
-        rowClm.add(8);
-        rowClm.add(4);
-        return rowClm;
-      case 17:
-        rowClm.add(8);
-        rowClm.add(5);
-        return rowClm;
-      case 18:
-        rowClm.add(9);
-        rowClm.add(6);
-        return rowClm;
-      case 19:
-        rowClm.add(10);
-        rowClm.add(6);
-        return rowClm;
-      case 20:
-        rowClm.add(11);
-        rowClm.add(6);
-        return rowClm;
-      case 21:
-        rowClm.add(12);
-        rowClm.add(6);
-        return rowClm;
-      case 22:
-        rowClm.add(13);
-        rowClm.add(6);
-        return rowClm;
-      case 23:
-        rowClm.add(14);
-        rowClm.add(6);
-        return rowClm;
-      case 24:
-        rowClm.add(14);
-        rowClm.add(7);
-        return rowClm;
-      case 25:
-        rowClm.add(14);
-        rowClm.add(8);
-        return rowClm;
-      case 26:
-        rowClm.add(13);
-        rowClm.add(8);
-        return rowClm;
-      case 27:
-        rowClm.add(12);
-        rowClm.add(8);
-        return rowClm;
-      case 28:
-        rowClm.add(11);
-        rowClm.add(8);
-        return rowClm;
-      case 29:
-        rowClm.add(10);
-        rowClm.add(8);
-        return rowClm;
-      case 30:
-        rowClm.add(9);
-        rowClm.add(8);
-        return rowClm;
-      case 31:
-        rowClm.add(8);
-        rowClm.add(9);
-        return rowClm;
-      case 32:
-        rowClm.add(8);
-        rowClm.add(10);
-        return rowClm;
-      case 33:
-        rowClm.add(8);
-        rowClm.add(11);
-        return rowClm;
-      case 34:
-        rowClm.add(8);
-        rowClm.add(12);
-        return rowClm;
-      case 35:
-        rowClm.add(8);
-        rowClm.add(13);
-        return rowClm;
-      case 36:
-        rowClm.add(8);
-        rowClm.add(14);
-        return rowClm;
-      case 37:
-        rowClm.add(7);
-        rowClm.add(14);
-        return rowClm;
-      case 38:
-        rowClm.add(6);
-        rowClm.add(14);
-        return rowClm;
-      case 39:
-        rowClm.add(6);
-        rowClm.add(13);
-        return rowClm;
-      case 40:
-        rowClm.add(6);
-        rowClm.add(12);
-        return rowClm;
-      case 41:
-        rowClm.add(6);
-        rowClm.add(11);
-        return rowClm;
-      case 42:
-        rowClm.add(6);
-        rowClm.add(10);
-        return rowClm;
-      case 43:
-        rowClm.add(6);
-        rowClm.add(9);
-        return rowClm;
-      case 44:
-        rowClm.add(5);
-        rowClm.add(8);
-        return rowClm;
-      case 45:
-        rowClm.add(4);
-        rowClm.add(8);
-        return rowClm;
-      case 46:
-        rowClm.add(3);
-        rowClm.add(8);
-        return rowClm;
-      case 47:
-        rowClm.add(2);
-        rowClm.add(8);
-        return rowClm;
-      case 48:
-        rowClm.add(1);
-        rowClm.add(8);
-        return rowClm;
-      case 49:
-        rowClm.add(0);
-        rowClm.add(8);
-        return rowClm;
-      case 50:
-        rowClm.add(0);
-        rowClm.add(7);
-        return rowClm;
-      case 51:
-        rowClm.add(1);
-        rowClm.add(7);
-        return rowClm;
-      case 52:
-        rowClm.add(2);
-        rowClm.add(7);
-        return rowClm;
-      case 53:
-        rowClm.add(3);
-        rowClm.add(7);
-        return rowClm;
-      case 54:
-        rowClm.add(4);
-        rowClm.add(7);
-        return rowClm;
-      case 55:
-        rowClm.add(5);
-        rowClm.add(7);
-        return rowClm;
-      case 56:
-        rowClm.add(6);
-        rowClm.add(7);
-        return rowClm;
-      default:
-        rowClm.add(null);
-        rowClm.add(null);
-        return rowClm;
-    }
-  }
-
   Map getCurrentBoardStatus(int noOnDice) {
     print('------------->in getCurrentBoardStatus()');
     return {
@@ -2031,94 +1678,5 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       return 0;
     }
-  }
-
-  bool isLegal(row, col, moveItem) {
-    if ((row == 7 && col == 7) ||
-        (row == 8 && col == 8) ||
-        (row == 6 && col == 8) ||
-        (row == 6 && col == 6) ||
-        (row == 8 && col == 6)) {
-      return false;
-    }
-
-    // for player at bottom left
-    if (moveItem == 0 || moveItem == 10 || moveItem == 20 || moveItem == 30) {
-      if (row == 7 && col <= 6 && col >= 1) {
-        return false;
-      }
-      if (col == 7 && row <= 13 && row >= 8) {
-        return false;
-      }
-      if (row == 7 && col <= 13 && col >= 8) {
-        return false;
-      }
-    }
-
-    // for player at top left
-    if (moveItem == 1 || moveItem == 11 || moveItem == 21 || moveItem == 31) {
-      if (col == 7 && row <= 13 && row >= 8) {
-        return false;
-      }
-      if (row == 7 && col <= 13 && col >= 8) {
-        return false;
-      }
-      if (col == 7 && row <= 6 && row >= 1) {
-        return false;
-      }
-    }
-
-    // for player at top right
-    if (moveItem == 2 || moveItem == 12 || moveItem == 22 || moveItem == 32) {
-      if (row == 7 && col <= 6 && col >= 1) {
-        return false;
-      }
-      if (row == 7 && col <= 13 && col >= 8) {
-        return false;
-      }
-      if (col == 7 && row <= 6 && row >= 1) {
-        return false;
-      }
-    }
-
-    // for player at top right
-    if (moveItem == 3 || moveItem == 13 || moveItem == 23 || moveItem == 33) {
-      if (row == 7 && col <= 6 && col >= 1) {
-        return false;
-      }
-      if (col == 7 && row <= 13 && row >= 8) {
-        return false;
-      }
-      if (col == 7 && row <= 6 && row >= 1) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  double getBottom(row) {
-    double correction = MediaQuery.of(context).size.height / 61.3026819923;
-    if (row < 7) {
-      return MediaQuery.of(context).size.width * 0.0667 * row +
-          ((correction * (row - 7).abs()) / 7);
-    }
-    if (row > 7) {
-      return MediaQuery.of(context).size.width * 0.0667 * row -
-          ((correction * (row - 7).abs()) / 7);
-    }
-    return MediaQuery.of(context).size.width * 0.0667 * row;
-  }
-
-  double getLeft(col) {
-    double correction = MediaQuery.of(context).size.width / 72;
-    if (col < 7) {
-      return MediaQuery.of(context).size.width * 0.0667 * col +
-          ((correction * (col - 7).abs()) / 7);
-    }
-    if (col > 7) {
-      return MediaQuery.of(context).size.width * 0.0667 * col -
-          ((correction * (col - 7).abs()) / 7);
-    }
-    return MediaQuery.of(context).size.width * 0.0667 * col;
   }
 }
