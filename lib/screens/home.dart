@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:ui';
+import 'dart:async';
 //import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:ludo_planner/widgets/appbar.dart';
@@ -9,6 +11,8 @@ import 'package:ludo_planner/widgets/bottomRight.dart';
 import 'package:ludo_planner/widgets/blinkingWidget.dart';
 import 'package:ludo_planner/widgets/dialogHeader.dart';
 
+import 'package:ludo_planner/screens/splash.dart';
+
 import 'package:ludo_planner/utils/positions.dart';
 import 'package:ludo_planner/utils/isLegalPosition.dart';
 import 'package:ludo_planner/utils/getBottomLeftSpacing.dart';
@@ -17,7 +21,24 @@ import 'package:ludo_planner/utils/get2Dfrom1D.dart';
 
 import 'package:ludo_planner/service/service.dart';
 
+extension StateExtension<T extends StatefulWidget> on State<T> {
+  Stream waitForStateLoading() async* {
+    while (!mounted) {
+      yield false;
+    }
+    yield true;
+  }
+
+  Future<void> postInit(VoidCallback action) async {
+    await for (var isLoaded in waitForStateLoading()) {}
+    action();
+  }
+}
+
 class HomeScreen extends StatefulWidget {
+  Image image;
+
+  HomeScreen(this.image);
   @override
   State<StatefulWidget> createState() {
     return _HomeScreenState();
@@ -580,57 +601,41 @@ class _HomeScreenState extends State<HomeScreen> {
                 fit: BoxFit.cover)),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: appBar(),
-          body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[playerAddButton(1), playerAddButton(2)],
-                ),
-                Center(
-                  child: Container(
-                      height: MediaQuery.of(context).size.width,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
+          appBar: appBar(showSplash),
+          body: showSplash
+              ? SplashScreen()
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          playerAddButton(1),
+                          playerAddButton(2)
+                        ],
                       ),
-                      child: Stack(
-                        children: layout(),
-                      )),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[playerAddButton(0), playerAddButton(3)],
-                ),
-                screenBottomRow()
-              ]),
+                      Center(
+                        child: Container(
+                            height: MediaQuery.of(context).size.width,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                            ),
+                            child: Stack(
+                              children: layout(),
+                            )),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          playerAddButton(0),
+                          playerAddButton(3)
+                        ],
+                      ),
+                      screenBottomRow()
+                    ]),
         ),
       ),
-      showSplash
-          ? Container(
-              height: MediaQuery.of(context).size.height,
-              // decoration: BoxDecoration(
-              //     image:
-              //         DecorationImage(image: image1.image, fit: BoxFit.cover)),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox.fromSize(
-                      // child: Image.asset('assets/logo.png'),\
-                      child: CircularProgressIndicator(),
-                      size: Size(30, 30),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : Container()
     ]);
   }
 
@@ -919,11 +924,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: SPLASH_DURATION), () {
-      setState(() {
-        showSplash = false;
-      });
+    postInit(() {
+      Completer<Size> completer = Completer();
+      image.image.resolve(ImageConfiguration()).addListener(
+        ImageStreamListener(
+          (ImageInfo image, bool synchronousCall) {
+            var myImage = image.image;
+            Size size =
+                Size(myImage.width.toDouble(), myImage.height.toDouble());
+            completer.complete(size);
+          },
+        ),
+      );
+      completer.future.then((value) => setState(() {
+            showSplash = false;
+          }));
     });
+
+    // Future.delayed(const Duration(milliseconds: SPLASH_DURATION), () {
+    //   setState(() {
+    //     showSplash = false;
+    //   });
+    // });
   }
 
   Widget renderGoti(int count, int position) {
