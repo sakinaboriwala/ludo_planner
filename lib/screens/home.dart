@@ -6,6 +6,8 @@ import 'package:ludo_planner/widgets/bottomLeft.dart';
 import 'package:ludo_planner/widgets/topLeft.dart';
 import 'package:ludo_planner/widgets/topRight.dart';
 import 'package:ludo_planner/widgets/bottomRight.dart';
+import 'package:ludo_planner/widgets/blinkingWidget.dart';
+import 'package:ludo_planner/widgets/dialogHeader.dart';
 
 import 'package:ludo_planner/utils/positions.dart';
 import 'package:ludo_planner/utils/isLegalPosition.dart';
@@ -568,6 +570,70 @@ class _HomeScreenState extends State<HomeScreen> {
     },
   };
 
+  @override
+  Widget build(BuildContext context) {
+    return Stack(children: [
+      Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("assets/ludo_background.png"),
+                fit: BoxFit.cover)),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: appBar(),
+          body: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[playerAddButton(1), playerAddButton(2)],
+                ),
+                Center(
+                  child: Container(
+                      height: MediaQuery.of(context).size.width,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                      ),
+                      child: Stack(
+                        children: layout(),
+                      )),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[playerAddButton(0), playerAddButton(3)],
+                ),
+                screenBottomRow()
+              ]),
+        ),
+      ),
+      showSplash
+          ? Container(
+              height: MediaQuery.of(context).size.height,
+              // decoration: BoxDecoration(
+              //     image:
+              //         DecorationImage(image: image1.image, fit: BoxFit.cover)),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox.fromSize(
+                      // child: Image.asset('assets/logo.png'),\
+                      child: CircularProgressIndicator(),
+                      size: Size(30, 30),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : Container()
+    ]);
+  }
+
   void reset() {
     print('------------->in reset()');
     setState(() {
@@ -922,8 +988,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     print("SET MOVE TRUE");
                     Map<dynamic, dynamic> currentOffsets = offsets;
                     if (currentOffsets[int.parse("$count$position")]
-                            ["predicted"] ==
-                        true) {
+                        ["predicted"]) {
                       print("---------------------> PREDICTED");
                       List<int> rowClm;
                       if (currentOffsets[int.parse("$count$position")]
@@ -950,14 +1015,23 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 },
                 child: Container(
-                    child: Image.asset(
-                      offsets[int.parse("$count$position")]["highlighted"]
-                          ? "assets/_goti_${selectedColorList[position]["name"]}.png"
-                          : "assets/goti_${selectedColorList[position]["name"]}.png",
-                      width: size,
-                      height: size,
-                      fit: BoxFit.fitHeight,
-                    ),
+                    child: offsets[int.parse("$count$position")]["predicted"]
+                        ? BlinkingWidget(Image.asset(
+                            offsets[int.parse("$count$position")]["highlighted"]
+                                ? "assets/_goti_${selectedColorList[position]["name"]}.png"
+                                : "assets/goti_${selectedColorList[position]["name"]}.png",
+                            width: size,
+                            height: size,
+                            fit: BoxFit.fitHeight,
+                          ))
+                        : Image.asset(
+                            offsets[int.parse("$count$position")]["highlighted"]
+                                ? "assets/_goti_${selectedColorList[position]["name"]}.png"
+                                : "assets/goti_${selectedColorList[position]["name"]}.png",
+                            width: size,
+                            height: size,
+                            fit: BoxFit.fitHeight,
+                          ),
                     width: size,
                     height: size)))
       ]);
@@ -1009,70 +1083,6 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Stack(children: [
-      Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/ludo_background.png"),
-                fit: BoxFit.cover)),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: appBar(),
-          body: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[playerAddButton(1), playerAddButton(2)],
-                ),
-                Center(
-                  child: Container(
-                      height: MediaQuery.of(context).size.width,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                      ),
-                      child: Stack(
-                        children: layout(),
-                      )),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[playerAddButton(0), playerAddButton(3)],
-                ),
-                screenBottomRow()
-              ]),
-        ),
-      ),
-      showSplash
-          ? Container(
-              height: MediaQuery.of(context).size.height,
-              // decoration: BoxDecoration(
-              //     image:
-              //         DecorationImage(image: image1.image, fit: BoxFit.cover)),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SizedBox.fromSize(
-                      // child: Image.asset('assets/logo.png'),\
-                      child: CircularProgressIndicator(),
-                      size: Size(30, 30),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : Container()
-    ]);
-  }
-
   void addMemberDialog(int position) {
     print('------------->in addMemberDialog()');
     showDialog(
@@ -1085,31 +1095,7 @@ class _HomeScreenState extends State<HomeScreen> {
               scrollable: true,
               title: Container(
                 width: MediaQuery.of(context).size.width * 0.66,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      "SELECT COLOR",
-                      style: TextStyle(color: Colors.green.shade400),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                color: Colors.green.shade400, width: 6)),
-                        child: Icon(
-                          Icons.close,
-                          color: Colors.green.shade400,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
+                child: topRow(context, "SELECT COLOR"),
               ),
               content: new Container(
                   // height: 250,
@@ -1462,17 +1448,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(color: Colors.white),
               )),
           onTap: () {
-            if (currentPlayerName != null) {
-              savePlayer(position);
-              Navigator.pop(context);
-            } else {
-              SnackBar(
-                content: Text(
-                  "Please insert a name to save the player",
-                ),
-                duration: Duration(seconds: 1),
-              );
-            }
+            // if (currentPlayerName != null) {
+            savePlayer(position);
+            Navigator.pop(context);
+            // } else {
+            //   SnackBar(
+            //     content: Text(
+            //       "Please insert a name to save the player",
+            //     ),
+            //     duration: Duration(seconds: 1),
+            //   );
+            // }
           },
         ),
       ])
@@ -1678,5 +1664,46 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       return 0;
     }
+  }
+
+  void moveGotiDialog(List<int> positions) {
+    double size = MediaQuery.of(context).size.width * 0.064;
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40)),
+              scrollable: true,
+              title: Container(
+                width: MediaQuery.of(context).size.width * 0.66,
+                child: topRow(context, "SELECT TOKEN"),
+              ),
+              content: new Wrap(
+                  // height: 250,
+                  children: positions
+                      .map((e) => GestureDetector(
+                          onTap: () {
+                            Map<dynamic, dynamic> currentOffsets = offsets;
+
+                            currentOffsets[e]["highlighted"] = true;
+                            setState(() {
+                              move = true;
+                              moveItem = e;
+                              offsets = currentOffsets;
+                            });
+                          },
+                          child: Container(
+                              child: Image.asset(
+                            "assets/_goti_${selectedColorList[int.parse(e.toString().split("").last)]["name"]}.png",
+                            width: size,
+                            height: size,
+                            fit: BoxFit.fitHeight,
+                          ))))
+                      .toList()),
+            );
+          });
+        });
   }
 }
