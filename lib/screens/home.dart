@@ -151,8 +151,8 @@ class _HomeScreenState extends State<HomeScreen> {
       moveItem = null;
       offsets = {
         00: {
-          "initBottom": (getBottom(context, 2)+getBottom(context, 1))/2,
-          "initLeft": (getLeft(context, 2)+getLeft(context, 1))/2,
+          "initBottom": getBottom(context, 2)*0.5 + getBottom(context, 1)*0.5,
+          "initLeft": getLeft(context, 2)*0.4 + getLeft(context, 1)*0.6,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -167,8 +167,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         10: {
-          "initBottom": (getBottom(context, 3) + getBottom(context, 4))/2,
-          "initLeft": (getLeft(context, 2)+getLeft(context, 1))/2,
+          "initBottom": getBottom(context, 3)*0.5 + getBottom(context, 4)*0.5,
+          "initLeft": getLeft(context, 2)*0.4 + getLeft(context, 1)*0.6,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -184,7 +184,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         20: {
           "initBottom": (getBottom(context, 3) + getBottom(context, 4))/2,
-          "initLeft": (getLeft(context, 3)+getLeft(context, 4))/2,
+          "initLeft": getLeft(context, 3)*0.6 + getLeft(context, 4)*0.4,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -200,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         30: {
           "initBottom": (getBottom(context, 2)+getBottom(context, 1))/2,
-          "initLeft": (getLeft(context, 3)+getLeft(context, 4))/2,
+          "initLeft": getLeft(context, 3)*0.6 + getLeft(context, 4)*0.4,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -215,7 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         01: {
-          "initBottom": (getBottom(context, 11)+getBottom(context, 12))/2,
+          "initBottom": getBottom(context, 11)*0.8 + getBottom(context, 12)*0.2,
           "initLeft": (getLeft(context, 2)+getLeft(context, 1))/2,
           "bottom": null,
           "left": null,
@@ -231,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         11: {
-          "initBottom": (getBottom(context, 14)+getBottom(context, 13))/2,
+          "initBottom": getBottom(context, 14)*0.2 + getBottom(context, 13)*0.8,
           "initLeft": (getLeft(context, 2)+getLeft(context, 1))/2,
           "bottom": null,
           "left": null,
@@ -247,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         21: {
-          "initBottom": (getBottom(context, 14)+getBottom(context, 13))/2,
+          "initBottom": getBottom(context, 14)*0.2 + getBottom(context, 13)*0.8,
           "initLeft": (getLeft(context, 3)+getLeft(context, 4))/2,
           "bottom": null,
           "left": null,
@@ -263,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         31: {
-          "initBottom": (getBottom(context, 11)+getBottom(context, 12))/2,
+          "initBottom": getBottom(context, 11)*0.8 + getBottom(context, 12)*0.2,
           "initLeft": (getLeft(context, 3)+getLeft(context, 4))/2,
           "bottom": null,
           "left": null,
@@ -279,8 +279,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         02: {
-          "initBottom": getBottom(context, 11),
-          "initLeft": (getLeft(context, 11)+getLeft(context, 10))/2,
+          "initBottom": getBottom(context, 11)*0.8 + getBottom(context, 12)*0.2,
+          "initLeft": getLeft(context, 11)*0.7 + getLeft(context, 10)*0.3,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -295,8 +295,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         12: {
-          "initBottom": (getBottom(context, 13)+getBottom(context, 14))/2,
-          "initLeft": (getLeft(context, 11)+getLeft(context, 10))/2,
+          "initBottom": getBottom(context, 14)*0.2 + getBottom(context, 13)*0.8,
+          "initLeft": getLeft(context, 11)*0.7 + getLeft(context, 10)*0.3,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -311,8 +311,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         22: {
-          "initBottom": (getBottom(context, 13)+getBottom(context, 14))/2,
-          "initLeft": (getLeft(context, 12)+getLeft(context, 13))/2,
+          "initBottom": getBottom(context, 14)*0.2 + getBottom(context, 13)*0.8,
+          "initLeft": getLeft(context, 12)*0.4 + getLeft(context, 13)*0.6,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -327,8 +327,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         32: {
-          "initBottom": getBottom(context, 11),
-          "initLeft": (getLeft(context, 12)+getLeft(context, 13))/2,
+          "initBottom": getBottom(context, 11)*0.8 + getBottom(context, 12)*0.2,
+          "initLeft": getLeft(context, 12)*0.4 + getLeft(context, 13)*0.6,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -344,7 +344,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         03: {
           "initBottom": (getBottom(context, 2)+getBottom(context, 1))/2,
-          "initLeft": (getLeft(context, 11)+getLeft(context, 10))/2,
+          "initLeft": getLeft(context, 11)*0.7 + getLeft(context, 10)*0.3,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -360,7 +360,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         13: {
           "initBottom": (getBottom(context, 3)+getBottom(context, 4))/2,
-          "initLeft": (getLeft(context, 11)+getLeft(context, 10))/2,
+          "initLeft": getLeft(context, 11)*0.7 + getLeft(context, 10)*0.3,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -376,7 +376,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         23: {
           "initBottom": (getBottom(context, 3)+getBottom(context, 4))/2,
-          "initLeft": (getLeft(context, 12)+getLeft(context, 13))/2,
+          "initLeft": getLeft(context, 12)*0.3 + getLeft(context, 13)*0.7,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -392,7 +392,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         33: {
           "initBottom": (getBottom(context, 2)+getBottom(context, 1))/2,
-          "initLeft": (getLeft(context, 12)+getLeft(context, 13))/2,
+          "initLeft": getLeft(context, 12)*0.3 + getLeft(context, 13)*0.7,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -686,8 +686,8 @@ class _HomeScreenState extends State<HomeScreen> {
       };
       defaultOffsets = {
         00: {
-          "initBottom": (getBottom(context, 2)+getBottom(context, 1))/2,
-          "initLeft": (getLeft(context, 2)+getLeft(context, 1))/2,
+          "initBottom": getBottom(context, 2)*0.5 + getBottom(context, 1)*0.5,
+          "initLeft": getLeft(context, 2)*0.4 + getLeft(context, 1)*0.6,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -702,8 +702,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         10: {
-          "initBottom": (getBottom(context, 3) + getBottom(context, 4))/2,
-          "initLeft": (getLeft(context, 2)+getLeft(context, 1))/2,
+          "initBottom": getBottom(context, 3)*0.5 + getBottom(context, 4)*0.5,
+          "initLeft": getLeft(context, 2)*0.4 + getLeft(context, 1)*0.6,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -719,7 +719,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         20: {
           "initBottom": (getBottom(context, 3) + getBottom(context, 4))/2,
-          "initLeft": (getLeft(context, 3)+getLeft(context, 4))/2,
+          "initLeft": getLeft(context, 3)*0.6 + getLeft(context, 4)*0.4,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -735,7 +735,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         30: {
           "initBottom": (getBottom(context, 2)+getBottom(context, 1))/2,
-          "initLeft": (getLeft(context, 3)+getLeft(context, 4))/2,
+          "initLeft": getLeft(context, 3)*0.6 + getLeft(context, 4)*0.4,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -750,7 +750,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         01: {
-          "initBottom": (getBottom(context, 11)+getBottom(context, 12))/2,
+          "initBottom": getBottom(context, 11)*0.8 + getBottom(context, 12)*0.2,
           "initLeft": (getLeft(context, 2)+getLeft(context, 1))/2,
           "bottom": null,
           "left": null,
@@ -766,7 +766,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         11: {
-          "initBottom": (getBottom(context, 14)+getBottom(context, 13))/2,
+          "initBottom": getBottom(context, 14)*0.2 + getBottom(context, 13)*0.8,
           "initLeft": (getLeft(context, 2)+getLeft(context, 1))/2,
           "bottom": null,
           "left": null,
@@ -782,7 +782,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         21: {
-          "initBottom": (getBottom(context, 14)+getBottom(context, 13))/2,
+          "initBottom": getBottom(context, 14)*0.2 + getBottom(context, 13)*0.8,
           "initLeft": (getLeft(context, 3)+getLeft(context, 4))/2,
           "bottom": null,
           "left": null,
@@ -798,7 +798,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         31: {
-          "initBottom": (getBottom(context, 11)+getBottom(context, 12))/2,
+          "initBottom": getBottom(context, 11)*0.8 + getBottom(context, 12)*0.2,
           "initLeft": (getLeft(context, 3)+getLeft(context, 4))/2,
           "bottom": null,
           "left": null,
@@ -814,8 +814,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         02: {
-          "initBottom": getBottom(context, 11),
-          "initLeft": (getLeft(context, 11)+getLeft(context, 10))/2,
+          "initBottom": getBottom(context, 11)*0.8 + getBottom(context, 12)*0.2,
+          "initLeft": getLeft(context, 11)*0.7 + getLeft(context, 10)*0.3,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -830,8 +830,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         12: {
-          "initBottom": (getBottom(context, 13)+getBottom(context, 14))/2,
-          "initLeft": (getLeft(context, 11)+getLeft(context, 10))/2,
+          "initBottom": getBottom(context, 14)*0.2 + getBottom(context, 13)*0.8,
+          "initLeft": getLeft(context, 11)*0.7 + getLeft(context, 10)*0.3,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -846,8 +846,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         22: {
-          "initBottom": (getBottom(context, 13)+getBottom(context, 14))/2,
-          "initLeft": (getLeft(context, 12)+getLeft(context, 13))/2,
+          "initBottom": getBottom(context, 14)*0.2 + getBottom(context, 13)*0.8,
+          "initLeft": getLeft(context, 12)*0.4 + getLeft(context, 13)*0.6,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -862,8 +862,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
         32: {
-          "initBottom": getBottom(context, 11),
-          "initLeft": (getLeft(context, 12)+getLeft(context, 13))/2,
+          "initBottom": getBottom(context, 11)*0.8 + getBottom(context, 12)*0.2,
+          "initLeft": getLeft(context, 12)*0.4 + getLeft(context, 13)*0.6,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -879,7 +879,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         03: {
           "initBottom": (getBottom(context, 2)+getBottom(context, 1))/2,
-          "initLeft": (getLeft(context, 11)+getLeft(context, 10))/2,
+          "initLeft": getLeft(context, 11)*0.7 + getLeft(context, 10)*0.3,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -895,7 +895,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         13: {
           "initBottom": (getBottom(context, 3)+getBottom(context, 4))/2,
-          "initLeft": (getLeft(context, 11)+getLeft(context, 10))/2,
+          "initLeft": getLeft(context, 11)*0.7 + getLeft(context, 10)*0.3,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -911,7 +911,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         23: {
           "initBottom": (getBottom(context, 3)+getBottom(context, 4))/2,
-          "initLeft": (getLeft(context, 12)+getLeft(context, 13))/2,
+          "initLeft": getLeft(context, 12)*0.3 + getLeft(context, 13)*0.7,
           "bottom": null,
           "left": null,
           "sameBottom": null,
@@ -927,7 +927,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         33: {
           "initBottom": (getBottom(context, 2)+getBottom(context, 1))/2,
-          "initLeft": (getLeft(context, 12)+getLeft(context, 13))/2,
+          "initLeft": getLeft(context, 12)*0.3 + getLeft(context, 13)*0.7,
           "bottom": null,
           "left": null,
           "sameBottom": null,
