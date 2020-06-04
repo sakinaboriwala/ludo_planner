@@ -1800,9 +1800,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       child: Image.asset(
                         "assets/dice-$e.png",
-                        fit: BoxFit.cover,
-                        width: MediaQuery.of(context).size.width * 0.10,
-                        height: MediaQuery.of(context).size.width * 0.10,
+                        fit: BoxFit.fill,
+                        width: diceNo == e
+                            ? MediaQuery.of(context).size.width * 0.12
+                            : MediaQuery.of(context).size.width * 0.10,
+                        height: diceNo == e
+                            ? MediaQuery.of(context).size.width * 0.12
+                            : MediaQuery.of(context).size.width * 0.10,
                       ),
                     ))
                 .toList())
@@ -1813,13 +1817,17 @@ class _HomeScreenState extends State<HomeScreen> {
   void onDiceTap(int number) {
     print('------------->in onDiceTap()');
     Map<int, dynamic> currentOffsets = offsets;
-    diceNo = number;
+    setState(() {
+      diceNo = number;
+    });
     int index = startGameSuggestion(getCurrentBoardStatus(number));
     if (index != -1) {
       currentOffsets = unhighlightAll(currentOffsets);
       currentOffsets[int.parse("${index}0")]["highlighted"] = true;
       currentOffsets[int.parse("${index}0")]["predicted"] = true;
       setState(() {
+        diceNo = number;
+
         offsets = currentOffsets;
       });
     }
