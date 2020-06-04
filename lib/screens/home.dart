@@ -65,10 +65,10 @@ class _HomeScreenState extends State<HomeScreen> {
   static const double BASELEFT13 = 13.0;
   static const SPLASH_DURATION = 5000;
 
-  Map<dynamic, dynamic> defaultOffsets;
+  Map<int, dynamic> defaultOffsets;
 
   // Board map UI format
-  Map<dynamic, dynamic> offsets;
+  Map<int, dynamic> offsets;
 
   @override
   Widget build(BuildContext context) {
