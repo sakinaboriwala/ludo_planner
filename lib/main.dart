@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:ludo_planner/screens/home.dart';
-import 'package:ludo_planner/screens/splash.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,8 +17,7 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: TextTheme(bodyText2: TextStyle(color: Colors.white))),
       routes: {
-        '/': (context) => SplashScreen(),
-        '/home': (context) => HomeScreen(),
+        '/': (context) => HomeScreen(Image.asset("assets/ludo_background.png")),
       },
     );
   }
