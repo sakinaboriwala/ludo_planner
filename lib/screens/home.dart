@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
   static const double BASELEFT13 = 13.0;
   static const SPLASH_DURATION = 5000;
 
-  Map<dynamic, dynamic> default_offsets = {
+  Map<dynamic, dynamic> defaultOffsets = {
     00: {
       "initBottom": BASEBOTTOM2,
       "initLeft": BASELEFT2,
@@ -65,8 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 0,
+      "onMultiple": false
     },
     10: {
       "initBottom": BASEBOTTOM2 * 2.2,
@@ -81,8 +81,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 0,
+      "onMultiple": false
     },
     20: {
       "initBottom": BASEBOTTOM2 * 2.3,
@@ -97,8 +97,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 0,
+      "onMultiple": false
     },
     30: {
       "initBottom": BASEBOTTOM2,
@@ -113,8 +113,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 0,
+      "onMultiple": false
     },
     01: {
       "initBottom": BASEBOTTOM13,
@@ -129,8 +129,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 1,
+      "onMultiple": false
     },
     11: {
       "initBottom": BASEBOTTOM13 * 1.2,
@@ -145,8 +145,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 1,
+      "onMultiple": false
     },
     21: {
       "initBottom": BASEBOTTOM13 * 1.2,
@@ -161,8 +161,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 1,
+      "onMultiple": false
     },
     31: {
       "initBottom": BASEBOTTOM13,
@@ -177,8 +177,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 1,
+      "onMultiple": false
     },
     02: {
       "initBottom": BASEBOTTOM13,
@@ -193,8 +193,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 2,
+      "onMultiple": false
     },
     12: {
       "initBottom": BASEBOTTOM13 * 1.2,
@@ -209,8 +209,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 2,
+      "onMultiple": false
     },
     22: {
       "initBottom": BASEBOTTOM13 * 1.2,
@@ -225,8 +225,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 2,
+      "onMultiple": false
     },
     32: {
       "initBottom": BASEBOTTOM13,
@@ -241,8 +241,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 2,
+      "onMultiple": false
     },
     03: {
       "initBottom": BASEBOTTOM2,
@@ -257,8 +257,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 3,
+      "onMultiple": false
     },
     13: {
       "initBottom": BASEBOTTOM2 * 2.3,
@@ -273,8 +273,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 3,
+      "onMultiple": false
     },
     23: {
       "initBottom": BASEBOTTOM2 * 2.3,
@@ -289,8 +289,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 3,
+      "onMultiple": false
     },
     33: {
       "initBottom": BASEBOTTOM2,
@@ -305,8 +305,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 3,
+      "onMultiple": false
     },
   };
 
@@ -325,8 +325,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 0,
+      "onMultiple": false
     },
     10: {
       "initBottom": BASEBOTTOM2 * 2.2,
@@ -341,8 +341,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 0,
+      "onMultiple": false
     },
     20: {
       "initBottom": BASEBOTTOM2 * 2.3,
@@ -357,8 +357,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 0,
+      "onMultiple": false
     },
     30: {
       "initBottom": BASEBOTTOM2,
@@ -373,8 +373,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 0,
+      "onMultiple": false
     },
     01: {
       "initBottom": BASEBOTTOM13,
@@ -389,8 +389,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 1,
+      "onMultiple": false
     },
     11: {
       "initBottom": BASEBOTTOM13 * 1.2,
@@ -405,8 +405,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 1,
+      "onMultiple": false
     },
     21: {
       "initBottom": BASEBOTTOM13 * 1.2,
@@ -421,8 +421,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 1,
+      "onMultiple": false
     },
     31: {
       "initBottom": BASEBOTTOM13,
@@ -437,8 +437,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 1,
+      "onMultiple": false
     },
     02: {
       "initBottom": BASEBOTTOM13,
@@ -453,8 +453,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 2,
+      "onMultiple": false
     },
     12: {
       "initBottom": BASEBOTTOM13 * 1.2,
@@ -469,8 +469,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 2,
+      "onMultiple": false
     },
     22: {
       "initBottom": BASEBOTTOM13 * 1.2,
@@ -485,8 +485,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 2,
+      "onMultiple": false
     },
     32: {
       "initBottom": BASEBOTTOM13,
@@ -501,8 +501,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 2,
+      "onMultiple": false
     },
     03: {
       "initBottom": BASEBOTTOM2,
@@ -517,8 +517,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 3,
+      "onMultiple": false
     },
     13: {
       "initBottom": BASEBOTTOM2 * 2.3,
@@ -533,8 +533,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 3,
+      "onMultiple": false
     },
     23: {
       "initBottom": BASEBOTTOM2 * 2.3,
@@ -549,8 +549,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 3,
+      "onMultiple": false
     },
     33: {
       "initBottom": BASEBOTTOM2,
@@ -565,8 +565,8 @@ class _HomeScreenState extends State<HomeScreen> {
       "predicted": false,
       "xPosition": -1,
       "sizeMultiplier": 1,
-      "row": null,
-      "col": null
+      "playerIndex": 3,
+      "onMultiple": false
     },
   };
 
@@ -662,7 +662,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 0,
+          "onMultiple": false
         },
         10: {
           "initBottom": BASEBOTTOM2 * 2.2,
@@ -676,7 +678,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 0,
+          "onMultiple": false
         },
         20: {
           "initBottom": BASEBOTTOM2 * 2.3,
@@ -690,7 +694,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 0,
+          "onMultiple": false
         },
         30: {
           "initBottom": BASEBOTTOM2,
@@ -704,7 +710,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 0,
+          "onMultiple": false
         },
         01: {
           "initBottom": BASEBOTTOM13,
@@ -718,7 +726,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 1,
+          "onMultiple": false
         },
         11: {
           "initBottom": BASEBOTTOM13 * 1.2,
@@ -732,7 +742,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 1,
+          "onMultiple": false
         },
         21: {
           "initBottom": BASEBOTTOM13 * 1.2,
@@ -746,7 +758,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 1,
+          "onMultiple": false
         },
         31: {
           "initBottom": BASEBOTTOM13,
@@ -760,7 +774,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 1,
+          "onMultiple": false
         },
         02: {
           "initBottom": BASEBOTTOM13,
@@ -774,7 +790,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 2,
+          "onMultiple": false
         },
         12: {
           "initBottom": BASEBOTTOM13 * 1.2,
@@ -788,7 +806,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 2,
+          "onMultiple": false
         },
         22: {
           "initBottom": BASEBOTTOM13 * 1.2,
@@ -802,7 +822,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 2,
+          "onMultiple": false
         },
         32: {
           "initBottom": BASEBOTTOM13,
@@ -816,7 +838,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 2,
+          "onMultiple": false
         },
         03: {
           "initBottom": BASEBOTTOM2,
@@ -830,7 +854,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 3,
+          "onMultiple": false
         },
         13: {
           "initBottom": BASEBOTTOM2 * 2.3,
@@ -844,7 +870,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 3,
+          "onMultiple": false
         },
         23: {
           "initBottom": BASEBOTTOM2 * 2.3,
@@ -858,7 +886,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 3,
+          "onMultiple": false
         },
         33: {
           "initBottom": BASEBOTTOM2,
@@ -872,7 +902,9 @@ class _HomeScreenState extends State<HomeScreen> {
           "highlighted": false,
           "predicted": false,
           "xPosition": -1,
-          "sizeMultiplier": 1
+          "sizeMultiplier": 1,
+          "playerIndex": 3,
+          "onMultiple": false
         },
       };
     });
@@ -918,12 +950,15 @@ class _HomeScreenState extends State<HomeScreen> {
             left: initLeft,
             child: GestureDetector(
                 onTap: () {
+                  print('onTap #1 move: ' + move.toString());
                   if (move) {
                     Map<dynamic, dynamic> currentOffsets = offsets;
                     currentOffsets[moveItem]["moved"] = false;
                     currentOffsets[moveItem]["highlighted"] = false;
                     currentOffsets[moveItem]["predicted"] = false;
-                    currentOffsets[moveItem]["postion"] = -1;
+                    currentOffsets[moveItem]["position"] = -1;
+
+                    currentOffsets = unhighlightAll(currentOffsets);
 
                     setState(() {
                       move = false;
@@ -939,6 +974,7 @@ class _HomeScreenState extends State<HomeScreen> {
             left: left,
             child: GestureDetector(
                 onTap: () {
+                  print('onTap #2 move: ' + move.toString());
                   if (move) {
                     print("SET MOVE FALSE");
 
@@ -946,6 +982,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     if (moveItem == int.parse("$count$position") &&
                         currentOffsets[moveItem]["moved"] == false) {
+                      currentOffsets[moveItem]["xPosition"] = -1;
                       currentOffsets[moveItem]["bottom"] =
                           offsets[int.parse("$count$position")]["initBottom"];
                       currentOffsets[moveItem]["left"] =
@@ -953,36 +990,57 @@ class _HomeScreenState extends State<HomeScreen> {
                       currentOffsets[moveItem]["moved"] = false;
                       currentOffsets[moveItem]["highlighted"] = false;
                       currentOffsets[moveItem]["predicted"] = false;
+                      currentOffsets = unhighlightAll(currentOffsets);
+                      setState(() {
+                        move = false;
+                        offsets = currentOffsets;
+                      });
                     } else {
-                      print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
-                      // this will set xPosition
-                      currentOffsets[moveItem]["xPosition"] =
-                          offsets[int.parse("$count$position")]["xPosition"];
-                      currentOffsets[moveItem]["bottom"] =
-                          offsets[int.parse("$count$position")]["bottom"];
-                      currentOffsets[moveItem]["left"] =
-                          offsets[int.parse("$count$position")]["left"];
-                      currentOffsets[moveItem]["moved"] = true;
-                      currentOffsets[moveItem]["highlighted"] = false;
-                      currentOffsets[moveItem]["predicted"] = false;
-                      // check if it is a non safe position so kill
-                      if (isSafePosition(
-                              currentOffsets[int.parse("$count$position")]
-                                  ["xPosition"]) ==
-                          false) {
-                        print("KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        currentOffsets[int.parse("$count$position")] =
-                            default_offsets[int.parse("$count$position")];
-                        currentOffsets[int.parse("$count$position")]["moved"] =
-                            false;
+                      print("OUGHT TO MOVE");
+                      // first check if the goti that was clicked is it in home.
+                      // if it is home then change the selection without moving
+                      if(offsets[int.parse("$count$position")]["xPosition"] == -1) {
+                        unhighlightAll(currentOffsets);
+                        print("EXCHANGING SELECTION");
+                        // TODO: do the exchange here
+                        moveItem = int.parse("$count$position");
+                        currentOffsets[moveItem]["highlighted"] = true;
+                        setState(() {
+                          move = true;
+                          offsets = currentOffsets;
+                        });
+                      }else {
+                        print("MOVING SELECTION");
+                        // this will set xPosition
+                        currentOffsets[moveItem]["xPosition"] =
+                        offsets[int.parse("$count$position")]["xPosition"];
+                        currentOffsets[moveItem]["bottom"] =
+                        offsets[int.parse("$count$position")]["bottom"];
+                        currentOffsets[moveItem]["left"] =
+                        offsets[int.parse("$count$position")]["left"];
+                        currentOffsets[moveItem]["moved"] = true;
+                        currentOffsets[moveItem]["highlighted"] = false;
+                        currentOffsets[moveItem]["predicted"] = false;
+                        currentOffsets = unhighlightAll(currentOffsets);
+                        // check if it is a non safe position so kill
+                        if (currentOffsets[moveItem]["playerIndex"] != currentOffsets[int.parse("$count$position")]["playerIndex"] &&
+                            isSafePosition(currentOffsets[int.parse("$count$position")]["xPosition"]) == false) {
+                          print("KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                          currentOffsets[int.parse("$count$position")] =
+                          defaultOffsets[int.parse("$count$position")];
+                          currentOffsets[int.parse("$count$position")]["moved"] =
+                          false;
+                        }
+
+                        // Check multiple on one walla case
+                        currentOffsets = adjustForMultipleOnOne(currentOffsets);
+
+                        setState(() {
+                          move = false;
+                          offsets = currentOffsets;
+                        });
                       }
                     }
-
-                    setState(() {
-                      move = false;
-                      offsets = currentOffsets;
-                    });
-
                     // itterate over the offsets to check ki kis kis ka
                   } else {
                     print("SET MOVE TRUE");
@@ -1004,6 +1062,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       moveGotiTo(rowClm[0], rowClm[1], currentOffsets,
                           int.parse("$count$position"));
                     } else {
+                      currentOffsets = unhighlightAll(currentOffsets);
                       currentOffsets[int.parse("$count$position")]
                           ["highlighted"] = true;
                       setState(() {
@@ -1040,6 +1099,75 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Map<dynamic, dynamic> adjustForMultipleOnOne(Map<dynamic, dynamic> currentOffsets) {
+    for(int xPosition=0; xPosition<57; xPosition++) {
+      print('in adjustForMultipleOnOne xPosition: ' + xPosition.toString());
+      List<int> rowClm = get2Dfrom1D(xPosition);
+      int row = rowClm[0];
+      int clm = rowClm[1];
+      print("ROW: " + row.toString());
+      print("CLM: " + clm.toString());
+      List<int> overlapingKeys = [];
+      currentOffsets.forEach((key, value) {
+        if (value['xPosition'] == xPosition) {
+          overlapingKeys.add(key);
+        }
+      });
+
+      if (overlapingKeys.length > 1) {
+        double gap = ((getLeft(1) - getLeft(0)) / overlapingKeys.length) * 0.6;
+
+        for (int i = 0; i < overlapingKeys.length; i++) {
+          int center = (overlapingKeys.length / 2).floor();
+          if ((overlapingKeys.length % 2) == 0) {
+            print("even");
+            if (i < center) {
+              print(i.toString() + ' : ' + getLeft(clm).toString() + " : " +
+                  (getLeft(clm) + gap * (i - center)).toString());
+              currentOffsets[overlapingKeys[i]]['left'] =
+                  getLeft(clm) + gap * (i - center);
+            } else {
+              print(i.toString() + ' : ' + getLeft(clm).toString() + " : " +
+                  (getLeft(clm) + gap * (i - center + 1)).toString());
+              currentOffsets[overlapingKeys[i]]['left'] =
+                  getLeft(clm) + gap * (i - center + 1);
+            }
+          } else {
+            print("odd");
+            print(i.toString() + ' : ' + getLeft(clm).toString() + " : " +
+                (getLeft(clm) + gap * (i - center)).toString());
+            currentOffsets[overlapingKeys[i]]['left'] =
+                getLeft(clm) + gap * (i - center);
+          }
+          currentOffsets[overlapingKeys[i]]['sizeMultiplier'] =
+              1.5 / overlapingKeys.length;
+          currentOffsets[overlapingKeys[i]]['onMultiple'] = true;
+        }
+
+        print("adjustForMultipleOnOne gap: " + gap.toString() + " : " +
+            overlapingKeys.toString());
+      }
+    }
+    print(currentOffsets.toString());
+    return currentOffsets;
+  }
+
+  Map<dynamic, dynamic> unhighlightAll(Map<dynamic, dynamic> currentOffsets) {
+    currentOffsets.forEach((key, value) {
+      value["highlighted"] = false;
+      value["predicted"] = false;
+      value['sizeMultiplier'] = 1;
+      value['onMultiple'] = false;
+      if(value['xPosition'] != -1) {
+        value['left'] = getLeft(get2Dfrom1D(value['xPosition'])[1]);
+      }
+    });
+
+    currentOffsets = adjustForMultipleOnOne(currentOffsets);
+
+    return currentOffsets;
+  }
+
   void moveGotiTo(int row, int clm, currentOffsets, moveItem) {
     print('moveGotiTo: ' +
         row.toString() +
@@ -1066,16 +1194,22 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // loop over all the offsets to see agar kissi ka xPossition same as this one to nahi
     currentOffsets.forEach((key, value) {
-      if ((key != moveItem) &&
+      if ((currentOffsets[moveItem]["playerIndex"] != currentOffsets[key]["playerIndex"]) &&
+          (key != moveItem) &&
           (currentOffsets[key]["xPosition"] == x) &&
           (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
         print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        currentOffsets[key] = default_offsets[key];
+        currentOffsets[key] = defaultOffsets[key];
         currentOffsets[key]["moved"] = false;
       }
     });
 
+    // Check multiple on one walla case
+    currentOffsets = adjustForMultipleOnOne(currentOffsets);
+
     currentOffsets[moveItem] = temp;
+
+    currentOffsets = unhighlightAll(currentOffsets);
 
     setState(() {
       move = false;
@@ -1187,6 +1321,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      print('onTap #4');
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -1233,6 +1368,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: TextStyle(color: Colors.white),
                               )),
                           onTap: () {
+                            print('onTap #5');
                             reset();
                             Navigator.pop(context);
                           },
@@ -1281,7 +1417,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ? IgnorePointer(child: Container())
                 : GestureDetector(
                     onTap: () {
+                      print('onTap #6 move: ' + move.toString() + ' moveItem: ' + moveItem.toString());
                       if (move && isLegal(row, col, moveItem)) {
+                        currentOffsets = unhighlightAll(currentOffsets);
                         currentOffsets[moveItem]["bottom"] = bottom * 1.05;
                         currentOffsets[moveItem]["left"] = left;
                         currentOffsets[moveItem]["moved"] = true;
@@ -1301,9 +1439,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                     child: Container(
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(
-                          bottom: 5,
-                        ),
+//                        margin: EdgeInsets.only(
+//                          bottom: 5,
+//                        ),
 //                         child: Text(
 //                           "$x",
 //                           style: TextStyle(color: Colors.black),
@@ -1468,6 +1606,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget playerAddButton(int position) {
     return GestureDetector(
       onTap: () {
+        print('onTap #8');
         addMemberDialog(position);
       },
       child: Row(
@@ -1562,6 +1701,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Row(children: [
           GestureDetector(
             onTap: () {
+              print('onTap #9');
               resetDialog();
             },
             child: Image.asset(
@@ -1579,6 +1719,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [1, 2, 3, 4, 5, 6]
                 .map((e) => GestureDetector(
                       onTap: () {
+                        print('onTap #10');
                         onDiceTap(e);
                       },
                       child: Image.asset(
@@ -1599,6 +1740,7 @@ class _HomeScreenState extends State<HomeScreen> {
     diceNo = number;
     int index = startGameSuggestion(getCurrentBoardStatus(number));
     if (index != -1) {
+      currentOffsets = unhighlightAll(currentOffsets);
       currentOffsets[int.parse("${index}0")]["highlighted"] = true;
       currentOffsets[int.parse("${index}0")]["predicted"] = true;
       setState(() {
