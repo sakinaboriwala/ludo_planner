@@ -1031,6 +1031,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     print("SET MOVE FALSE");
 
                     Map<int, dynamic> currentOffsets = offsets;
+                    int row = get2Dfrom1D(
+                        offsets[int.parse("$count$position")]['xPosition'])[0];
+                    int clm = get2Dfrom1D(
+                        offsets[int.parse("$count$position")]['xPosition'])[1];
+                    print('onTap #2 move: ' +
+                        move.toString() +
+                        " : " +
+                        get2Dfrom1D(offsets[int.parse("$count$position")]
+                                ['xPosition'])
+                            .toString());
+                    if (!isLegal(row, clm, moveItem)) {
+                      print("RETURNING===============");
+                      return;
+                    }
+
+                    print("currentOffsets[moveItem]['moved']: " +
+                        currentOffsets[moveItem]['moved'].toString());
 
                     if (moveItem == int.parse("$count$position") &&
                         currentOffsets[moveItem]["moved"] == false) {
@@ -1043,6 +1060,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       currentOffsets[moveItem]["highlighted"] = false;
                       currentOffsets[moveItem]["predicted"] = false;
                       currentOffsets = unhighlightAll(currentOffsets);
+                      setState(() {
+                        move = false;
+                        offsets = currentOffsets;
+                      });
+                    } else if (moveItem == int.parse("$count$position") &&
+                        currentOffsets[moveItem]["moved"]) {
+                      currentOffsets[moveItem]["highlighted"] = false;
                       setState(() {
                         move = false;
                         offsets = currentOffsets;

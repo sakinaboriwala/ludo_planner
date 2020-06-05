@@ -6,7 +6,7 @@ Widget bottomRight(
     return Align(
         alignment: Alignment.bottomRight,
         child: Container(
-          margin: EdgeInsets.only(bottom:1),
+          margin: EdgeInsets.only(bottom:MediaQuery.of(context).size.width * 0.0038),
             height: MediaQuery.of(context).size.width * 0.53,
             width: MediaQuery.of(context).size.width * 0.4,
             child: Column(
