@@ -19,10 +19,6 @@ class PlayerClass {
     this.noOfPiecesInHome = 0;
   }
 
-  setNoOfPiecesInHome() {}
-
-  setNoOfPiecesBox() {}
-
   int getNoOfPiecesInHome() => this.noOfPiecesInHome;
 
   int getNoOfPiecesBox() => this.noOfPiecesInInitialBox;

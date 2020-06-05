@@ -1,26 +1,19 @@
 import 'playerClass.dart';
+
 class GameOperations {
   List<PlayerClass> players;
   int noOnDice;
-  Map<int,int> currPieceKillPiecePosMap=new Map<int,int>();
-  GameOperations(this.players, this.noOnDice);
+  Map<int, int> currPieceKillPiecePosMap = new Map<int, int>();
 
-  void printPlayersPosition() {
-    print("No. On Dice : ${this.noOnDice}");
-    for (int i = 0; i < this.players.length; i++) {
-      print(
-          "player $i Piece 0: ${players[i].pieces[0].position} Piece 1 : ${players[i].pieces[1].position} "
-          "Piece 2:  ${players[i].pieces[2].position} Piece 3 : ${players[i].pieces[3].position}");
-    }
-  }
+  GameOperations(this.players, this.noOnDice);
 
   int piecePositionDifferenceForDying(int PIx, int PIy, int x, int y) {
     //if withPlayer Piece Position  is in Initial Box
     if (y == -1) y = -6;
-     int z=(PIy-PIx)*13+y;
+    int z = (PIy - PIx) * 13 + y;
     int posDiff = x - z;
 
-    if (PIy > PIx && x<z ) posDiff = posDiff + 52;
+    if (PIy > PIx && x < z) posDiff = posDiff + 52;
     return posDiff;
   }
 
@@ -33,11 +26,11 @@ class GameOperations {
       int withPlayerPiecePos,
       {bool hasNoOnDice = false}) {
     int noOnDice = 0;
-   // print("Current Chance PlayerNo : $currentChancePlayerNo  Current PlayerPieceNo : $currentChancePlayerPieceNo  CurrPlayerPiecePos : ${currPlayerPiecePos+noOnDice} withPlayerNo : $withPlayerNo  witPlayerPieceNo : $withPlayerPieceNo  withPlayerPiecePos $withPlayerPiecePos");
+    // print("Current Chance PlayerNo : $currentChancePlayerNo  Current PlayerPieceNo : $currentChancePlayerPieceNo  CurrPlayerPiecePos : ${currPlayerPiecePos+noOnDice} withPlayerNo : $withPlayerNo  witPlayerPieceNo : $withPlayerPieceNo  withPlayerPiecePos $withPlayerPiecePos");
     if (hasNoOnDice) noOnDice = this.noOnDice;
     //Piece number 0 doesn't have any significance as player position is passed in isSafe function. piece[0] is just used to call isSafe function;
 
-    if ((currPlayerPiecePos == -1 ) ||
+    if ((currPlayerPiecePos == -1) ||
         players[currentChancePlayerNo]
             .pieces[0]
             .isSafe(currPlayerPiecePos + noOnDice) ||
@@ -48,10 +41,9 @@ class GameOperations {
       //Dying From Piece In Home Way  dying from itself
       if (withPlayerPiecePos > 50 || playerNoDiff == 0) return 0.0;
 
-
-      int posDiff = piecePositionDifferenceForDying(currentChancePlayerNo, withPlayerNo,
-          currPlayerPiecePos + noOnDice, withPlayerPiecePos);
-    //  print("Player no Diff :  $playerNoDiff  Piece Diff $posDiff");
+      int posDiff = piecePositionDifferenceForDying(currentChancePlayerNo,
+          withPlayerNo, currPlayerPiecePos + noOnDice, withPlayerPiecePos);
+      //  print("Player no Diff :  $playerNoDiff  Piece Diff $posDiff");
 
       if (posDiff > 0 && posDiff <= 6)
         return 1 / 6;
@@ -152,9 +144,16 @@ class GameOperations {
 
   double isSafeProbability(int playerNo, int pieceNo,
       {bool hasNoOnDice = false}) {
-    int pos = hasNoOnDice
-        ? (players[playerNo].pieces[pieceNo].position + noOnDice)
-        : players[playerNo].pieces[pieceNo].position;
+    int pos = players[playerNo].pieces[pieceNo].position;
+    if (hasNoOnDice) {
+      if (pos == -1)
+        return 1;
+      else if (players[playerNo].pieces[pieceNo].isSafe(pos + noOnDice))
+        return 1;
+      else
+        return 0;
+    }
+
     return players[playerNo].pieces[pieceNo].isSafe(pos) ? 1.0 : 0.0;
   }
 
@@ -167,23 +166,6 @@ class GameOperations {
           hasNoOnDice: hasNoOnDice);
 
     return isSafeProbList;
-  }
-
-  int autoMovePieceNo() {
-    if (players[0].pieces[0].position >= 0 &&
-        players[0].pieces[0].position + noOnDice <= 56)
-      return 0;
-    else if (players[0].pieces[1].position >= 0 &&
-        players[0].pieces[1].position + noOnDice <= 56)
-      return 1;
-    else if (players[0].pieces[2].position >= 0 &&
-        players[0].pieces[2].position + noOnDice <= 56)
-      return 2;
-    else if (players[0].pieces[3].position >= 0 &&
-        players[0].pieces[3].position + noOnDice <= 56)
-      return 3;
-    else
-      return -1;
   }
 
   double distanceCoveredProbability(int pos, {bool hasNoOnDice = false}) {
@@ -209,25 +191,23 @@ class GameOperations {
   }
 
   int piecePositionDifferenceForKilling(int PIx, int PIy, int x, int y) {
-    int z=(PIy-PIx)*13+y;
+    int z = (PIy - PIx) * 13 + y;
     int posDiff = (x - z);
 
-    if (posDiff<=-52) posDiff = 52+posDiff  ;
-    posDiff=-posDiff;
+    if (posDiff <= -52) posDiff = 52 + posDiff;
+    posDiff = -posDiff;
     return posDiff;
   }
 
   double singlePieceKillingProbability(int currentChancePlayerNo,
       int currentChancePlayerPieceNo, int withPlayerNo, int withPlayerPieceNo,
       {bool hasNumberOnDice = false}) {
-
     //if withPlayer's Piece is Safe
     if (players[withPlayerNo].pieces[withPlayerPieceNo].isSafe(
-    players[withPlayerNo].pieces[withPlayerPieceNo].getCurrentPosition()))
-
+        players[withPlayerNo].pieces[withPlayerPieceNo].getCurrentPosition()))
       return 0.0;
 
-        int noOnDice = hasNumberOnDice ? this.noOnDice : 0;
+    int noOnDice = hasNumberOnDice ? this.noOnDice : 0;
 
     int currPlayerPos = players[currentChancePlayerNo]
         .pieces[currentChancePlayerPieceNo]
@@ -235,33 +215,31 @@ class GameOperations {
     int withPlayerPos =
         players[withPlayerNo].pieces[withPlayerPieceNo].position;
 
-    if (withPlayerNo - currentChancePlayerNo == 0|| currPlayerPos>50) return 0.0;
-    //print("Current Chance PlayerNo : $currentChancePlayerNo  Current PlayerPieceNo : $currentChancePlayerPieceNo  CurrPlayerPiecePos : $currPlayerPos withPlayerNo : $withPlayerNo  witPlayerPieceNo : $withPlayerPieceNo  withPlayerPiecePos $withPlayerPos");
-   //If current player is in initial box then he need to first open dice to kill
-    if(currPlayerPos==-1)currPlayerPos=-6-noOnDice;
-    int posDiff = piecePositionDifferenceForKilling(currentChancePlayerNo, withPlayerNo,
-        currPlayerPos + noOnDice, withPlayerPos);
+    if (withPlayerNo - currentChancePlayerNo == 0 || currPlayerPos > 50)
+      return 0.0;
+//    print(
+//        "Current Chance PlayerNo : $currentChancePlayerNo  Current PlayerPieceNo : $currentChancePlayerPieceNo  CurrPlayerPiecePos : $currPlayerPos withPlayerNo : $withPlayerNo  witPlayerPieceNo : $withPlayerPieceNo  withPlayerPiecePos $withPlayerPos");
 
-      // print("Player no Diff :  Piece Diff $posDiff");
+    //If current player is in initial box then he need to first open dice to kill
+    if (currPlayerPos == -1) return 0;
 
-    if(hasNumberOnDice){
-      if (posDiff == 0)
-        { this.currPieceKillPiecePosMap[currentChancePlayerPieceNo]=withPlayerPos;
-          return 1;
-        }
-      else return 0;
-    }
-    if (posDiff == 0)
-    { this.currPieceKillPiecePosMap[currentChancePlayerPieceNo]=withPlayerPos;
+    int posDiff = piecePositionDifferenceForKilling(currentChancePlayerNo,
+        withPlayerNo, currPlayerPos + noOnDice, withPlayerPos);
+
+//    print("Player no Diff :  Piece Diff $posDiff");
+
+    if (hasNumberOnDice) {
+      if (posDiff == 0) {
+        this.currPieceKillPiecePosMap[currentChancePlayerPieceNo] =
+            withPlayerPos;
         return 1;
+      } else
+        return 0;
     }
-    else if (posDiff <= 6 && posDiff > 0)
-      return 1 / 6;
-    else if (posDiff <= 12 && posDiff > 6)
-      return 1 / 36;
-    else if (posDiff <= 17 && posDiff > 12)
-      return 1 / 216;
-    else
+    if (posDiff == 0) {
+      this.currPieceKillPiecePosMap[currentChancePlayerPieceNo] = withPlayerPos;
+      return 1;
+    } else
       return 0.0;
   }
 
@@ -315,43 +293,47 @@ class GameOperations {
     }
     return killingProbability;
   }
-List<double> returnDyingProbabilityWeightedList(int currentChancePlayerNo,{bool hasNoOnDice=false})
-{
-List<double> dyingProbList = returnDyingProbabilityList(
-    currentChancePlayerNo,
-    hasNoOnDice: hasNoOnDice);
 
-    int noOnDice=hasNoOnDice? this.noOnDice : 0;
+  List<double> returnDyingProbabilityWeightedList(int currentChancePlayerNo,
+      {bool hasNoOnDice = false}) {
+    List<double> dyingProbList = returnDyingProbabilityList(
+        currentChancePlayerNo,
+        hasNoOnDice: hasNoOnDice);
 
-    // print("Dying Probability");
-    // print(dyingProbList);
+    int noOnDice = hasNoOnDice ? this.noOnDice : 0;
 
-    for(int pieceNo=0;pieceNo<4;pieceNo++)
-      {
+    print("Dying Probability");
+    print(dyingProbList);
 
-        dyingProbList[pieceNo]=dyingProbList[pieceNo]*((56-players[currentChancePlayerNo].pieces[pieceNo].position+noOnDice)/56);
-      }
+    for (int pieceNo = 0; pieceNo < 4; pieceNo++) {
+      dyingProbList[pieceNo] = dyingProbList[pieceNo] *
+          ((players[currentChancePlayerNo].pieces[pieceNo].position +
+                  noOnDice) /
+              56);
+    }
     return dyingProbList;
-}
-
-  List<double> returnKillingProbabilityWeightedList(int currentChancePlayerNo,{bool hasNoOnDice=false})
-  {
-  List<double> killingProbList = returnKillingProbabilityList(
-      currentChancePlayerNo,
-      hasNoOnDice: hasNoOnDice);
-
-  // print("killing Probability");
-  // print(killingProbList);
-      if(this.currPieceKillPiecePosMap.isNotEmpty)
-        {
-          currPieceKillPiecePosMap.forEach((currPlayerPieceNo, withPlayerPiecePos ) {killingProbList[currPlayerPieceNo] = killingProbList[currPlayerPieceNo] * (withPlayerPiecePos/56);});
-        }
-
-  return killingProbList;
   }
+
+  List<double> returnKillingProbabilityWeightedList(int currentChancePlayerNo,
+      {bool hasNoOnDice = false}) {
+    List<double> killingProbList = returnKillingProbabilityList(
+        currentChancePlayerNo,
+        hasNoOnDice: hasNoOnDice);
+
+    print("killing Probability");
+    print(killingProbList);
+    if (this.currPieceKillPiecePosMap.isNotEmpty) {
+      currPieceKillPiecePosMap.forEach((currPlayerPieceNo, withPlayerPiecePos) {
+        killingProbList[currPlayerPieceNo] =
+            killingProbList[currPlayerPieceNo] * (withPlayerPiecePos / 56);
+      });
+    }
+
+    return killingProbList;
+  }
+
   List<double> returnValueOfPiece(int currentChancePlayerNo,
       {bool hasNoOnDice = false}) {
-
     //A Seperate function to weight dying probability and killing probability is implemented and called here
     List<double> valueOfPieces = [0.0, 0.0, 0.0, 0.0];
     List<double> dyingProbList = returnDyingProbabilityWeightedList(
@@ -360,6 +342,7 @@ List<double> dyingProbList = returnDyingProbabilityList(
     List<double> killingProbabilityList = returnKillingProbabilityWeightedList(
         currentChancePlayerNo,
         hasNoOnDice: hasNoOnDice);
+
     List<double> isSafeProbList = returnIsSafeProbabilityList(
         currentChancePlayerNo,
         hasNoOnDice: hasNoOnDice);
@@ -378,28 +361,17 @@ List<double> dyingProbList = returnDyingProbabilityList(
           distCoveredProbList[i];
     }
 
-    // print("Dying Probability Weighted ");
-    // print(dyingProbList);
-    // print("Killing Probability Weighted ");
-    // print(killingProbabilityList);
-    // print("IsSafe Probability List");
-    // print(isSafeProbList);
-    // print("Distance Covered Probability List");
-    // print(distCoveredProbList);
-    // print("In Initial Box Probability List");
-    // print(inBoxProbList);
-    // print("Piece Values");
+    print("Dying Probability Weighted ");
+    print(dyingProbList);
+    print("Killing Probability Weighted ");
+    print(killingProbabilityList);
+    print("IsSafe Probability List");
+    print(isSafeProbList);
+    print("Distance Covered Probability List");
+    print(distCoveredProbList);
+    print("In Initial Box Probability List");
+    print(inBoxProbList);
+    print("Piece Values");
     return valueOfPieces;
-  }
-
-  int pieceNoForAnyPieceWithinInitialBox() {
-    if (players[0].pieces[0].position == -1)
-      return 0;
-    else if (players[0].pieces[1].position == -1)
-      return 1;
-    else if (players[0].pieces[2].position == -1)
-      return 2;
-    else if (players[0].pieces[3].position == -1) return 3;
-    return -1;
   }
 }

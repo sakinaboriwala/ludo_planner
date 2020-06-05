@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'playerClass.dart';
 import 'gameOperation.dart';
 
@@ -45,33 +47,31 @@ class GameConfiguration {
     return -1;
   }
 
-
-  int returnOnlyOneActivePieceCanMove( int forPlayer)
-  { int index=0;
-    for(int pieceNo=0;pieceNo<4;pieceNo++)
-      {   int pos=players[forPlayer].pieces[pieceNo].position;
-        if(pos!=-1 && pos+noOnDice<=56)
-          {
-            index=pieceNo;
-            break;
-          }
+  int returnOnlyOneActivePieceCanMove(int forPlayer) {
+    int index = -1;
+    for (int pieceNo = 0; pieceNo < 4; pieceNo++) {
+      int pos = players[forPlayer].pieces[pieceNo].position;
+      if (pos != -1 && pos + noOnDice <= 56) {
+        index = pieceNo;
+        break;
       }
+    }
     return index;
   }
-  bool canOnlyOneActivePieceMove(int forPlayer)
-  {   int count=0;
-    for(int pieceNo=0;pieceNo<4;pieceNo++)
-      {
-          if((players[forPlayer].pieces[pieceNo].position==-1 && noOnDice!=6) || (players[forPlayer].pieces[pieceNo].position + noOnDice>56) )
-            continue;
-          else count=count+1;
 
-      }
-    if(count==1)
-      return true;
+  bool canOnlyOneActivePieceMove(int forPlayer) {
+    int count = 0;
+    for (int pieceNo = 0; pieceNo < 4; pieceNo++) {
+      if ((players[forPlayer].pieces[pieceNo].position == -1 &&
+              noOnDice != 6) ||
+          (players[forPlayer].pieces[pieceNo].position + noOnDice > 56))
+        continue;
+      else
+        count = count + 1;
+    }
+    if (count == 1) return true;
     return false;
   }
-
 
   int returnIndexWithHighestProb(List<double> list) {
     double max = -999;
@@ -102,10 +102,8 @@ class GameConfiguration {
     if ((4 - inHomeNo - inBoxNo == 1) && noOnDice != 6)
       return autoMovePieceNo();
 
-
     //Only one of the several Active Pieces can move
-    if(canOnlyOneActivePieceMove(0))
-      return returnOnlyOneActivePieceCanMove(0);
+    if (canOnlyOneActivePieceMove(0)) return returnOnlyOneActivePieceCanMove(0);
 
 //    //Can Open Piece or Move Some Pieces.Number on dice is 6
 
@@ -119,9 +117,10 @@ class GameConfiguration {
 
     pieceNo = returnIndexWithHighestProb(values);
     int count = 0;
-    //For avoiding returning  pieces already in home and when currentPos + noOnDIce>56 and cannot move
+    //For avoiding returning  pieces already in home or when currentPos + noOnDIce>56 and cannot move  or piece not opened and noOnDice!=6
     while ((players[0].pieces[pieceNo].position >= 56 ||
-        players[0].pieces[pieceNo].position + noOnDice > 56) &&
+            players[0].pieces[pieceNo].position + noOnDice > 56 ||
+            (players[0].pieces[pieceNo].position == -1 && noOnDice != 6)) &&
         count < 4) {
       values[pieceNo] = -999;
       pieceNo = returnIndexWithHighestProb(values);

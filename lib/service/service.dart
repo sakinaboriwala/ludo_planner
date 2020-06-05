@@ -2,8 +2,6 @@ import 'dart:core';
 import 'gameSuggestion.dart';
 import 'playerClass.dart';
 
-
-
 List<PlayerClass> setHomeAndInitVariables(List<PlayerClass> players) {
   for (int i = 0; i < players.length; i++) {
     if (players[i].pieces[0].position == -1)
