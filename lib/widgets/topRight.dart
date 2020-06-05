@@ -7,7 +7,7 @@ Widget topRight(
         alignment: Alignment.topRight,
         child: Container(
             // color: Colors.red,
-            margin: EdgeInsets.only(top: 1),
+            margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.001),
             height: MediaQuery.of(context).size.width * 0.4,
             width: MediaQuery.of(context).size.width * 0.534,
             child: Row(
