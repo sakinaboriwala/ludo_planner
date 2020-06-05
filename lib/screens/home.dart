@@ -1025,14 +1025,22 @@ class _HomeScreenState extends State<HomeScreen> {
             left: left,
             child: GestureDetector(
                 onTap: () {
-                  print('onTap #2 move: ' + move.toString());
                   if (move) {
+                    int row = get2Dfrom1D(offsets[int.parse("$count$position")]['xPosition'])[0];
+                    int clm = get2Dfrom1D(offsets[int.parse("$count$position")]['xPosition'])[1];
+                    print('onTap #2 move: ' + move.toString() + " : " + get2Dfrom1D(offsets[int.parse("$count$position")]['xPosition']).toString());
+                    if(!isLegal(row, clm, moveItem)) {
+                      return;
+                    }
+
                     print("SET MOVE FALSE");
 
                     Map<int, dynamic> currentOffsets = offsets;
+                    print("currentOffsets[moveItem]['moved']: " + currentOffsets[moveItem]['moved'].toString());
 
                     if (moveItem == int.parse("$count$position") &&
                         currentOffsets[moveItem]["moved"] == false) {
+                      print("UNMARKING THE POSITION TO MOVE");
                       currentOffsets[moveItem]["xPosition"] = -1;
                       currentOffsets[moveItem]["bottom"] =
                           offsets[int.parse("$count$position")]["initBottom"];
