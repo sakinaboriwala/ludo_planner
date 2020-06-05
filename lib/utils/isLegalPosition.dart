@@ -18,6 +18,9 @@ bool isLegal(row, col, moveItem) {
     if (row == 7 && col <= 13 && col >= 8) {
       return false;
     }
+    if (row == 0 && col == 6) {
+      return false;
+    }
   }
 
   // for player at top left
@@ -29,6 +32,9 @@ bool isLegal(row, col, moveItem) {
       return false;
     }
     if (col == 7 && row <= 6 && row >= 1) {
+      return false;
+    }
+    if (row == 8 && col == 0) {
       return false;
     }
   }
@@ -44,6 +50,9 @@ bool isLegal(row, col, moveItem) {
     if (col == 7 && row <= 6 && row >= 1) {
       return false;
     }
+    if (row == 14 && col == 8) {
+      return false;
+    }
   }
 
   // for player at top right
@@ -55,6 +64,9 @@ bool isLegal(row, col, moveItem) {
       return false;
     }
     if (col == 7 && row <= 6 && row >= 1) {
+      return false;
+    }
+    if (row == 6 && col == 14) {
       return false;
     }
   }
