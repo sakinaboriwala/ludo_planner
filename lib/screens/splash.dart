@@ -17,7 +17,6 @@ class SplashState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    goHome();
   }
 
   @override
@@ -30,12 +29,6 @@ class SplashState extends State<SplashScreen> {
     super.didChangeDependencies();
 
     precacheImage(image.image, context);
-  }
-
-  void goHome() async {
-    Future.delayed(const Duration(milliseconds: SPLASH_DURATION), () {
-      Navigator.pushReplacementNamed(context, '/home');
-    });
   }
 
   @override

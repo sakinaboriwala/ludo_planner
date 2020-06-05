@@ -77,7 +77,7 @@ class GameConfiguration {
     double max = -999;
     int index = 0;
     for (int i = 0; i < list.length; i++) {
-      if (list[i] > max) {
+      if (list[i] >= max) {
         max = list[i];
         index = i;
       }
@@ -111,8 +111,7 @@ class GameConfiguration {
 
     GameOperations gameOperationsObj = GameOperations(players, noOnDice);
 
-    List<double> values =
-        gameOperationsObj.returnValueOfPiece(0, hasNoOnDice: true);
+    List<double> values = gameOperationsObj.returnValueListOfBoardOnOneMove(0);
     print(values);
 
     pieceNo = returnIndexWithHighestProb(values);
@@ -126,6 +125,7 @@ class GameConfiguration {
       pieceNo = returnIndexWithHighestProb(values);
       count++;
     }
+    print("Borad Improve Probility After removing piece cannot move");
     print(values);
     return pieceNo;
   }

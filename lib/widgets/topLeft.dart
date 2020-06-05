@@ -7,8 +7,8 @@ Widget topLeft(
         alignment: Alignment.topLeft,
         child: Container(
             // color: Colors.red,
-            margin: EdgeInsets.only(top:0.4),
-            height: MediaQuery.of(context).size.width * 0.53,
+            margin: EdgeInsets.only(top:0),
+            height: MediaQuery.of(context).size.width * 0.531,
             width: MediaQuery.of(context).size.width * 0.41,
             child: Column(
               children: <Widget>[

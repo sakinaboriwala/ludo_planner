@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
     @override
     void initState() {
       _animationController =
-          new AnimationController(vsync: this, duration: Duration(seconds: 1));
+          new AnimationController(vsync: this, duration: Duration(milliseconds: 500));
       _animationController.repeat();
       super.initState();
     }
