@@ -127,7 +127,6 @@ class GameOperations {
     return dyingProbability;
   }
 
-
   double isSafeProbability(int playerNo, int pieceNo,
       {bool hasNoOnDice = false}) {
     int pos = players[playerNo].pieces[pieceNo].position;
@@ -334,7 +333,8 @@ class GameOperations {
     if (this.currPieceKillPiecePosMap.isNotEmpty) {
       currPieceKillPiecePosMap.forEach((currPlayerPieceNo, withPlayerPiecePos) {
         killingProbList[currPlayerPieceNo] =
-            killingProbList[currPlayerPieceNo] * (withPlayerPiecePos / 56)*3;
+            killingProbList[currPlayerPieceNo] *
+                (withPlayerPiecePos / 56);
       });
     }
 
@@ -359,7 +359,6 @@ class GameOperations {
     for (int i = 0; i < 4; i++) {
       valueOfPieces[i] =
           killingProbabilityList[i] - dyingProbList[i] + isSafeProbList[i];
-
     }
 
     print("Dying Probability Weighted ");

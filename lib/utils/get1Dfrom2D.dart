@@ -114,6 +114,45 @@
         return 55;
       case 67:
         return 56;
+    // Cases for House path of Top Left
+      case 71:
+        return 57;
+      case 72:
+        return 58;
+      case 73:
+        return 59;
+      case 74:
+        return 60;
+      case 75:
+        return 61;
+      case 76:
+        return 62;
+    // Cases for House path of Top Right
+      case 147:
+        return 63;
+      case 137:
+        return 64;
+      case 127:
+        return 65;
+      case 117:
+        return 66;
+      case 107:
+        return 67;
+      case 97:
+        return 68;
+    // Cases for House path of Bottom Right
+      case 714:
+        return 69;
+      case 713:
+        return 70;
+      case 712:
+        return 71;
+      case 711:
+        return 72;
+      case 710:
+        return 73;
+      case 79:
+        return 74;
       default:
         return -1;
     }
