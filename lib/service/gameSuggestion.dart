@@ -84,7 +84,15 @@ class GameConfiguration {
     }
     return index;
   }
-
+bool canCutAnyBody(List<double> list)
+{
+  for(int i=0;i<4;i++)
+    {
+      if(list[i]!=0)
+        return true;
+    }
+  return false;
+}
   int pieceNoToMove() {
     int pieceNo = -1;
 
@@ -105,12 +113,19 @@ class GameConfiguration {
     //Only one of the several Active Pieces can move
     if (canOnlyOneActivePieceMove(0)) return returnOnlyOneActivePieceCanMove(0);
 
-//    //Can Open Piece or Move Some Pieces.Number on dice is 6
 
-//    //Can Only move Some Pieces(noOnDice!=6)
+
 
     GameOperations gameOperationsObj = GameOperations(players, noOnDice);
 
+    //can Cut AnyBody
+    List<double> canCutList=gameOperationsObj.returnKillingProbabilityWeightedList(0,hasNoOnDice: true);
+    if(canCutAnyBody(canCutList))
+      { print("From can cut anybody");
+        print("Weighed killProb");
+        print(canCutList);
+        return returnIndexWithHighestProb(canCutList);
+      }
     List<double> values = gameOperationsObj.returnValueListOfBoardOnOneMove(0);
     print(values);
 

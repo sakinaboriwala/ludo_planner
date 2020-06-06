@@ -229,6 +229,81 @@
         rowClm.add(6);
         rowClm.add(7);
         return rowClm;
+    // Cases for House path of Top Left
+      case 57:
+        rowClm.add(7);
+        rowClm.add(1);
+        return rowClm;
+      case 58:
+        rowClm.add(7);
+        rowClm.add(2);
+        return rowClm;
+      case 59:
+        rowClm.add(7);
+        rowClm.add(3);
+        return rowClm;
+      case 60:
+        rowClm.add(7);
+        rowClm.add(4);
+        return rowClm;
+      case 61:
+        rowClm.add(7);
+        rowClm.add(5);
+        return rowClm;
+      case 62:
+        rowClm.add(7);
+        rowClm.add(6);
+        return rowClm;
+    // Cases for House path of Top Right
+      case 63:
+        rowClm.add(14);
+        rowClm.add(7);
+        return rowClm;
+      case 64:
+        rowClm.add(13);
+        rowClm.add(7);
+        return rowClm;
+      case 65:
+        rowClm.add(12);
+        rowClm.add(7);
+        return rowClm;
+      case 66:
+        rowClm.add(11);
+        rowClm.add(7);
+        return rowClm;
+      case 67:
+        rowClm.add(10);
+        rowClm.add(7);
+        return rowClm;
+      case 68:
+        rowClm.add(9);
+        rowClm.add(7);
+        return rowClm;
+    // Cases for House path of Bottom Right
+      case 69:
+        rowClm.add(7);
+        rowClm.add(14);
+        return rowClm;
+      case 70:
+        rowClm.add(7);
+        rowClm.add(13);
+        return rowClm;
+      case 71:
+        rowClm.add(7);
+        rowClm.add(12);
+        return rowClm;
+      case 72:
+        rowClm.add(7);
+        rowClm.add(11);
+        return rowClm;
+      case 73:
+        rowClm.add(7);
+        rowClm.add(10);
+        return rowClm;
+      case 74:
+        rowClm.add(7);
+        rowClm.add(9);
+        return rowClm;
       default:
         rowClm.add(null);
         rowClm.add(null);

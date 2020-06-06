@@ -1033,10 +1033,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         offsets[int.parse("$count$position")]['xPosition'])[1];
                     print('onTap #2 move: ' +
                         move.toString() +
-                        " : " +
+                        " : [row, clm]" +
                         get2Dfrom1D(offsets[int.parse("$count$position")]
                                 ['xPosition'])
-                            .toString());
+                            .toString() + " xPossition: " + offsets[int.parse("$count$position")]
+                    ['xPosition'].toString() + " something: " + "$count$position");
                     if (!isLegal(row, clm, moveItem)) {
                       return;
                     }
@@ -1217,7 +1218,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Map<int, dynamic> adjustForMultipleOnOne(Map<int, dynamic> currentOffsets) {
-    for (int xPosition = 0; xPosition < 57; xPosition++) {
+    for (int xPosition = 0; xPosition < 75; xPosition++) {
       // print('in adjustForMultipleOnOne xPosition: ' + xPosition.toString());
       List<int> rowClm = get2Dfrom1D(xPosition);
       int row = rowClm[0];
