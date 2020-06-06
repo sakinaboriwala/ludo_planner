@@ -88,41 +88,52 @@ class _HomeScreenState extends State<HomeScreen> {
                 image: AssetImage("assets/ludo_background.png"),
                 fit: BoxFit.cover)),
         child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: appBar(context, showSplash),
-          body: showSplash
-              ? SplashScreen()
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          playerAddButton(1),
-                          playerAddButton(2)
-                        ],
-                      ),
-                      Center(
-                        child: Container(
-                            height: MediaQuery.of(context).size.width,
-                            width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                            ),
-                            child: Stack(
-                              children: layout(),
-                            )),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          playerAddButton(0),
-                          playerAddButton(3)
-                        ],
-                      ),
-                      screenBottomRow()
-                    ]),
-        ),
+            backgroundColor: Colors.transparent,
+            appBar: appBar(context, showSplash),
+            body: showSplash
+                ? SplashScreen()
+                : Stack(children: [
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              playerAddButton(1),
+                              playerAddButton(2)
+                            ],
+                          ),
+                          Center(
+                            child: Container(
+                                height: MediaQuery.of(context).size.width,
+                                width: MediaQuery.of(context).size.width,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                ),
+                                child: Stack(
+                                  children: layout(),
+                                )),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              playerAddButton(0),
+                              playerAddButton(3)
+                            ],
+                          ),
+                          screenBottomRow(),
+                        ]),
+                    Positioned(
+                      bottom: 0,
+                      child: Center(
+                          child: Container(
+                        alignment: Alignment.center,
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.all(0),
+                        child: Text("v3.1.1"),
+                      )),
+                    )
+                  ])),
       ),
     ]);
   }
@@ -1417,13 +1428,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: <Widget>[
                         Text(
                           "Total Houses: ${selectedColorList[position]["houses"]}",
-                          style: TextStyle(color: Colors.grey),
+                          style: TextStyle(color: Color(0xff465e6e)),
                         ),
                         Text(
                             "Sixes to start: ${selectedColorList[position]["sixes"]}",
-                            style: TextStyle(color: Colors.grey)),
+                            style: TextStyle(color: Color(0xff465e6e))),
                         Text("Killed: ${selectedColorList[position]["kills"]}",
-                            style: TextStyle(color: Colors.grey)),
+                            style: TextStyle(color: Color(0xff465e6e))),
                       ],
                     ),
                   ])),
@@ -1922,9 +1933,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ? Center(
               child: Column(children: [
               Image.asset(
-                "assets/avatar_${selectedColorList[position]["name"]}.png",
-                height: 45,
-              ),
+                  "assets/avatar_${selectedColorList[position]["name"]}.png",
+                  height: 45,
+                  width: 45),
               position == tappedPlayer
                   ? Container(
                       width: 40,
