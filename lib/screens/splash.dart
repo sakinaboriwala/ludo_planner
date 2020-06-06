@@ -13,7 +13,7 @@ class SplashScreen extends StatefulWidget {
 class SplashState extends State<SplashScreen> {
   AnimationController _controller;
   String version = '';
-  Image image = Image.asset("assets/ludo_background.png");
+  Image image = Image.asset("assets/splashscreen.jpg");
   @override
   void initState() {
     super.initState();
@@ -38,21 +38,7 @@ class SplashState extends State<SplashScreen> {
         height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
             image: DecorationImage(image: image.image, fit: BoxFit.cover)),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              SizedBox.fromSize(
-                child: Image.asset('assets/logo.png'),
-                size: Size(130, 110),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
-        ),
+        child: Container()
       ),
     );
   }

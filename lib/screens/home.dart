@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
   static const double BASELEFT13 = 13.0;
   static const SPLASH_DURATION = 5000;
 
-  Map<int, dynamic> defaultOffsets;
+  // Map<int, dynamic> defaultOffsets;
 
   // Board map UI format
   Map<int, dynamic> offsets;
@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 fit: BoxFit.cover)),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: appBar(showSplash),
+          appBar: appBar(context,showSplash),
           body: showSplash
               ? SplashScreen()
               : Column(
@@ -704,274 +704,274 @@ class _HomeScreenState extends State<HomeScreen> {
           "onMultiple": false
         },
       };
-      defaultOffsets = {
-        00: {
-          "initBottom":
-              getBottom(context, 2) * 0.5 + getBottom(context, 1) * 0.5,
-          "initLeft": getLeft(context, 2) * 0.4 + getLeft(context, 1) * 0.6,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 0,
-          "onMultiple": false
-        },
-        10: {
-          "initBottom":
-              getBottom(context, 3) * 0.5 + getBottom(context, 4) * 0.5,
-          "initLeft": getLeft(context, 2) * 0.4 + getLeft(context, 1) * 0.6,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 0,
-          "onMultiple": false
-        },
-        20: {
-          "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
-          "initLeft": getLeft(context, 3) * 0.6 + getLeft(context, 4) * 0.4,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 0,
-          "onMultiple": false
-        },
-        30: {
-          "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
-          "initLeft": getLeft(context, 3) * 0.6 + getLeft(context, 4) * 0.4,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 0,
-          "onMultiple": false
-        },
-        01: {
-          "initBottom":
-              getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
-          "initLeft": (getLeft(context, 2) + getLeft(context, 1)) / 2,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 1,
-          "onMultiple": false
-        },
-        11: {
-          "initBottom":
-              getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
-          "initLeft": (getLeft(context, 2) + getLeft(context, 1)) / 2,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 1,
-          "onMultiple": false
-        },
-        21: {
-          "initBottom":
-              getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
-          "initLeft": (getLeft(context, 3) + getLeft(context, 4)) / 2,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 1,
-          "onMultiple": false
-        },
-        31: {
-          "initBottom":
-              getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
-          "initLeft": (getLeft(context, 3) + getLeft(context, 4)) / 2,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 1,
-          "onMultiple": false
-        },
-        02: {
-          "initBottom":
-              getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
-          "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 2,
-          "onMultiple": false
-        },
-        12: {
-          "initBottom":
-              getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
-          "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 2,
-          "onMultiple": false
-        },
-        22: {
-          "initBottom":
-              getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
-          "initLeft": getLeft(context, 12) * 0.4 + getLeft(context, 13) * 0.6,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 2,
-          "onMultiple": false
-        },
-        32: {
-          "initBottom":
-              getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
-          "initLeft": getLeft(context, 12) * 0.4 + getLeft(context, 13) * 0.6,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 2,
-          "onMultiple": false
-        },
-        03: {
-          "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
-          "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 3,
-          "onMultiple": false
-        },
-        13: {
-          "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
-          "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 3,
-          "onMultiple": false
-        },
-        23: {
-          "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
-          "initLeft": getLeft(context, 12) * 0.3 + getLeft(context, 13) * 0.7,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 3,
-          "onMultiple": false
-        },
-        33: {
-          "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
-          "initLeft": getLeft(context, 12) * 0.3 + getLeft(context, 13) * 0.7,
-          "bottom": null,
-          "left": null,
-          "sameBottom": null,
-          "sameLeft": null,
-          "moved": false,
-          "position": -1,
-          "highlighted": false,
-          "predicted": false,
-          "xPosition": -1,
-          "sizeMultiplier": 1,
-          "playerIndex": 3,
-          "onMultiple": false
-        },
-      };
+      // defaultOffsets = {
+      //   00: {
+      //     "initBottom":
+      //         getBottom(context, 2) * 0.5 + getBottom(context, 1) * 0.5,
+      //     "initLeft": getLeft(context, 2) * 0.4 + getLeft(context, 1) * 0.6,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 0,
+      //     "onMultiple": false
+      //   },
+      //   10: {
+      //     "initBottom":
+      //         getBottom(context, 3) * 0.5 + getBottom(context, 4) * 0.5,
+      //     "initLeft": getLeft(context, 2) * 0.4 + getLeft(context, 1) * 0.6,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 0,
+      //     "onMultiple": false
+      //   },
+      //   20: {
+      //     "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
+      //     "initLeft": getLeft(context, 3) * 0.6 + getLeft(context, 4) * 0.4,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 0,
+      //     "onMultiple": false
+      //   },
+      //   30: {
+      //     "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
+      //     "initLeft": getLeft(context, 3) * 0.6 + getLeft(context, 4) * 0.4,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 0,
+      //     "onMultiple": false
+      //   },
+      //   01: {
+      //     "initBottom":
+      //         getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
+      //     "initLeft": (getLeft(context, 2) + getLeft(context, 1)) / 2,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 1,
+      //     "onMultiple": false
+      //   },
+      //   11: {
+      //     "initBottom":
+      //         getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
+      //     "initLeft": (getLeft(context, 2) + getLeft(context, 1)) / 2,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 1,
+      //     "onMultiple": false
+      //   },
+      //   21: {
+      //     "initBottom":
+      //         getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
+      //     "initLeft": (getLeft(context, 3) + getLeft(context, 4)) / 2,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 1,
+      //     "onMultiple": false
+      //   },
+      //   31: {
+      //     "initBottom":
+      //         getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
+      //     "initLeft": (getLeft(context, 3) + getLeft(context, 4)) / 2,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 1,
+      //     "onMultiple": false
+      //   },
+      //   02: {
+      //     "initBottom":
+      //         getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
+      //     "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 2,
+      //     "onMultiple": false
+      //   },
+      //   12: {
+      //     "initBottom":
+      //         getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
+      //     "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 2,
+      //     "onMultiple": false
+      //   },
+      //   22: {
+      //     "initBottom":
+      //         getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
+      //     "initLeft": getLeft(context, 12) * 0.4 + getLeft(context, 13) * 0.6,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 2,
+      //     "onMultiple": false
+      //   },
+      //   32: {
+      //     "initBottom":
+      //         getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
+      //     "initLeft": getLeft(context, 12) * 0.4 + getLeft(context, 13) * 0.6,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 2,
+      //     "onMultiple": false
+      //   },
+      //   03: {
+      //     "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
+      //     "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 3,
+      //     "onMultiple": false
+      //   },
+      //   13: {
+      //     "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
+      //     "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 3,
+      //     "onMultiple": false
+      //   },
+      //   23: {
+      //     "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
+      //     "initLeft": getLeft(context, 12) * 0.3 + getLeft(context, 13) * 0.7,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 3,
+      //     "onMultiple": false
+      //   },
+      //   33: {
+      //     "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
+      //     "initLeft": getLeft(context, 12) * 0.3 + getLeft(context, 13) * 0.7,
+      //     "bottom": null,
+      //     "left": null,
+      //     "sameBottom": null,
+      //     "sameLeft": null,
+      //     "moved": false,
+      //     "position": -1,
+      //     "highlighted": false,
+      //     "predicted": false,
+      //     "xPosition": -1,
+      //     "sizeMultiplier": 1,
+      //     "playerIndex": 3,
+      //     "onMultiple": false
+      //   },
+      // };
     });
   }
 
@@ -1027,17 +1027,6 @@ class _HomeScreenState extends State<HomeScreen> {
             child: GestureDetector(
                 onTap: () {
                   if (move) {
-                    int row = get2Dfrom1D(offsets[int.parse("$count$position")]['xPosition'])[0];
-                    int clm = get2Dfrom1D(offsets[int.parse("$count$position")]['xPosition'])[1];
-                    print('onTap #2 move: ' + move.toString() + " : " + get2Dfrom1D(offsets[int.parse("$count$position")]['xPosition']).toString());
-                    if(!isLegal(row, clm, moveItem)) {
-                      return;
-                    }
-
-                    print("SET MOVE FALSE");
-
-                    Map<int, dynamic> currentOffsets = offsets;
-
                     int row = get2Dfrom1D(
                         offsets[int.parse("$count$position")]['xPosition'])[0];
                     int clm = get2Dfrom1D(
@@ -1049,11 +1038,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ['xPosition'])
                             .toString());
                     if (!isLegal(row, clm, moveItem)) {
-                      print("RETURNING===============");
                       return;
                     }
 
+                    print("SET MOVE FALSE");
 
+                    Map<int, dynamic> currentOffsets = offsets;
 
                     if (moveItem == int.parse("$count$position") &&
                         currentOffsets[moveItem]["moved"] == false) {
@@ -1115,8 +1105,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ["xPosition"]) ==
                                 false) {
                           print("KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                          currentOffsets[int.parse("$count$position")] =
-                              defaultOffsets[int.parse("$count$position")];
+                          // currentOffsets[int.parse("$count$position")] =
+                          //     defaultOffsets[int.parse("$count$position")];
+                          currentOffsets[int.parse("$count$position")]
+                              ["xPosition"] = -1;
+                          currentOffsets[int.parse("$count$position")]
+                              ["onMultiple"] = false;
+                          currentOffsets[int.parse("$count$position")]
+                              ["sizeMultiplier"] = 1;
+                          print(currentOffsets[int.parse("$count$position")]
+                              ["xPosition"]);
                           currentOffsets[int.parse("$count$position")]
                               ["moved"] = false;
                         }
@@ -1348,7 +1346,10 @@ class _HomeScreenState extends State<HomeScreen> {
           (currentOffsets[key]["xPosition"] == x) &&
           (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
         print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        currentOffsets[key] = defaultOffsets[key];
+        // currentOffsets[key] = defaultOffsets[key];
+        currentOffsets[key]["xPosition"] = -1;
+        currentOffsets[key]["onMultiple"] = false;
+        currentOffsets[key]["sizeMultiplier"] = 1;
         currentOffsets[key]["moved"] = false;
       }
     });
