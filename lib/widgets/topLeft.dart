@@ -7,8 +7,8 @@ Widget topLeft(
         alignment: Alignment.topLeft,
         child: Container(
             // color: Colors.red,
-            margin: EdgeInsets.only(top:0),
-            height: MediaQuery.of(context).size.width * 0.531,
+            margin: EdgeInsets.only(top:MediaQuery.of(context).size.width * 0.0015),
+            height: MediaQuery.of(context).size.width * 0.532,
             width: MediaQuery.of(context).size.width * 0.41,
             child: Column(
               children: <Widget>[
@@ -16,7 +16,7 @@ Widget topLeft(
                   width: MediaQuery.of(context).size.width * 0.4,
                   height: MediaQuery.of(context).size.width * 0.4,
                   margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.width * 0.007),
+                      top: MediaQuery.of(context).size.width * 0.001),
                   child: Stack(children: [
                     Image.asset(
                       "assets/bottom${position == 0 || position == 3 ? "left" : "right"}_${selectedColorObject["name"]}BOX.png",
@@ -36,7 +36,7 @@ Widget topLeft(
                     alignment: Alignment.topRight,
                     child: Container(
                         width: MediaQuery.of(context).size.width * 0.335,
-                        height: MediaQuery.of(context).size.width * 0.1230,
+                        height: MediaQuery.of(context).size.width * 0.130,
                         child: Image.asset(
                           "assets/${positions[position]}_${selectedColorObject["name"]}L.png",
                           fit: BoxFit.fill,

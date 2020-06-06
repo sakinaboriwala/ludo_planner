@@ -58,6 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> gridItems = List.generate(15, (index) => Container());
   bool isLoading = true;
   bool move = false;
+  bool playerAutoMove = false;
+  int tappedPlayer;
   int moveItem;
   int diceNo;
   Image image = Image.asset("assets/board_wireframe.png");
@@ -87,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 fit: BoxFit.cover)),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: appBar(context,showSplash),
+          appBar: appBar(context, showSplash),
           body: showSplash
               ? SplashScreen()
               : Column(
@@ -1026,168 +1028,189 @@ class _HomeScreenState extends State<HomeScreen> {
             left: left,
             child: GestureDetector(
                 onTap: () {
-                  if (move) {
-                    int row = get2Dfrom1D(
-                        offsets[int.parse("$count$position")]['xPosition'])[0];
-                    int clm = get2Dfrom1D(
-                        offsets[int.parse("$count$position")]['xPosition'])[1];
-                    print('onTap #2 move: ' +
-                        move.toString() +
-                        " : [row, clm]" +
-                        get2Dfrom1D(offsets[int.parse("$count$position")]
-                                ['xPosition'])
-                            .toString() + " xPossition: " + offsets[int.parse("$count$position")]
-                    ['xPosition'].toString() + " something: " + "$count$position");
-                    if (!isLegal(row, clm, moveItem)) {
-                      return;
-                    }
+                  Map<int, dynamic> currentOffsets = offsets;
 
-                    print("SET MOVE FALSE");
-
-                    Map<int, dynamic> currentOffsets = offsets;
-
-                    if (moveItem == int.parse("$count$position") &&
-                        currentOffsets[moveItem]["moved"] == false) {
-                      print("UNMARKING THE POSITION TO MOVE");
-                      currentOffsets[moveItem]["xPosition"] = -1;
-                      currentOffsets[moveItem]["bottom"] =
-                          offsets[int.parse("$count$position")]["initBottom"];
-                      currentOffsets[moveItem]["left"] =
-                          offsets[int.parse("$count$position")]["initLeft"];
-                      currentOffsets[moveItem]["moved"] = false;
-                      currentOffsets[moveItem]["highlighted"] = false;
-                      currentOffsets[moveItem]["predicted"] = false;
-                      currentOffsets = unhighlightAll(currentOffsets);
-                      setState(() {
-                        move = false;
-                        offsets = currentOffsets;
-                      });
-                    } else if (moveItem == int.parse("$count$position") &&
-                        currentOffsets[moveItem]["moved"]) {
-                      currentOffsets[moveItem]["highlighted"] = false;
-                      setState(() {
-                        move = false;
-                        offsets = currentOffsets;
-                      });
+                  if (playerAutoMove && position == tappedPlayer) {
+                    print("AUTOMOVE TRUE");
+                    List<int> rowClm;
+                    if (currentOffsets[int.parse("$count$position")]
+                            ["xPosition"] ==
+                        -1) {
+                      rowClm = get2Dfrom1D(0);
                     } else {
-                      print("OUGHT TO MOVE");
-                      // first check if the goti that was clicked is it in home.
-                      // if it is home then change the selection without moving
-                      if (offsets[int.parse("$count$position")]["xPosition"] ==
-                          -1) {
-                        unhighlightAll(currentOffsets);
-                        print("EXCHANGING SELECTION");
-                        // TODO: do the exchange here
-                        moveItem = int.parse("$count$position");
-                        currentOffsets[moveItem]["highlighted"] = true;
-                        setState(() {
-                          move = true;
-                          offsets = currentOffsets;
-                        });
-                      } else {
-                        print("MOVING SELECTION");
-                        // this will set xPosition
-                        currentOffsets[moveItem]["xPosition"] =
-                            offsets[int.parse("$count$position")]["xPosition"];
+                      rowClm = get2Dfrom1D(
+                          currentOffsets[int.parse("$count$position")]
+                                  ["xPosition"] +
+                              diceNo);
+                    }
+                    moveGotiTo(rowClm[0], rowClm[1], currentOffsets,
+                        int.parse("$count$position"));
+                  } else {
+                    if (move) {
+                      int row = get2Dfrom1D(
+                          offsets[int.parse("$count$position")]
+                              ['xPosition'])[0];
+                      int clm = get2Dfrom1D(
+                          offsets[int.parse("$count$position")]
+                              ['xPosition'])[1];
+                      print('onTap #2 move: ' +
+                          move.toString() +
+                          " : " +
+                          get2Dfrom1D(offsets[int.parse("$count$position")]
+                                  ['xPosition'])
+                              .toString());
+                      if (!isLegal(row, clm, moveItem)) {
+                        return;
+                      }
+
+                      print("SET MOVE FALSE");
+
+                      if (moveItem == int.parse("$count$position") &&
+                          currentOffsets[moveItem]["moved"] == false) {
+                        print("UNMARKING THE POSITION TO MOVE");
+                        currentOffsets[moveItem]["xPosition"] = -1;
                         currentOffsets[moveItem]["bottom"] =
-                            offsets[int.parse("$count$position")]["bottom"];
+                            offsets[int.parse("$count$position")]["initBottom"];
                         currentOffsets[moveItem]["left"] =
-                            offsets[int.parse("$count$position")]["left"];
-                        currentOffsets[moveItem]["moved"] = true;
+                            offsets[int.parse("$count$position")]["initLeft"];
+                        currentOffsets[moveItem]["moved"] = false;
                         currentOffsets[moveItem]["highlighted"] = false;
                         currentOffsets[moveItem]["predicted"] = false;
                         currentOffsets = unhighlightAll(currentOffsets);
-                        // check if it is a non safe position so kill
-                        if (currentOffsets[moveItem]["playerIndex"] !=
-                                currentOffsets[int.parse("$count$position")]
-                                    ["playerIndex"] &&
-                            isSafePosition(
-                                    currentOffsets[int.parse("$count$position")]
-                                        ["xPosition"]) ==
-                                false) {
-                          print("KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                          // currentOffsets[int.parse("$count$position")] =
-                          //     defaultOffsets[int.parse("$count$position")];
-                          currentOffsets[int.parse("$count$position")]
-                              ["xPosition"] = -1;
-                          currentOffsets[int.parse("$count$position")]
-                              ["onMultiple"] = false;
-                          currentOffsets[int.parse("$count$position")]
-                              ["sizeMultiplier"] = 1;
-                          print(currentOffsets[int.parse("$count$position")]
-                              ["xPosition"]);
-                          currentOffsets[int.parse("$count$position")]
-                              ["moved"] = false;
-                        }
-
-                        // Check multiple on one walla case
-                        currentOffsets = adjustForMultipleOnOne(currentOffsets);
-                        print("SETSTATE----------------");
-
                         setState(() {
                           move = false;
                           offsets = currentOffsets;
                         });
-                      }
-                    }
-                    // itterate over the offsets to check ki kis kis ka
-                  } else {
-                    print("SET MOVE TRUE");
-                    print(int.parse("$count$position"));
-                    print(offsets[01]);
-                    Map<int, dynamic> currentOffsets = offsets;
-
-                    // Check if multiple Gotis are in the same box
-
-                    if (currentOffsets[int.parse("$count$position")]
-                        ["onMultiple"]) {
-                      List<int> keys = [];
-                      List<int> countpos = [];
-
-                      int x = currentOffsets[int.parse("$count$position")]
-                          ["xPosition"];
-                      // for(int i; i < currentOffsets.length; i++) {
-                      //   currentOffsets[i]
-                      // }
-                      currentOffsets.forEach((index, value) {
-                        print(index);
-                        if (value["xPosition"] == x) {
-                          keys.add(index);
-                        }
-                      });
-                      List<int> currentOffsetkeys =
-                          currentOffsets.keys.toList();
-                      for (int i = 0; i < keys.length; i++) {
-                        countpos.add(currentOffsetkeys[i]);
-                      }
-                      moveGotiDialog(keys);
-                    }
-
-                    if (currentOffsets[int.parse("$count$position")]
-                        ["predicted"]) {
-                      print("---------------------> PREDICTED");
-                      List<int> rowClm;
-                      if (currentOffsets[int.parse("$count$position")]
-                              ["xPosition"] ==
-                          -1) {
-                        rowClm = get2Dfrom1D(0);
+                      } else if (moveItem == int.parse("$count$position") &&
+                          currentOffsets[moveItem]["moved"]) {
+                        currentOffsets[moveItem]["highlighted"] = false;
+                        setState(() {
+                          move = false;
+                          offsets = currentOffsets;
+                        });
                       } else {
-                        rowClm = get2Dfrom1D(
+                        print("OUGHT TO MOVE");
+                        // first check if the goti that was clicked is it in home.
+                        // if it is home then change the selection without moving
+                        if (offsets[int.parse("$count$position")]
+                                ["xPosition"] ==
+                            -1) {
+                          unhighlightAll(currentOffsets);
+                          print("EXCHANGING SELECTION");
+                          // TODO: do the exchange here
+                          moveItem = int.parse("$count$position");
+                          currentOffsets[moveItem]["highlighted"] = true;
+                          setState(() {
+                            move = true;
+                            offsets = currentOffsets;
+                          });
+                        } else {
+                          print("MOVING SELECTION");
+                          // this will set xPosition
+                          currentOffsets[moveItem]["xPosition"] =
+                              offsets[int.parse("$count$position")]
+                                  ["xPosition"];
+                          currentOffsets[moveItem]["bottom"] =
+                              offsets[int.parse("$count$position")]["bottom"];
+                          currentOffsets[moveItem]["left"] =
+                              offsets[int.parse("$count$position")]["left"];
+                          currentOffsets[moveItem]["moved"] = true;
+                          currentOffsets[moveItem]["highlighted"] = false;
+                          currentOffsets[moveItem]["predicted"] = false;
+                          currentOffsets = unhighlightAll(currentOffsets);
+                          // check if it is a non safe position so kill
+                          if (currentOffsets[moveItem]["playerIndex"] !=
+                                  currentOffsets[int.parse("$count$position")]
+                                      ["playerIndex"] &&
+                              isSafePosition(currentOffsets[
+                                          int.parse("$count$position")]
+                                      ["xPosition"]) ==
+                                  false) {
+                            print("KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            // currentOffsets[int.parse("$count$position")] =
+                            //     defaultOffsets[int.parse("$count$position")];
                             currentOffsets[int.parse("$count$position")]
-                                    ["xPosition"] +
-                                diceNo);
+                                ["xPosition"] = -1;
+                            currentOffsets[int.parse("$count$position")]
+                                ["onMultiple"] = false;
+                            currentOffsets[int.parse("$count$position")]
+                                ["sizeMultiplier"] = 1;
+                            print(currentOffsets[int.parse("$count$position")]
+                                ["xPosition"]);
+                            currentOffsets[int.parse("$count$position")]
+                                ["moved"] = false;
+                          }
+
+                          // Check multiple on one walla case
+                          currentOffsets =
+                              adjustForMultipleOnOne(currentOffsets);
+                          print("SETSTATE----------------");
+
+                          setState(() {
+                            move = false;
+                            offsets = currentOffsets;
+                          });
+                        }
                       }
-                      moveGotiTo(rowClm[0], rowClm[1], currentOffsets,
-                          int.parse("$count$position"));
+                      // itterate over the offsets to check ki kis kis ka
                     } else {
-                      currentOffsets = unhighlightAll(currentOffsets);
-                      currentOffsets[int.parse("$count$position")]
-                          ["highlighted"] = true;
-                      setState(() {
-                        move = true;
-                        moveItem = int.parse("$count$position");
-                        offsets = currentOffsets;
-                      });
+                      print("SET MOVE TRUE");
+                      print(int.parse("$count$position"));
+                      print(offsets[01]);
+                      Map<int, dynamic> currentOffsets = offsets;
+
+                      // Check if multiple Gotis are in the same box
+
+                      if (currentOffsets[int.parse("$count$position")]
+                          ["onMultiple"]) {
+                        List<int> keys = [];
+                        List<int> countpos = [];
+
+                        int x = currentOffsets[int.parse("$count$position")]
+                            ["xPosition"];
+                        // for(int i; i < currentOffsets.length; i++) {
+                        //   currentOffsets[i]
+                        // }
+                        currentOffsets.forEach((index, value) {
+                          print(index);
+                          if (value["xPosition"] == x) {
+                            keys.add(index);
+                          }
+                        });
+                        List<int> currentOffsetkeys =
+                            currentOffsets.keys.toList();
+                        for (int i = 0; i < keys.length; i++) {
+                          countpos.add(currentOffsetkeys[i]);
+                        }
+                        moveGotiDialog(keys);
+                      }
+
+                      if (currentOffsets[int.parse("$count$position")]
+                          ["predicted"]) {
+                        print("---------------------> PREDICTED");
+                        List<int> rowClm;
+                        if (currentOffsets[int.parse("$count$position")]
+                                ["xPosition"] ==
+                            -1) {
+                          rowClm = get2Dfrom1D(0);
+                        } else {
+                          rowClm = get2Dfrom1D(
+                              currentOffsets[int.parse("$count$position")]
+                                      ["xPosition"] +
+                                  diceNo);
+                        }
+                        moveGotiTo(rowClm[0], rowClm[1], currentOffsets,
+                            int.parse("$count$position"));
+                      } else {
+                        currentOffsets = unhighlightAll(currentOffsets);
+                        currentOffsets[int.parse("$count$position")]
+                            ["highlighted"] = true;
+                        setState(() {
+                          move = true;
+                          moveItem = int.parse("$count$position");
+                          offsets = currentOffsets;
+                        });
+                      }
                     }
                   }
                 },
@@ -1283,12 +1306,14 @@ class _HomeScreenState extends State<HomeScreen> {
         print("ONLY ONE KEY IN BOX");
         currentOffsets[overlapingKeys[0]]['onMultiple'] = false;
         currentOffsets[overlapingKeys[0]]['sizeMultiplier'] = 1;
+        currentOffsets[overlapingKeys[0]]['left'] = getLeft(context, clm);
       } else if (xPosition == -1 && overlapingKeys.length > 0) {
         print("MULTIPLE -1 _____________________--");
 
         for (int i = 0; i < overlapingKeys.length; i++) {
           currentOffsets[overlapingKeys[i]]['sizeMultiplier'] = 1;
           currentOffsets[overlapingKeys[i]]['onMultiple'] = false;
+          currentOffsets[overlapingKeys[0]]['left'] = getLeft(context, clm);
         }
       }
     }
@@ -1367,6 +1392,44 @@ class _HomeScreenState extends State<HomeScreen> {
       move = false;
       offsets = currentOffsets;
     });
+  }
+
+  void showStats(int position) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40)),
+              scrollable: true,
+              title: Container(
+                width: MediaQuery.of(context).size.width * 0.66,
+                child: topRow(context, "SELECT COLOR"),
+              ),
+              content: new Container(
+                  // height: 250,
+                  width: MediaQuery.of(context).size.width,
+                  child: Stack(children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Total Houses: ${selectedColorList[position]["houses"]}",
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                        Text(
+                            "Sixes to start: ${selectedColorList[position]["sixes"]}",
+                            style: TextStyle(color: Colors.grey)),
+                        Text("Killed: ${selectedColorList[position]["kills"]}",
+                            style: TextStyle(color: Colors.grey)),
+                      ],
+                    ),
+                  ])),
+            );
+          });
+        });
   }
 
   void addMemberDialog(int position) {
@@ -1766,7 +1829,53 @@ class _HomeScreenState extends State<HomeScreen> {
     return GestureDetector(
       onTap: () {
         print('onTap #8');
-        addMemberDialog(position);
+        Map<int, dynamic> currentOffsets = offsets;
+
+        if (selectedColorList[position] == null) {
+          addMemberDialog(position);
+        } else {
+          if (position != 0) {
+            if (playerAutoMove) {
+              for (int i = 0; i < 4; i++) {
+                currentOffsets[int.parse("$i$tappedPlayer")]["highlighted"] =
+                    false;
+                print("AUTOMOVE TRUE");
+              }
+              setState(() {
+                offsets = currentOffsets;
+              });
+              if (position == tappedPlayer) {
+                setState(() {
+                  playerAutoMove = false;
+                  tappedPlayer = null;
+                });
+              } else {
+                setState(() {
+                  playerAutoMove = true;
+                  tappedPlayer = position;
+                });
+              }
+            } else {
+              setState(() {
+                playerAutoMove = true;
+                tappedPlayer = position;
+              });
+            }
+          } else {
+            for (int i = 0; i < 4; i++) {
+              currentOffsets[int.parse("$i$tappedPlayer")]["highlighted"] =
+                  false;
+              print("AUTOMOVE TRUE");
+            }
+            setState(() {
+              offsets = currentOffsets;
+            });
+            setState(() {
+              playerAutoMove = false;
+              tappedPlayer = null;
+            });
+          }
+        }
       },
       child: Row(
         children: <Widget>[
@@ -1778,11 +1887,26 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget name(position) {
-    return Text(selectedColorList[position] != null
-        ? selectedColorList[position]["playerName"] != null
-            ? selectedColorList[position]["playerName"]
-            : ""
-        : "");
+    return Container(
+        height: 50,
+        child: Column(children: [
+          Text(selectedColorList[position] != null
+              ? selectedColorList[position]["playerName"] != null
+                  ? selectedColorList[position]["playerName"]
+                  : ""
+              : ""),
+          selectedColorList[position] != null
+              ? GestureDetector(
+                  onTap: () {
+                    showStats(position);
+                  },
+                  child: Image.asset(
+                    "assets/stats.png",
+                    height: 30,
+                    width: 30,
+                  ))
+              : Container()
+        ]));
   }
 
   Widget avatar(position) {
@@ -1796,9 +1920,21 @@ class _HomeScreenState extends State<HomeScreen> {
       height: 50,
       child: selectedColorList[position] != null
           ? Center(
-              child: Image.asset(
-                  "assets/avatar_${selectedColorList[position]["name"]}.png"),
-            )
+              child: Column(children: [
+              Image.asset(
+                "assets/avatar_${selectedColorList[position]["name"]}.png",
+                height: 45,
+              ),
+              position == tappedPlayer
+                  ? Container(
+                      width: 40,
+                      height: 5,
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(
+                                  color: Colors.green.shade800, width: 5))))
+                  : Container()
+            ]))
           : Center(
               child: Icon(Icons.add),
             ),
@@ -1811,6 +1947,10 @@ class _HomeScreenState extends State<HomeScreen> {
     currentList[position] = availableColors
         .firstWhere((element) => element["name"] == selectedColor);
     currentList[position]["playerName"] = currentPlayerName;
+    currentList[position]["kills"] = 0;
+    currentList[position]["houses"] = 0;
+    currentList[position]["sixes"] = 0;
+
     List<Map<String, dynamic>> currentColors = availableColors;
     currentColors.removeWhere((element) => element["name"] == selectedColor);
 
@@ -1860,6 +2000,9 @@ class _HomeScreenState extends State<HomeScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         Row(children: [
+          SizedBox(
+            width: 10,
+          ),
           GestureDetector(
             onTap: () {
               print('onTap #9');
@@ -1870,6 +2013,9 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 30,
               fit: BoxFit.contain,
             ),
+          ),
+          SizedBox(
+            width: 10,
           ),
           Text('reset game')
         ]),
@@ -1902,19 +2048,26 @@ class _HomeScreenState extends State<HomeScreen> {
   void onDiceTap(int number) {
     print('------------->in onDiceTap()');
     Map<int, dynamic> currentOffsets = offsets;
+
     setState(() {
       diceNo = number;
     });
-    int index = startGameSuggestion(getCurrentBoardStatus(number));
-    if (index != -1) {
-      currentOffsets = unhighlightAll(currentOffsets);
-      currentOffsets[int.parse("${index}0")]["highlighted"] = true;
-      currentOffsets[int.parse("${index}0")]["predicted"] = true;
-      setState(() {
-        diceNo = number;
+    if (playerAutoMove) {
+      for (int i = 0; i < 4; i++) {
+        currentOffsets[int.parse("$i$tappedPlayer")]["highlighted"] = true;
+      }
+    } else {
+      int index = startGameSuggestion(getCurrentBoardStatus(number));
+      if (index != -1) {
+        currentOffsets = unhighlightAll(currentOffsets);
+        currentOffsets[int.parse("${index}0")]["highlighted"] = true;
+        currentOffsets[int.parse("${index}0")]["predicted"] = true;
+        setState(() {
+          diceNo = number;
 
-        offsets = currentOffsets;
-      });
+          offsets = currentOffsets;
+        });
+      }
     }
   }
 
