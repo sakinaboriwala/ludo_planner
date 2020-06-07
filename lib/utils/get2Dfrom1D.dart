@@ -205,60 +205,61 @@
         rowClm.add(0);
         rowClm.add(7);
         return rowClm;
+    // Cases for one box before starting box of Bottom Left
       case 51:
+        rowClm.add(0);
+        rowClm.add(6);
+        return rowClm;
+      case 52:
         rowClm.add(1);
         rowClm.add(7);
         return rowClm;
-      case 52:
+      case 53:
         rowClm.add(2);
         rowClm.add(7);
         return rowClm;
-      case 53:
+      case 54:
         rowClm.add(3);
         rowClm.add(7);
         return rowClm;
-      case 54:
+      case 55:
         rowClm.add(4);
         rowClm.add(7);
         return rowClm;
-      case 55:
+      case 56:
         rowClm.add(5);
         rowClm.add(7);
         return rowClm;
-      case 56:
+      case 57:
         rowClm.add(6);
         rowClm.add(7);
         return rowClm;
     // Cases for House path of Top Left
-      case 57:
+      case 58:
         rowClm.add(7);
         rowClm.add(1);
         return rowClm;
-      case 58:
+      case 59:
         rowClm.add(7);
         rowClm.add(2);
         return rowClm;
-      case 59:
+      case 60:
         rowClm.add(7);
         rowClm.add(3);
         return rowClm;
-      case 60:
+      case 61:
         rowClm.add(7);
         rowClm.add(4);
         return rowClm;
-      case 61:
+      case 62:
         rowClm.add(7);
         rowClm.add(5);
         return rowClm;
-      case 62:
+      case 63:
         rowClm.add(7);
         rowClm.add(6);
         return rowClm;
     // Cases for House path of Top Right
-      case 63:
-        rowClm.add(14);
-        rowClm.add(7);
-        return rowClm;
       case 64:
         rowClm.add(13);
         rowClm.add(7);
@@ -279,11 +280,11 @@
         rowClm.add(9);
         rowClm.add(7);
         return rowClm;
-    // Cases for House path of Bottom Right
       case 69:
+        rowClm.add(8);
         rowClm.add(7);
-        rowClm.add(14);
         return rowClm;
+    // Cases for House path of Bottom Right
       case 70:
         rowClm.add(7);
         rowClm.add(13);
@@ -303,6 +304,10 @@
       case 74:
         rowClm.add(7);
         rowClm.add(9);
+        return rowClm;
+      case 75:
+        rowClm.add(7);
+        rowClm.add(8);
         return rowClm;
       default:
         rowClm.add(null);

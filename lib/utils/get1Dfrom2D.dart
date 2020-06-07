@@ -102,34 +102,35 @@
         return 49;
       case 07:
         return 50;
-      case 17:
+      // Cases for one box before starting box of Bottom Left
+      case 06:
         return 51;
-      case 27:
+      case 17:
         return 52;
-      case 37:
+      case 27:
         return 53;
-      case 47:
+      case 37:
         return 54;
-      case 57:
+      case 47:
         return 55;
-      case 67:
+      case 57:
         return 56;
+      case 67:
+        return 57;
     // Cases for House path of Top Left
       case 71:
-        return 57;
-      case 72:
         return 58;
-      case 73:
+      case 72:
         return 59;
-      case 74:
+      case 73:
         return 60;
-      case 75:
+      case 74:
         return 61;
-      case 76:
+      case 75:
         return 62;
-    // Cases for House path of Top Right
-      case 147:
+      case 76:
         return 63;
+    // Cases for House path of Top Right
       case 137:
         return 64;
       case 127:
@@ -140,9 +141,9 @@
         return 67;
       case 97:
         return 68;
-    // Cases for House path of Bottom Right
-      case 714:
+      case 87:
         return 69;
+    // Cases for House path of Bottom Right
       case 713:
         return 70;
       case 712:
@@ -153,6 +154,8 @@
         return 73;
       case 79:
         return 74;
+      case 78:
+        return 75;
       default:
         return -1;
     }

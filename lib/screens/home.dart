@@ -169,7 +169,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 0,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         10: {
           "initBottom":
@@ -186,7 +187,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 0,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         20: {
           "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
@@ -202,7 +204,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 0,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         30: {
           "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
@@ -218,7 +221,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 0,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         01: {
           "initBottom":
@@ -235,7 +239,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 1,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         11: {
           "initBottom":
@@ -252,7 +257,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 1,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         21: {
           "initBottom":
@@ -269,7 +275,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 1,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         31: {
           "initBottom":
@@ -286,7 +293,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 1,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         02: {
           "initBottom":
@@ -303,7 +311,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 2,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         12: {
           "initBottom":
@@ -320,7 +329,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 2,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         22: {
           "initBottom":
@@ -337,7 +347,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 2,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         32: {
           "initBottom":
@@ -354,7 +365,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 2,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         03: {
           "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
@@ -370,7 +382,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 3,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         13: {
           "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
@@ -386,7 +399,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 3,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         23: {
           "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
@@ -402,7 +416,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 3,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         33: {
           "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
@@ -418,7 +433,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 3,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
       };
     });
@@ -465,7 +481,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 0,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         10: {
           "initBottom":
@@ -482,7 +499,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 0,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         20: {
           "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
@@ -498,7 +516,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 0,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         30: {
           "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
@@ -514,7 +533,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 0,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         01: {
           "initBottom":
@@ -531,7 +551,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 1,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         11: {
           "initBottom":
@@ -548,7 +569,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 1,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         21: {
           "initBottom":
@@ -565,7 +587,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 1,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         31: {
           "initBottom":
@@ -582,7 +605,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 1,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         02: {
           "initBottom":
@@ -599,7 +623,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 2,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         12: {
           "initBottom":
@@ -616,7 +641,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 2,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         22: {
           "initBottom":
@@ -633,7 +659,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 2,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         32: {
           "initBottom":
@@ -650,7 +677,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 2,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         03: {
           "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
@@ -666,7 +694,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 3,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         13: {
           "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
@@ -682,7 +711,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 3,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         23: {
           "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
@@ -698,7 +728,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 3,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
         33: {
           "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
@@ -714,7 +745,8 @@ class _HomeScreenState extends State<HomeScreen> {
           "xPosition": -1,
           "sizeMultiplier": 1,
           "playerIndex": 3,
-          "onMultiple": false
+          "onMultiple": false,
+          "kills": 0
         },
       };
       // defaultOffsets = {
@@ -1043,19 +1075,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   if (playerAutoMove && position == tappedPlayer) {
                     print("AUTOMOVE TRUE");
-                    List<int> rowClm;
-                    if (currentOffsets[int.parse("$count$position")]
-                            ["xPosition"] ==
-                        -1) {
-                      rowClm = get2Dfrom1D(0);
-                    } else {
-                      rowClm = get2Dfrom1D(
-                          currentOffsets[int.parse("$count$position")]
-                                  ["xPosition"] +
-                              diceNo);
-                    }
-                    moveGotiTo(rowClm[0], rowClm[1], currentOffsets,
-                        int.parse("$count$position"));
+//                    List<int> rowClm;
+//                    if (currentOffsets[int.parse("$count$position")]
+//                            ["xPosition"] ==
+//                        -1) {
+//                      rowClm = get2Dfrom1D(0);
+//                    } else {
+//                      rowClm = get2Dfrom1D(
+//                          currentOffsets[int.parse("$count$position")]
+//                                  ["xPosition"] +
+//                              diceNo);
+//                    }
+//                    moveGotiTo(rowClm[0], rowClm[1], currentOffsets,
+//                        int.parse("$count$position"));
+                    moveGotiTo_v2(currentOffsets, int.parse("$count$position"), diceNo);
                   } else {
                     if (move) {
                       int row = get2Dfrom1D(
@@ -1137,7 +1170,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                           int.parse("$count$position")]
                                       ["xPosition"]) ==
                                   false) {
+                            currentOffsets[moveItem]["playerIndex"] += 1;
                             print("KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                            currentOffsets[moveItem]["kills"] += 1;
                             // currentOffsets[int.parse("$count$position")] =
                             //     defaultOffsets[int.parse("$count$position")];
                             currentOffsets[int.parse("$count$position")]
@@ -1199,19 +1234,20 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (currentOffsets[int.parse("$count$position")]
                           ["predicted"]) {
                         print("---------------------> PREDICTED");
-                        List<int> rowClm;
-                        if (currentOffsets[int.parse("$count$position")]
-                                ["xPosition"] ==
-                            -1) {
-                          rowClm = get2Dfrom1D(0);
-                        } else {
-                          rowClm = get2Dfrom1D(
-                              currentOffsets[int.parse("$count$position")]
-                                      ["xPosition"] +
-                                  diceNo);
-                        }
-                        moveGotiTo(rowClm[0], rowClm[1], currentOffsets,
-                            int.parse("$count$position"));
+//                        List<int> rowClm;
+//                        if (currentOffsets[int.parse("$count$position")]
+//                                ["xPosition"] ==
+//                            -1) {
+//                          rowClm = get2Dfrom1D(0);
+//                        } else {
+//                          rowClm = get2Dfrom1D(
+//                              currentOffsets[int.parse("$count$position")]
+//                                      ["xPosition"] +
+//                                  diceNo);
+//                        }
+//                        moveGotiTo(rowClm[0], rowClm[1], currentOffsets,
+//                            int.parse("$count$position"));
+                        moveGotiTo_v2(currentOffsets, int.parse("$count$position"), diceNo);
                       } else {
                         currentOffsets = unhighlightAll(currentOffsets);
                         currentOffsets[int.parse("$count$position")]
@@ -1360,6 +1396,7 @@ class _HomeScreenState extends State<HomeScreen> {
         currentOffsets.toString() +
         ' : ' +
         moveItem.toString());
+
     double bottom = getBottom(context, row);
     double left = getLeft(context, clm);
     int x = get1DPosfrom2D(int.parse("$row$clm"));
@@ -1383,6 +1420,7 @@ class _HomeScreenState extends State<HomeScreen> {
           (currentOffsets[key]["xPosition"] == x) &&
           (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
         print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        currentOffsets[moveItem]["kills"] += 1;
         // currentOffsets[key] = defaultOffsets[key];
         currentOffsets[key]["xPosition"] = -1;
         currentOffsets[key]["onMultiple"] = false;
@@ -1405,6 +1443,144 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void moveGotiTo_v2(currentOffsets, moveItem, diceCount) {
+    print('in moveGotiTo_v2');
+    List<int> rowClm;
+    if (currentOffsets[moveItem]["xPosition"] == -1) {
+      if(currentOffsets[moveItem]["playerIndex"] == 0) {
+        rowClm = get2Dfrom1D(0);
+      }
+      if(currentOffsets[moveItem]["playerIndex"] == 1) {
+        rowClm = get2Dfrom1D(13);
+      }
+      if(currentOffsets[moveItem]["playerIndex"] == 2) {
+        rowClm = get2Dfrom1D(26);
+      }
+      if(currentOffsets[moveItem]["playerIndex"] == 3) {
+        rowClm = get2Dfrom1D(39);
+      }
+    } else {
+      int newXPos = currentOffsets[moveItem]["xPosition"] + diceNo;
+      print("newXPos: " + newXPos.toString());
+      if(newXPos == 52 && diceNo == 1) {
+        newXPos = 0;
+      }else if(currentOffsets[moveItem]["playerIndex"] == 0) {
+        rowClm = get2Dfrom1D(newXPos);
+      }else{
+        if(currentOffsets[moveItem]["playerIndex"] == 1) {
+          print('player 1');
+          if(newXPos >= 51 && newXPos <= 56){
+            // if x >= 53 so x-53
+            if(newXPos == 52) {
+              newXPos = 0;
+            }else if(newXPos >= 53) {
+              newXPos = newXPos - 52;
+            }
+          } else if (newXPos == 12) {
+            newXPos = 58;
+          }else if(newXPos >= 13 && currentOffsets[moveItem]["xPosition"] <= 11) {
+            newXPos = newXPos + 46;
+          } else if(newXPos >= 63) {
+            newXPos = 63;
+          }
+        }
+        if(currentOffsets[moveItem]["playerIndex"] == 2) {
+          print('player 2');
+          if(newXPos >= 51 && newXPos <= 56){
+            // if x >= 53 so x-53
+            if(newXPos == 52) {
+              newXPos = 0;
+            }else if(newXPos >= 53) {
+              newXPos = newXPos - 52;
+            }
+          } else if (newXPos == 25) {
+            newXPos = 64;
+          }else if(newXPos >= 26 && currentOffsets[moveItem]["xPosition"] <= 24) {
+            newXPos = newXPos + 39;
+          } else if(newXPos >= 69) {
+            newXPos = 69;
+          }
+        }
+        if(currentOffsets[moveItem]["playerIndex"] == 3) {
+          print('player 3');
+          if(newXPos >= 51 && newXPos <= 56){
+            // if x >= 53 so x-53
+            if(newXPos == 52) {
+              newXPos = 0;
+            }else if(newXPos >= 53) {
+              newXPos = newXPos - 52;
+            }
+          } else if (newXPos == 38) {
+            newXPos = 70;
+          }else if(newXPos >= 39 && currentOffsets[moveItem]["xPosition"] <= 37) {
+            newXPos = newXPos + 32;
+          } else if(newXPos >= 75) {
+            newXPos = 75;
+          }
+        }
+      }
+      rowClm = get2Dfrom1D(newXPos);
+    }
+
+    int row = rowClm[0];
+    int clm = rowClm[1];
+
+    print('moveGotiTo: ' +
+        row.toString() +
+        ' : ' +
+        clm.toString() +
+        ' : ' +
+        currentOffsets.toString() +
+        ' : ' +
+        moveItem.toString());
+
+    double bottom = getBottom(context, row);
+    double left = getLeft(context, clm);
+    int x = get1DPosfrom2D(int.parse("$row$clm"));
+    currentOffsets[moveItem]["bottom"] = bottom * 1.05;
+    currentOffsets[moveItem]["left"] = left;
+    currentOffsets[moveItem]["moved"] = true;
+    currentOffsets[moveItem]["highlighted"] = false;
+    currentOffsets[moveItem]["predicted"] = false;
+    currentOffsets[moveItem]["position"] =
+        getActualposition(x, int.parse(moveItem.toString().split("").last));
+    print('############ 1 SETTING xPosition to' + x.toString());
+    currentOffsets[moveItem]["xPosition"] = x;
+
+    var temp = currentOffsets[moveItem];
+
+    // loop over all the offsets to see agar kissi ka xPossition same as this one to nahi
+    currentOffsets.forEach((key, value) {
+      if ((currentOffsets[moveItem]["playerIndex"] !=
+          currentOffsets[key]["playerIndex"]) &&
+          (key != moveItem) &&
+          (currentOffsets[key]["xPosition"] == x) &&
+          (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
+        print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        currentOffsets[moveItem]["kills"] += 1;
+        // currentOffsets[key] = defaultOffsets[key];
+        currentOffsets[key]["xPosition"] = -1;
+        currentOffsets[key]["onMultiple"] = false;
+        currentOffsets[key]["sizeMultiplier"] = 1;
+        currentOffsets[key]["moved"] = false;
+      }
+    });
+
+    // Check multiple on one walla case
+    currentOffsets = adjustForMultipleOnOne(currentOffsets);
+    print("SETSTATE----------------");
+
+    currentOffsets[moveItem] = temp;
+
+    currentOffsets = unhighlightAll(currentOffsets);
+
+    setState(() {
+      move = false;
+      offsets = currentOffsets;
+    });
+  }
+
+
   void showStats(int position) {
     showDialog(
         context: context,
@@ -1416,7 +1592,7 @@ class _HomeScreenState extends State<HomeScreen> {
               scrollable: true,
               title: Container(
                 width: MediaQuery.of(context).size.width * 0.66,
-                child: topRow(context, "SELECT COLOR"),
+                child: topRow(context, "STATS"),
               ),
               content: new Container(
                   // height: 250,
@@ -1675,10 +1851,10 @@ class _HomeScreenState extends State<HomeScreen> {
 //                        margin: EdgeInsets.only(
 //                          bottom: 5,
 //                        ),
-//                         child: Text(
-//                           "$x",
-//                           style: TextStyle(color: Colors.black),
-//                         ),
+                         child: Text(
+                           "$row,$col\n$x",
+                           style: TextStyle(color: Colors.black, fontSize: 10),
+                         ),
                         color: Colors.transparent,
                         width: MediaQuery.of(context).size.width * 0.0667,
                         height: MediaQuery.of(context).size.width * 0.0667))));
@@ -1897,6 +2073,155 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  int getTotalHouses(player) {
+    int totalHouses = 0;
+    // player 0
+    if(player == 0) {
+      for(int i in [00, 10, 20, 30]){
+        if(offsets[i]['xPosition'] == -1){
+          totalHouses += 62;
+        }
+        if(offsets[i]['xPosition'] >= 0 && offsets[i]['xPosition'] <= 50){
+          totalHouses += (56 - (offsets[i]['xPosition']));
+        }
+        if(offsets[i]['xPosition'] >= 52 && offsets[i]['xPosition'] <= 57){
+          totalHouses += (57 - offsets[i]['xPosition']);
+        }
+      }
+    }
+
+    // player 1
+    if(player == 1) {
+      for(int i in [01, 11, 21, 31]){
+        if(offsets[i]['xPosition'] == -1){
+          totalHouses += 6 + 56;
+        }
+        if(offsets[i]['xPosition'] >= 13 && offsets[i]['xPosition'] <= 51){
+          totalHouses += (56 - (offsets[i]['xPosition'] - 13));
+        }
+        if(offsets[i]['xPosition'] >= 0 && offsets[i]['xPosition'] <= 11){
+          totalHouses += (17 - offsets[i]['xPosition']);
+        }
+        if(offsets[i]['xPosition'] >= 58 && offsets[i]['xPosition'] <= 63){
+          totalHouses += (63 - offsets[i]['xPosition']);
+        }
+      }
+    }
+
+    // player 2
+    if(player == 2) {
+      for(int i in [02, 12, 22, 32]){
+        if(offsets[i]['xPosition'] == -1){
+          totalHouses += 6 + 56;
+        }
+        if(offsets[i]['xPosition'] >= 26 && offsets[i]['xPosition'] <= 51){
+          totalHouses += (56 - (offsets[i]['xPosition'] - 26));
+        }
+        if(offsets[i]['xPosition'] >= 0 && offsets[i]['xPosition'] <= 24){
+          totalHouses += (30 - offsets[i]['xPosition']);
+        }
+        if(offsets[i]['xPosition'] >= 64 && offsets[i]['xPosition'] <= 69){
+          totalHouses += (69 - offsets[i]['xPosition']);
+        }
+      }
+    }
+
+    // player 3
+    if(player == 3) {
+      for(int i in [03, 13, 23, 33]){
+        if(offsets[i]['xPosition'] == -1){
+          totalHouses += 6 + 56;
+        }
+        if(offsets[i]['xPosition'] >= 13 && offsets[i]['xPosition'] <= 51){
+          totalHouses += (56 - (offsets[i]['xPosition'] - 13));
+        }
+        if(offsets[i]['xPosition'] >= 0 && offsets[i]['xPosition'] <= 11){
+          totalHouses += (17 - offsets[i]['xPosition']);
+        }
+        if(offsets[i]['xPosition'] >= 58 && offsets[i]['xPosition'] <= 63){
+          totalHouses += (63 - offsets[i]['xPosition']);
+        }
+      }
+    }
+
+
+    return totalHouses;
+  }
+
+  int getSixToStart(player) {
+    int sixToStart = 0;
+    // player 0
+    if(player == 0) {
+      for(int i in [00, 10, 20, 30]){
+        if(offsets[i]['xPosition'] == -1){
+          sixToStart += 1;
+        }
+      }
+    }
+
+    // player 1
+    if(player == 1) {
+      for(int i in [01, 11, 21, 31]){
+        if(offsets[i]['xPosition'] == -1){
+          sixToStart += 1;
+        }
+      }
+    }
+
+    // player 2
+    if(player == 2) {
+      for(int i in [02, 12, 22, 32]){
+        if(offsets[i]['xPosition'] == -1){
+          sixToStart += 1;
+        }
+      }
+    }
+
+    // player 3
+    if(player == 3) {
+      for(int i in [03, 13, 23, 33]){
+        if(offsets[i]['xPosition'] == -1){
+          sixToStart += 1;
+        }
+      }
+    }
+
+    return sixToStart;
+  }
+
+  int getKills(player) {
+    int kills = 0;
+    // player 0
+    if(player == 0) {
+      for(int i in [00, 10, 20, 30]){
+        kills += offsets[i]['kills'];
+      }
+    }
+
+    // player 1
+    if(player == 1) {
+      for(int i in [01, 11, 21, 31]){
+        kills += offsets[i]['kills'];
+      }
+    }
+
+    // player 2
+    if(player == 2) {
+      for(int i in [02, 12, 22, 32]){
+        kills += offsets[i]['kills'];
+      }
+    }
+
+    // player 3
+    if(player == 3) {
+      for(int i in [03, 13, 23, 33]){
+        kills += offsets[i]['kills'];
+      }
+    }
+
+    return kills;
+  }
+
   Widget name(position) {
     return Container(
         height: 50,
@@ -1909,6 +2234,20 @@ class _HomeScreenState extends State<HomeScreen> {
           selectedColorList[position] != null
               ? GestureDetector(
                   onTap: () {
+                    print("Get Stats for: " + position.toString());
+
+                    // calculate stats
+                    int totalHouses = getTotalHouses(position);
+                    print("totalHouses :" + totalHouses.toString());
+
+                    // calculate stats
+                    int sixToStart = getSixToStart(position);
+                    print("sixToStart :" + sixToStart.toString());
+
+                    // calculate stats
+                    int kills = getKills(position);
+                    print("kills :" + kills.toString());
+
                     showStats(position);
                   },
                   child: Image.asset(
