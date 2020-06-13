@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
-Widget bottomLeft(
-    selectedColorObject, BuildContext context, int position, List positions) {
+Widget bottomLeft(selectedColorObject, BuildContext context, int position,
+    List positions, Widget selfPlayerAddButton) {
   if (selectedColorObject != null) {
     return Align(
         alignment: Alignment.bottomLeft,
         child: Container(
             height: MediaQuery.of(context).size.width * 0.41,
             width: MediaQuery.of(context).size.width * 0.55,
-            margin: EdgeInsets.only(left:MediaQuery.of(context).size.width * 0.0038),
+            margin: EdgeInsets.only(
+                left: MediaQuery.of(context).size.width * 0.0038),
             child: Row(
               children: <Widget>[
                 Container(

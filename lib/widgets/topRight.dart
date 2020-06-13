@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-Widget topRight(
-    selectedColorObject, BuildContext context, int position, List positions) {
+Widget topRight(selectedColorObject, BuildContext context, int position,
+    List positions, Widget playerAddButton, Function onClick) {
   if (selectedColorObject != null) {
     return Align(
         alignment: Alignment.topRight,
         child: Container(
             // color: Colors.red,
-            margin: EdgeInsets.only(top: MediaQuery.of(context).size.height*0.001),
+            margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.001),
             height: MediaQuery.of(context).size.width * 0.4,
             width: MediaQuery.of(context).size.width * 0.534,
             child: Row(
@@ -44,6 +45,24 @@ Widget topRight(
               ],
             )));
   } else {
-    return Container();
+    print("ELSE//////////////////////////////");
+    return Align(
+        alignment: Alignment.topRight,
+        child: Container(
+            alignment: Alignment.center,
+            // color: Colors.red,
+            margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.001),
+            height: MediaQuery.of(context).size.width * 0.4,
+            width: MediaQuery.of(context).size.width * 0.4,
+            child: GestureDetector(
+              onTap: () {
+                print("TAPPINNGGG");
+                onClick(2, false);
+              },
+              child: Center(
+                child: playerAddButton,
+              ),
+            )));
   }
 }
