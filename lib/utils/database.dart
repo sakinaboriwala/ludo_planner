@@ -15,6 +15,8 @@ class DBProvider {
   Future<Database> get database async {
     if (_database != null) return _database;
 
+    print("DB NULL");
+
     // if _database is null we instantiate it
     _database = await initDB();
     return _database;
@@ -42,6 +44,7 @@ class DBProvider {
     final db = await database;
     var res = await db.query("User", where: "self = ?", whereArgs: [0]);
     if (res.isEmpty) {
+      print("NO USERS");
       return users;
     } else {
       res.asMap().forEach((key, value) {
@@ -58,6 +61,7 @@ class DBProvider {
     return res.isNotEmpty ? User.fromMap(res.first) : null;
   }
 
+
   newUser(User newUser) async {
     final db = await database;
     var user =
@@ -65,10 +69,22 @@ class DBProvider {
 
     if (user.isEmpty) {
       var res = await db.insert("User", newUser.toMap());
-      return res;
+      newUser.games = newUser.games + 1;
+      await updateUser(newUser);
+      return newUser;
     } else {
-      return user;
+      User tempUser = User.fromMap(user.first);
+      tempUser.games = tempUser.games + 1;
+      await updateUser(tempUser);
+      return tempUser;
     }
+  }
+
+  updateUser(User user) async {
+    final db = await database;
+    var res = await db
+        .update("User", user.toMap(), where: "id = ?", whereArgs: [user.id]);
+    return res;
   }
 
   deleteUser(int id) async {
