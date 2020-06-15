@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
     {"name": "blue", "value": Colors.blue},
     {"name": "green", "value": Colors.green},
   ];
-  String selectedColor = "red";
+  String selectedColor;
   String currentPlayerName;
   List<Map<String, dynamic>> selectedColorList = [null, null, null, null];
   List<Widget> gridItems = List.generate(15, (index) => Container());
@@ -290,11 +290,308 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void undo() {
+    print("PREV OFFSETS LENGTH ____________________");
+    print(prevOffsets.length);
     if ([...prevOffsets].length != 0) {
-      print(prevOffsets[0][00]);
+      List<Map<int, dynamic>> tempOffsets = prevOffsets;
+
+      // Map<int, dynamic> offsetRecvd = tempOffsets[0][00];
+
+      Map<int, dynamic> tempofsetmap = {
+        00: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][00]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][00]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][00]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][00]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][00]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][00]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][00]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][00]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][00]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][00]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][00]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][00]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][00]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][00]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][00]["kills"],
+        },
+        10: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][10]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][10]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][10]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][10]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][10]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][10]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][10]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][10]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][10]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][10]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][10]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][10]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][10]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][10]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][10]["kills"],
+        },
+        20: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][20]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][20]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][20]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][20]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][20]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][20]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][20]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][20]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][20]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][20]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][20]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][20]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][20]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][20]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][20]["kills"],
+        },
+        30: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][30]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][30]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][30]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][30]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][30]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][30]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][30]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][30]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][30]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][30]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][30]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][30]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][30]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][30]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][30]["kills"],
+        },
+        01: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][01]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][01]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][01]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][01]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][01]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][01]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][01]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][01]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][01]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][01]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][01]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][01]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][01]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][01]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][01]["kills"],
+        },
+        11: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][11]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][11]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][11]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][11]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][11]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][11]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][11]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][11]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][11]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][11]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][11]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][11]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][11]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][11]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][11]["kills"],
+        },
+        21: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][21]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][21]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][21]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][21]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][21]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][21]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][21]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][21]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][21]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][21]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][21]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][21]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][21]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][21]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][21]["kills"],
+        },
+        31: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][31]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][31]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][31]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][31]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][31]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][31]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][31]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][31]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][31]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][31]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][31]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][31]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][31]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][31]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][31]["kills"],
+        },
+        02: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][02]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][02]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][02]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][02]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][02]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][02]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][02]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][02]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][02]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][02]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][02]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][02]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][02]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][02]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][02]["kills"],
+        },
+        12: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][12]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][12]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][12]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][12]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][12]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][12]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][12]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][12]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][12]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][12]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][12]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][12]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][12]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][12]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][12]["kills"],
+        },
+        22: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][22]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][22]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][22]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][22]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][22]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][22]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][22]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][22]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][22]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][22]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][22]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][22]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][22]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][22]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][22]["kills"],
+        },
+        32: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][32]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][32]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][32]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][32]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][32]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][32]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][32]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][32]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][32]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][32]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][32]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][32]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][32]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][32]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][32]["kills"],
+        },
+        03: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][03]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][03]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][03]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][03]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][03]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][03]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][03]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][03]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][03]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][03]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][03]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][03]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][03]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][03]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][03]["kills"],
+        },
+        13: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][13]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][13]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][13]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][13]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][13]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][13]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][13]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][13]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][13]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][13]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][13]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][13]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][13]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][13]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][13]["kills"],
+        },
+        23: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][23]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][23]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][23]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][23]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][23]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][23]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][23]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][23]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][23]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][23]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][23]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][23]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][23]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][23]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][23]["kills"],
+        },
+        33: {
+          "initBottom": tempOffsets[tempOffsets.length - 1][33]["initBottom"],
+          "initLeft": tempOffsets[tempOffsets.length - 1][33]["initLeft"],
+          "bottom": tempOffsets[tempOffsets.length - 1][33]["bottom"],
+          "left": tempOffsets[tempOffsets.length - 1][33]["left"],
+          "sameBottom": tempOffsets[tempOffsets.length - 1][33]["sameBottom"],
+          "sameLeft": tempOffsets[tempOffsets.length - 1][33]["sameLeft"],
+          "moved": tempOffsets[tempOffsets.length - 1][33]["moved"],
+          "position": tempOffsets[tempOffsets.length - 1][33]["position"],
+          "highlighted": tempOffsets[tempOffsets.length - 1][33]["highlighted"],
+          "predicted": tempOffsets[tempOffsets.length - 1][33]["predicted"],
+          "xPosition": tempOffsets[tempOffsets.length - 1][33]["xPosition"],
+          "sizeMultiplier": tempOffsets[tempOffsets.length - 1][33]
+              ["sizeMultiplier"],
+          "playerIndex": tempOffsets[tempOffsets.length - 1][33]["playerIndex"],
+          "onMultiple": tempOffsets[tempOffsets.length - 1][33]["onMultiple"],
+          "kills": tempOffsets[tempOffsets.length - 1][33]["kills"],
+        },
+      };
+      tempOffsets.removeAt(prevOffsets.length - 1);
+
       setState(() {
-        offsets = new Map.from(prevOffsets.first);
-        prevOffsets = prevOffsets.sublist(1, (prevOffsets.length - 1));
+        offsets = new Map.fromEntries(tempofsetmap.entries);
+        prevOffsets = tempOffsets;
       });
     }
   }
@@ -315,82 +612,438 @@ class _HomeScreenState extends State<HomeScreen> {
       move = false;
       diceNo = null;
       moveItem = null;
-      offsets = {
-        00: offsets[00],
-        10: offsets[10],
-        20: offsets[20],
-        30: offsets[30],
+      //   offsets = {
+      //     // 00: offsets[00],
+      //     // 10: offsets[10],
+      //     // 20: offsets[20],
+      //     // 30: offsets[30],
 
-        // 00: {
-        //   "initBottom":
-        //       getBottom(context, 2) * 0.5 + getBottom(context, 1) * 0.5,
-        //   "initLeft": getLeft(context, 2) * 0.4 + getLeft(context, 1) * 0.6,
-        //   "bottom": null,
-        //   "left": null,
-        //   "sameBottom": null,
-        //   "sameLeft": null,
-        //   "moved": false,
-        //   "position": -1,
-        //   "highlighted": false,
-        //   "predicted": false,
-        //   "xPosition": -1,
-        //   "sizeMultiplier": 1,
-        //   "playerIndex": 0,
-        //   "onMultiple": false,
-        //   "kills": 0
-        // },
-        // 10: {
-        //   "initBottom":
-        //       getBottom(context, 3) * 0.5 + getBottom(context, 4) * 0.5,
-        //   "initLeft": getLeft(context, 2) * 0.4 + getLeft(context, 1) * 0.6,
-        //   "bottom": null,
-        //   "left": null,
-        //   "sameBottom": null,
-        //   "sameLeft": null,
-        //   "moved": false,
-        //   "position": -1,
-        //   "highlighted": false,
-        //   "predicted": false,
-        //   "xPosition": -1,
-        //   "sizeMultiplier": 1,
-        //   "playerIndex": 0,
-        //   "onMultiple": false,
-        //   "kills": 0
-        // },
-        // 20: {
-        //   "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
-        //   "initLeft": getLeft(context, 3) * 0.6 + getLeft(context, 4) * 0.4,
-        //   "bottom": null,
-        //   "left": null,
-        //   "sameBottom": null,
-        //   "sameLeft": null,
-        //   "moved": false,
-        //   "position": -1,
-        //   "highlighted": false,
-        //   "predicted": false,
-        //   "xPosition": -1,
-        //   "sizeMultiplier": 1,
-        //   "playerIndex": 0,
-        //   "onMultiple": false,
-        //   "kills": 0
-        // },
-        // 30: {
-        //   "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
-        //   "initLeft": getLeft(context, 3) * 0.6 + getLeft(context, 4) * 0.4,
-        //   "bottom": null,
-        //   "left": null,
-        //   "sameBottom": null,
-        //   "sameLeft": null,
-        //   "moved": false,
-        //   "position": -1,
-        //   "highlighted": false,
-        //   "predicted": false,
-        //   "xPosition": -1,
-        //   "sizeMultiplier": 1,
-        //   "playerIndex": 0,
-        //   "onMultiple": false,
-        //   "kills": 0
-        // },
+      //     00: {
+      //       "initBottom":
+      //           getBottom(context, 2) * 0.5 + getBottom(context, 1) * 0.5,
+      //       "initLeft": getLeft(context, 2) * 0.4 + getLeft(context, 1) * 0.6,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 0,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     10: {
+      //       "initBottom":
+      //           getBottom(context, 3) * 0.5 + getBottom(context, 4) * 0.5,
+      //       "initLeft": getLeft(context, 2) * 0.4 + getLeft(context, 1) * 0.6,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 0,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     20: {
+      //       "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
+      //       "initLeft": getLeft(context, 3) * 0.6 + getLeft(context, 4) * 0.4,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 0,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     30: {
+      //       "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
+      //       "initLeft": getLeft(context, 3) * 0.6 + getLeft(context, 4) * 0.4,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 0,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     01: {
+      //       "initBottom":
+      //           getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
+      //       "initLeft": (getLeft(context, 2) + getLeft(context, 1)) / 2,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 1,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     11: {
+      //       "initBottom":
+      //           getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
+      //       "initLeft": (getLeft(context, 2) + getLeft(context, 1)) / 2,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 1,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     21: {
+      //       "initBottom":
+      //           getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
+      //       "initLeft": (getLeft(context, 3) + getLeft(context, 4)) / 2,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 1,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     31: {
+      //       "initBottom":
+      //           getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
+      //       "initLeft": (getLeft(context, 3) + getLeft(context, 4)) / 2,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 1,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     02: {
+      //       "initBottom":
+      //           getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
+      //       "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 2,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     12: {
+      //       "initBottom":
+      //           getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
+      //       "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 2,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     22: {
+      //       "initBottom":
+      //           getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
+      //       "initLeft": getLeft(context, 12) * 0.4 + getLeft(context, 13) * 0.6,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 2,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     32: {
+      //       "initBottom":
+      //           getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
+      //       "initLeft": getLeft(context, 12) * 0.4 + getLeft(context, 13) * 0.6,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 2,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     03: {
+      //       "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
+      //       "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 3,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     13: {
+      //       "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
+      //       "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 3,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     23: {
+      //       "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
+      //       "initLeft": getLeft(context, 12) * 0.3 + getLeft(context, 13) * 0.7,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 3,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //     33: {
+      //       "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
+      //       "initLeft": getLeft(context, 12) * 0.3 + getLeft(context, 13) * 0.7,
+      //       "bottom": null,
+      //       "left": null,
+      //       "sameBottom": null,
+      //       "sameLeft": null,
+      //       "moved": false,
+      //       "position": -1,
+      //       "highlighted": false,
+      //       "predicted": false,
+      //       "xPosition": -1,
+      //       "sizeMultiplier": 1,
+      //       "playerIndex": 3,
+      //       "onMultiple": false,
+      //       "kills": 0
+      //     },
+      //   };
+    });
+    getInfo();
+    setOffsets();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    precacheImage(image.image, context);
+  }
+
+  void initState() {
+    super.initState();
+
+    postInit(() {
+      getInfo();
+      setOffsets();
+      getUsers();
+    });
+  }
+
+  void getUsers() async {
+    List<User> temporaryUsers = await DBProvider.db.getUsers();
+    print("TEMP USERS ==========>>>>>>>>>>>>");
+    print(temporaryUsers);
+    setState(() {
+      users = temporaryUsers;
+    });
+  }
+
+  List<String> getSuggestions(String query) {
+    // setState(() {
+    //   currentPlayerName = query;
+    // });
+    List<User> tempUsers = [...users];
+
+    List<String> userNames = [];
+    tempUsers.retainWhere((s) {
+      if (s.name == null) {
+        return false;
+      } else {
+        print(s.name.toLowerCase());
+        print(query.toLowerCase());
+        print(s.name.toLowerCase().contains(query.toLowerCase()));
+        return s.name.toLowerCase().contains(query.toLowerCase());
+      }
+    });
+
+    [...tempUsers].asMap().forEach((key, value) {
+      userNames.add(value.name);
+    });
+
+    return userNames;
+  }
+
+  void getInfo() async {
+    // await DBProvider.db.deleteUser(1);
+    // debugger();
+    User user = await DBProvider.db.getSelfUser();
+    print("GET UNFO $user");
+    if (user == null) {
+      print("USER -----------> $user");
+      addMemberDialog(0, true);
+    } else {
+      saveSelfPlayer(user);
+    }
+    setSplash();
+  }
+
+  void setOffsets() {
+    setState(() {
+      offsets = {
+        00: {
+          "initBottom":
+              getBottom(context, 2) * 0.5 + getBottom(context, 1) * 0.5,
+          "initLeft": getLeft(context, 2) * 0.4 + getLeft(context, 1) * 0.6,
+          "bottom": null,
+          "left": null,
+          "sameBottom": null,
+          "sameLeft": null,
+          "moved": false,
+          "position": -1,
+          "highlighted": false,
+          "predicted": false,
+          "xPosition": -1,
+          "sizeMultiplier": 1,
+          "playerIndex": 0,
+          "onMultiple": false,
+          "kills": 0
+        },
+        10: {
+          "initBottom":
+              getBottom(context, 3) * 0.5 + getBottom(context, 4) * 0.5,
+          "initLeft": getLeft(context, 2) * 0.4 + getLeft(context, 1) * 0.6,
+          "bottom": null,
+          "left": null,
+          "sameBottom": null,
+          "sameLeft": null,
+          "moved": false,
+          "position": -1,
+          "highlighted": false,
+          "predicted": false,
+          "xPosition": -1,
+          "sizeMultiplier": 1,
+          "playerIndex": 0,
+          "onMultiple": false,
+          "kills": 0
+        },
+        20: {
+          "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
+          "initLeft": getLeft(context, 3) * 0.6 + getLeft(context, 4) * 0.4,
+          "bottom": null,
+          "left": null,
+          "sameBottom": null,
+          "sameLeft": null,
+          "moved": false,
+          "position": -1,
+          "highlighted": false,
+          "predicted": false,
+          "xPosition": -1,
+          "sizeMultiplier": 1,
+          "playerIndex": 0,
+          "onMultiple": false,
+          "kills": 0
+        },
+        30: {
+          "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
+          "initLeft": getLeft(context, 3) * 0.6 + getLeft(context, 4) * 0.4,
+          "bottom": null,
+          "left": null,
+          "sameBottom": null,
+          "sameLeft": null,
+          "moved": false,
+          "position": -1,
+          "highlighted": false,
+          "predicted": false,
+          "xPosition": -1,
+          "sizeMultiplier": 1,
+          "playerIndex": 0,
+          "onMultiple": false,
+          "kills": 0
+        },
         01: {
           "initBottom":
               getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
@@ -605,357 +1258,6 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       };
     });
-    getInfo();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    precacheImage(image.image, context);
-  }
-
-  void initState() {
-    super.initState();
-
-    postInit(() {
-      getInfo();
-      setOffsets();
-      getUsers();
-    });
-  }
-
-  void getUsers() async {
-    List<User> temporaryUsers = await DBProvider.db.getUsers();
-    print("TEMP USERS ==========>>>>>>>>>>>>");
-    print(temporaryUsers);
-    setState(() {
-      users = temporaryUsers;
-    });
-  }
-
-  List<String> getSuggestions(String query) {
-    // setState(() {
-    //   currentPlayerName = query;
-    // });
-    List<User> tempUsers = [...users];
-
-    List<String> userNames = [];
-    tempUsers.retainWhere((s) {
-      if (s.name == null) {
-        return false;
-      } else {
-        print(s.name.toLowerCase());
-        print(query.toLowerCase());
-        print(s.name.toLowerCase().contains(query.toLowerCase()));
-        return s.name.toLowerCase().contains(query.toLowerCase());
-      }
-    });
-
-    [...tempUsers].asMap().forEach((key, value) {
-      userNames.add(value.name);
-    });
-
-    return userNames;
-  }
-
-  void getInfo() async {
-    // await DBProvider.db.deleteUser(1);
-    // debugger();
-    User user = await DBProvider.db.getSelfUser();
-    print("GET UNFO $user");
-    if (user == null) {
-      print("USER -----------> $user");
-      addMemberDialog(0, true);
-    } else {
-      saveSelfPlayer(user);
-    }
-    setSplash();
-  }
-
-  void setOffsets() {
-    offsets = {
-      00: {
-        "initBottom": getBottom(context, 2) * 0.5 + getBottom(context, 1) * 0.5,
-        "initLeft": getLeft(context, 2) * 0.4 + getLeft(context, 1) * 0.6,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 0,
-        "onMultiple": false,
-        "kills": 0
-      },
-      10: {
-        "initBottom": getBottom(context, 3) * 0.5 + getBottom(context, 4) * 0.5,
-        "initLeft": getLeft(context, 2) * 0.4 + getLeft(context, 1) * 0.6,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 0,
-        "onMultiple": false,
-        "kills": 0
-      },
-      20: {
-        "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
-        "initLeft": getLeft(context, 3) * 0.6 + getLeft(context, 4) * 0.4,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 0,
-        "onMultiple": false,
-        "kills": 0
-      },
-      30: {
-        "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
-        "initLeft": getLeft(context, 3) * 0.6 + getLeft(context, 4) * 0.4,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 0,
-        "onMultiple": false,
-        "kills": 0
-      },
-      01: {
-        "initBottom":
-            getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
-        "initLeft": (getLeft(context, 2) + getLeft(context, 1)) / 2,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 1,
-        "onMultiple": false,
-        "kills": 0
-      },
-      11: {
-        "initBottom":
-            getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
-        "initLeft": (getLeft(context, 2) + getLeft(context, 1)) / 2,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 1,
-        "onMultiple": false,
-        "kills": 0
-      },
-      21: {
-        "initBottom":
-            getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
-        "initLeft": (getLeft(context, 3) + getLeft(context, 4)) / 2,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 1,
-        "onMultiple": false,
-        "kills": 0
-      },
-      31: {
-        "initBottom":
-            getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
-        "initLeft": (getLeft(context, 3) + getLeft(context, 4)) / 2,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 1,
-        "onMultiple": false,
-        "kills": 0
-      },
-      02: {
-        "initBottom":
-            getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
-        "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 2,
-        "onMultiple": false,
-        "kills": 0
-      },
-      12: {
-        "initBottom":
-            getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
-        "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 2,
-        "onMultiple": false,
-        "kills": 0
-      },
-      22: {
-        "initBottom":
-            getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
-        "initLeft": getLeft(context, 12) * 0.4 + getLeft(context, 13) * 0.6,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 2,
-        "onMultiple": false,
-        "kills": 0
-      },
-      32: {
-        "initBottom":
-            getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
-        "initLeft": getLeft(context, 12) * 0.4 + getLeft(context, 13) * 0.6,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 2,
-        "onMultiple": false,
-        "kills": 0
-      },
-      03: {
-        "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
-        "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 3,
-        "onMultiple": false,
-        "kills": 0
-      },
-      13: {
-        "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
-        "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 3,
-        "onMultiple": false,
-        "kills": 0
-      },
-      23: {
-        "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
-        "initLeft": getLeft(context, 12) * 0.3 + getLeft(context, 13) * 0.7,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 3,
-        "onMultiple": false,
-        "kills": 0
-      },
-      33: {
-        "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
-        "initLeft": getLeft(context, 12) * 0.3 + getLeft(context, 13) * 0.7,
-        "bottom": null,
-        "left": null,
-        "sameBottom": null,
-        "sameLeft": null,
-        "moved": false,
-        "position": -1,
-        "highlighted": false,
-        "predicted": false,
-        "xPosition": -1,
-        "sizeMultiplier": 1,
-        "playerIndex": 3,
-        "onMultiple": false,
-        "kills": 0
-      },
-    };
   }
 
   void setSplash() {
@@ -977,12 +1279,267 @@ class _HomeScreenState extends State<HomeScreen> {
   void setPrevOffset(Map<int, dynamic> offsetRecvd) {
     print("OFFFFSEEETTT RECVVDDD +++++++++++++++++++++++++++++++++++++++");
     print(offsetRecvd[00]);
-
-    offsetRecvd.forEach((key, value) {});
+    Map<int, dynamic> tempofsetmap = {
+      10: {
+        "initBottom": offsetRecvd[10]["initBottom"],
+        "initLeft": offsetRecvd[10]["initLeft"],
+        "bottom": offsetRecvd[10]["bottom"],
+        "left": offsetRecvd[10]["left"],
+        "sameBottom": offsetRecvd[10]["sameBottom"],
+        "sameLeft": offsetRecvd[10]["sameLeft"],
+        "moved": offsetRecvd[10]["moved"],
+        "position": offsetRecvd[10]["position"],
+        "highlighted": offsetRecvd[10]["highlighted"],
+        "predicted": offsetRecvd[10]["predicted"],
+        "xPosition": offsetRecvd[10]["xPosition"],
+        "sizeMultiplier": offsetRecvd[10]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[10]["playerIndex"],
+        "onMultiple": offsetRecvd[10]["onMultiple"],
+        "kills": offsetRecvd[10]["kills"],
+      },
+      20: {
+        "initBottom": offsetRecvd[20]["initBottom"],
+        "initLeft": offsetRecvd[20]["initLeft"],
+        "bottom": offsetRecvd[20]["bottom"],
+        "left": offsetRecvd[20]["left"],
+        "sameBottom": offsetRecvd[20]["sameBottom"],
+        "sameLeft": offsetRecvd[20]["sameLeft"],
+        "moved": offsetRecvd[20]["moved"],
+        "position": offsetRecvd[20]["position"],
+        "highlighted": offsetRecvd[20]["highlighted"],
+        "predicted": offsetRecvd[20]["predicted"],
+        "xPosition": offsetRecvd[20]["xPosition"],
+        "sizeMultiplier": offsetRecvd[20]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[20]["playerIndex"],
+        "onMultiple": offsetRecvd[20]["onMultiple"],
+        "kills": offsetRecvd[20]["kills"],
+      },
+      30: {
+        "initBottom": offsetRecvd[30]["initBottom"],
+        "initLeft": offsetRecvd[30]["initLeft"],
+        "bottom": offsetRecvd[30]["bottom"],
+        "left": offsetRecvd[30]["left"],
+        "sameBottom": offsetRecvd[30]["sameBottom"],
+        "sameLeft": offsetRecvd[30]["sameLeft"],
+        "moved": offsetRecvd[30]["moved"],
+        "position": offsetRecvd[30]["position"],
+        "highlighted": offsetRecvd[30]["highlighted"],
+        "predicted": offsetRecvd[30]["predicted"],
+        "xPosition": offsetRecvd[30]["xPosition"],
+        "sizeMultiplier": offsetRecvd[30]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[30]["playerIndex"],
+        "onMultiple": offsetRecvd[30]["onMultiple"],
+        "kills": offsetRecvd[30]["kills"],
+      },
+      01: {
+        "initBottom": offsetRecvd[01]["initBottom"],
+        "initLeft": offsetRecvd[01]["initLeft"],
+        "bottom": offsetRecvd[01]["bottom"],
+        "left": offsetRecvd[01]["left"],
+        "sameBottom": offsetRecvd[01]["sameBottom"],
+        "sameLeft": offsetRecvd[01]["sameLeft"],
+        "moved": offsetRecvd[01]["moved"],
+        "position": offsetRecvd[01]["position"],
+        "highlighted": offsetRecvd[01]["highlighted"],
+        "predicted": offsetRecvd[01]["predicted"],
+        "xPosition": offsetRecvd[01]["xPosition"],
+        "sizeMultiplier": offsetRecvd[01]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[01]["playerIndex"],
+        "onMultiple": offsetRecvd[01]["onMultiple"],
+        "kills": offsetRecvd[01]["kills"],
+      },
+      11: {
+        "initBottom": offsetRecvd[11]["initBottom"],
+        "initLeft": offsetRecvd[11]["initLeft"],
+        "bottom": offsetRecvd[11]["bottom"],
+        "left": offsetRecvd[11]["left"],
+        "sameBottom": offsetRecvd[11]["sameBottom"],
+        "sameLeft": offsetRecvd[11]["sameLeft"],
+        "moved": offsetRecvd[11]["moved"],
+        "position": offsetRecvd[11]["position"],
+        "highlighted": offsetRecvd[11]["highlighted"],
+        "predicted": offsetRecvd[11]["predicted"],
+        "xPosition": offsetRecvd[11]["xPosition"],
+        "sizeMultiplier": offsetRecvd[11]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[11]["playerIndex"],
+        "onMultiple": offsetRecvd[11]["onMultiple"],
+        "kills": offsetRecvd[11]["kills"],
+      },
+      21: {
+        "initBottom": offsetRecvd[21]["initBottom"],
+        "initLeft": offsetRecvd[21]["initLeft"],
+        "bottom": offsetRecvd[21]["bottom"],
+        "left": offsetRecvd[21]["left"],
+        "sameBottom": offsetRecvd[21]["sameBottom"],
+        "sameLeft": offsetRecvd[21]["sameLeft"],
+        "moved": offsetRecvd[21]["moved"],
+        "position": offsetRecvd[21]["position"],
+        "highlighted": offsetRecvd[21]["highlighted"],
+        "predicted": offsetRecvd[21]["predicted"],
+        "xPosition": offsetRecvd[21]["xPosition"],
+        "sizeMultiplier": offsetRecvd[21]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[21]["playerIndex"],
+        "onMultiple": offsetRecvd[21]["onMultiple"],
+        "kills": offsetRecvd[21]["kills"],
+      },
+      31: {
+        "initBottom": offsetRecvd[31]["initBottom"],
+        "initLeft": offsetRecvd[31]["initLeft"],
+        "bottom": offsetRecvd[31]["bottom"],
+        "left": offsetRecvd[31]["left"],
+        "sameBottom": offsetRecvd[31]["sameBottom"],
+        "sameLeft": offsetRecvd[31]["sameLeft"],
+        "moved": offsetRecvd[31]["moved"],
+        "position": offsetRecvd[31]["position"],
+        "highlighted": offsetRecvd[31]["highlighted"],
+        "predicted": offsetRecvd[31]["predicted"],
+        "xPosition": offsetRecvd[31]["xPosition"],
+        "sizeMultiplier": offsetRecvd[31]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[31]["playerIndex"],
+        "onMultiple": offsetRecvd[31]["onMultiple"],
+        "kills": offsetRecvd[31]["kills"],
+      },
+      02: {
+        "initBottom": offsetRecvd[02]["initBottom"],
+        "initLeft": offsetRecvd[02]["initLeft"],
+        "bottom": offsetRecvd[02]["bottom"],
+        "left": offsetRecvd[02]["left"],
+        "sameBottom": offsetRecvd[02]["sameBottom"],
+        "sameLeft": offsetRecvd[02]["sameLeft"],
+        "moved": offsetRecvd[02]["moved"],
+        "position": offsetRecvd[02]["position"],
+        "highlighted": offsetRecvd[02]["highlighted"],
+        "predicted": offsetRecvd[02]["predicted"],
+        "xPosition": offsetRecvd[02]["xPosition"],
+        "sizeMultiplier": offsetRecvd[02]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[02]["playerIndex"],
+        "onMultiple": offsetRecvd[02]["onMultiple"],
+        "kills": offsetRecvd[02]["kills"],
+      },
+      12: {
+        "initBottom": offsetRecvd[12]["initBottom"],
+        "initLeft": offsetRecvd[12]["initLeft"],
+        "bottom": offsetRecvd[12]["bottom"],
+        "left": offsetRecvd[12]["left"],
+        "sameBottom": offsetRecvd[12]["sameBottom"],
+        "sameLeft": offsetRecvd[12]["sameLeft"],
+        "moved": offsetRecvd[12]["moved"],
+        "position": offsetRecvd[12]["position"],
+        "highlighted": offsetRecvd[12]["highlighted"],
+        "predicted": offsetRecvd[12]["predicted"],
+        "xPosition": offsetRecvd[12]["xPosition"],
+        "sizeMultiplier": offsetRecvd[12]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[12]["playerIndex"],
+        "onMultiple": offsetRecvd[12]["onMultiple"],
+        "kills": offsetRecvd[12]["kills"],
+      },
+      22: {
+        "initBottom": offsetRecvd[22]["initBottom"],
+        "initLeft": offsetRecvd[22]["initLeft"],
+        "bottom": offsetRecvd[22]["bottom"],
+        "left": offsetRecvd[22]["left"],
+        "sameBottom": offsetRecvd[22]["sameBottom"],
+        "sameLeft": offsetRecvd[22]["sameLeft"],
+        "moved": offsetRecvd[22]["moved"],
+        "position": offsetRecvd[22]["position"],
+        "highlighted": offsetRecvd[22]["highlighted"],
+        "predicted": offsetRecvd[22]["predicted"],
+        "xPosition": offsetRecvd[22]["xPosition"],
+        "sizeMultiplier": offsetRecvd[22]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[22]["playerIndex"],
+        "onMultiple": offsetRecvd[22]["onMultiple"],
+        "kills": offsetRecvd[22]["kills"],
+      },
+      32: {
+        "initBottom": offsetRecvd[32]["initBottom"],
+        "initLeft": offsetRecvd[32]["initLeft"],
+        "bottom": offsetRecvd[32]["bottom"],
+        "left": offsetRecvd[32]["left"],
+        "sameBottom": offsetRecvd[32]["sameBottom"],
+        "sameLeft": offsetRecvd[32]["sameLeft"],
+        "moved": offsetRecvd[32]["moved"],
+        "position": offsetRecvd[32]["position"],
+        "highlighted": offsetRecvd[32]["highlighted"],
+        "predicted": offsetRecvd[32]["predicted"],
+        "xPosition": offsetRecvd[32]["xPosition"],
+        "sizeMultiplier": offsetRecvd[32]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[32]["playerIndex"],
+        "onMultiple": offsetRecvd[32]["onMultiple"],
+        "kills": offsetRecvd[32]["kills"],
+      },
+      03: {
+        "initBottom": offsetRecvd[03]["initBottom"],
+        "initLeft": offsetRecvd[03]["initLeft"],
+        "bottom": offsetRecvd[03]["bottom"],
+        "left": offsetRecvd[03]["left"],
+        "sameBottom": offsetRecvd[03]["sameBottom"],
+        "sameLeft": offsetRecvd[03]["sameLeft"],
+        "moved": offsetRecvd[03]["moved"],
+        "position": offsetRecvd[03]["position"],
+        "highlighted": offsetRecvd[03]["highlighted"],
+        "predicted": offsetRecvd[03]["predicted"],
+        "xPosition": offsetRecvd[03]["xPosition"],
+        "sizeMultiplier": offsetRecvd[03]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[03]["playerIndex"],
+        "onMultiple": offsetRecvd[03]["onMultiple"],
+        "kills": offsetRecvd[03]["kills"],
+      },
+      13: {
+        "initBottom": offsetRecvd[13]["initBottom"],
+        "initLeft": offsetRecvd[13]["initLeft"],
+        "bottom": offsetRecvd[13]["bottom"],
+        "left": offsetRecvd[13]["left"],
+        "sameBottom": offsetRecvd[13]["sameBottom"],
+        "sameLeft": offsetRecvd[13]["sameLeft"],
+        "moved": offsetRecvd[13]["moved"],
+        "position": offsetRecvd[13]["position"],
+        "highlighted": offsetRecvd[13]["highlighted"],
+        "predicted": offsetRecvd[13]["predicted"],
+        "xPosition": offsetRecvd[13]["xPosition"],
+        "sizeMultiplier": offsetRecvd[13]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[13]["playerIndex"],
+        "onMultiple": offsetRecvd[13]["onMultiple"],
+        "kills": offsetRecvd[13]["kills"],
+      },
+      23: {
+        "initBottom": offsetRecvd[23]["initBottom"],
+        "initLeft": offsetRecvd[23]["initLeft"],
+        "bottom": offsetRecvd[23]["bottom"],
+        "left": offsetRecvd[23]["left"],
+        "sameBottom": offsetRecvd[23]["sameBottom"],
+        "sameLeft": offsetRecvd[23]["sameLeft"],
+        "moved": offsetRecvd[23]["moved"],
+        "position": offsetRecvd[23]["position"],
+        "highlighted": offsetRecvd[23]["highlighted"],
+        "predicted": offsetRecvd[23]["predicted"],
+        "xPosition": offsetRecvd[23]["xPosition"],
+        "sizeMultiplier": offsetRecvd[23]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[23]["playerIndex"],
+        "onMultiple": offsetRecvd[23]["onMultiple"],
+        "kills": offsetRecvd[23]["kills"],
+      },
+      33: {
+        "initBottom": offsetRecvd[33]["initBottom"],
+        "initLeft": offsetRecvd[33]["initLeft"],
+        "bottom": offsetRecvd[33]["bottom"],
+        "left": offsetRecvd[33]["left"],
+        "sameBottom": offsetRecvd[33]["sameBottom"],
+        "sameLeft": offsetRecvd[33]["sameLeft"],
+        "moved": offsetRecvd[33]["moved"],
+        "position": offsetRecvd[33]["position"],
+        "highlighted": offsetRecvd[33]["highlighted"],
+        "predicted": offsetRecvd[33]["predicted"],
+        "xPosition": offsetRecvd[33]["xPosition"],
+        "sizeMultiplier": offsetRecvd[33]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[33]["playerIndex"],
+        "onMultiple": offsetRecvd[33]["onMultiple"],
+        "kills": offsetRecvd[33]["kills"],
+      },
+    };
 
     List<Map<int, dynamic>> tempPrevOffsets = prevOffsets;
 
-    tempPrevOffsets.add(new Map.fromEntries(offsetRecvd.entries));
+    tempPrevOffsets.add(new Map.fromEntries(tempofsetmap.entries));
 
     setState(() {
       prevOffsets = tempPrevOffsets;
@@ -1043,7 +1600,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: GestureDetector(
                   onTap: () async {
                     Map<int, dynamic> currentOffsets = offsets;
-                    setPrevOffset(new Map.from(currentOffsets));
+                    Map<int, dynamic> newOffsets =
+                        new Map.fromEntries(offsets.entries);
+                    setPrevOffset(new Map.fromEntries(newOffsets.entries));
+
                     // await new Future.delayed(const Duration(seconds : 5));
                     if (playerAutoMove && position == tappedPlayer) {
                       print("AUTOMOVE TRUE");
@@ -1644,7 +2204,7 @@ class _HomeScreenState extends State<HomeScreen> {
               scrollable: true,
               title: Container(
                 width: MediaQuery.of(context).size.width * 0.66,
-                child: topRow(context, "STATS"),
+                child: topRow(context, "SELECT WINNER"),
               ),
               content: new Container(
                   // height: 250,
@@ -1685,12 +2245,18 @@ class _HomeScreenState extends State<HomeScreen> {
                             user.wins = user.wins + 1;
 
                             temp[winningPlayer]['user'] = user;
-                            print(temp[winningPlayer]['user'].wins);
                             setState(() {
                               selectedColorList = temp;
                             });
                             DBProvider.db.updateUser(user);
-                            Navigator.pop(context);
+                            reset();
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      HomeScreen(Image.asset("assets/ludo_background.png"))),
+                              ModalRoute.withName('/'),
+                            );
                           },
                         )
                       ],
@@ -1735,6 +2301,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void addMemberDialog(int position, bool self, {User user}) {
     print('------------->in addMemberDialog()');
+    print(availableColors);
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -2088,6 +2655,7 @@ class _HomeScreenState extends State<HomeScreen> {
         itemExtent: 40,
         onSelectedItemChanged: (item) {
           setStateFunc(() {
+            print("CHANGING SELECTED COLOR");
             selectedColor = user == null
                 ? availableColors[item]["name"]
                 : allColors[item]["name"];
@@ -2107,6 +2675,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget androidDropdown(
       String label, Function setStateFunc, List<Map<String, dynamic>> colorlist,
       {User user}) {
+    print("SELECTED COLOR $selectedColor");
     return DropdownButton(
       underline: Container(),
       style: TextStyle(fontSize: 18, fontFamily: 'Roboto'),
@@ -2428,25 +2997,23 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
         height: 50,
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Text(selectedColorList[position] != null
-              ? selectedColorList[position]["playerName"] != null
-                  ? selectedColorList[position]["playerName"]
-                  : ""
-              : ""),
-          position == 0
-              ? GestureDetector(
-                  child: Icon(Icons.edit),
-                  onTap: () {
-                    setState(() {
-                      selectedColor = selectedColorList[0]['user'].color;
-                      currentPlayerName = selectedColorList[0]['user'].name;
-                    });
-                    print(selectedColorList[0]['user'].color);
-                    addMemberDialog(0, true,
-                        user: selectedColorList[0]['user']);
-                  },
-                )
-              : Container()
+          GestureDetector(
+            onTap: () {
+              if (position == 0) {
+                setState(() {
+                  selectedColor = selectedColorList[0]['user'].color;
+                  currentPlayerName = selectedColorList[0]['user'].name;
+                });
+                print(selectedColorList[0]['user'].color);
+                addMemberDialog(0, true, user: selectedColorList[0]['user']);
+              }
+            },
+            child: Text(selectedColorList[position] != null
+                ? selectedColorList[position]["playerName"] != null
+                    ? selectedColorList[position]["playerName"]
+                    : ""
+                : ""),
+          ),
           // selectedColorList[position] != null
           //     ? (selectedColorList[position]["playerName"] != null &&
           //             selectedColorList[position]["playerName"] != '')
@@ -2551,8 +3118,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       selectedColorList = currentList;
       availableColors = currentColors;
-      selectedColor =
-          availableColors.length == 0 ? "red" : availableColors[0]["name"];
+      selectedColor = currentColors[0]["name"];
       currentPlayerName = null;
     });
   }
@@ -2618,8 +3184,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       selectedColorList = currentList;
       availableColors = currentColors;
-      selectedColor =
-          availableColors.length == 0 ? "red" : availableColors[0]["name"];
+      selectedColor = availableColors[0]["name"];
       currentPlayerName = null;
     });
   }
