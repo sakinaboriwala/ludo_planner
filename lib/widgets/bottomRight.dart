@@ -6,7 +6,8 @@ Widget bottomRight(
     return Align(
         alignment: Alignment.bottomRight,
         child: Container(
-          margin: EdgeInsets.only(bottom:MediaQuery.of(context).size.width * 0.0038),
+            margin: EdgeInsets.only(
+                bottom: MediaQuery.of(context).size.width * 0.0038),
             height: MediaQuery.of(context).size.width * 0.53,
             width: MediaQuery.of(context).size.width * 0.4,
             child: Column(
@@ -14,7 +15,7 @@ Widget bottomRight(
                 Align(
                     alignment: Alignment.topRight,
                     child: Container(
-                      // color: Colors.red,
+                        // color: Colors.red,
                         margin: EdgeInsets.only(
                             right: MediaQuery.of(context).size.width * 0.075),
                         width: MediaQuery.of(context).size.width * 0.45,

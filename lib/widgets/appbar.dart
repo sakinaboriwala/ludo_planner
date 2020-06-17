@@ -7,27 +7,24 @@ Widget appBar(BuildContext context, bool showSplash, Function undo) {
           backgroundColor: Colors.transparent,
           elevation: 0,
           centerTitle: true,
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  // Image.asset(
-                  //   "assets/undo_icon.png",
-                  //   width: 30,
-                  //   fit: BoxFit.contain,
-                  // ),
-                  // Text('undo'),
-                ],
+          automaticallyImplyLeading: false,
+          title: Stack(children: <Widget>[
+            Center(
+              child: Image.asset(
+                "assets/logo.png",
+                width: MediaQuery.of(context).size.width * 0.4,
               ),
-              Center(
-                child: Image.asset(
-                  "assets/logo.png",
-                  width: MediaQuery.of(context).size.width * 0.4,
-                ),
-              ),
-              Row(
+            ),
+            Positioned(
+              top: 10,
+              right: -2,
+              child: Row(
                 children: <Widget>[
+                  Text('UNDO',
+                      style: TextStyle(color: Color(0xff465e6e), fontSize: 12)),
+                  SizedBox(
+                    width: 10,
+                  ),
                   GestureDetector(
                     onTap: undo,
                     child: Image.asset(
@@ -36,10 +33,8 @@ Widget appBar(BuildContext context, bool showSplash, Function undo) {
                       fit: BoxFit.contain,
                     ),
                   ),
-                  // Text('undo'),
                 ],
               ),
-            ],
-          ),
-        );
+            )
+          ]));
 }

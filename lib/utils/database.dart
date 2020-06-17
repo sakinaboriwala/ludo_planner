@@ -61,8 +61,14 @@ class DBProvider {
     return res.isNotEmpty ? User.fromMap(res.first) : null;
   }
 
+  updateSelfUser(User user) async {
+    final db = await database;
+    var res = await db
+        .update("User", user.toMap(), where: "id = ?", whereArgs: [user.id]);
+    return res;
+  }
 
-  newUser(User newUser) async {
+  newUser(User newUser, User selfUser) async {
     final db = await database;
     var user =
         await db.query("User", where: "name = ?", whereArgs: [newUser.name]);
@@ -71,11 +77,20 @@ class DBProvider {
       var res = await db.insert("User", newUser.toMap());
       newUser.games = newUser.games + 1;
       await updateUser(newUser);
+      if (selfUser != null) {
+        selfUser.games = selfUser.games + 1;
+        await updateSelfUser(selfUser);
+      }
+
       return newUser;
     } else {
       User tempUser = User.fromMap(user.first);
       tempUser.games = tempUser.games + 1;
       await updateUser(tempUser);
+      if (selfUser != null) {
+        selfUser.games = selfUser.games + 1;
+        await updateSelfUser(selfUser);
+      }
       return tempUser;
     }
   }

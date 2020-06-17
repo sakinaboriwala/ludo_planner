@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:ludo_planner/models/user.dart';
 
 Widget bottomLeft(selectedColorObject, BuildContext context, int position,
-    List positions, Widget selfPlayerAddButton) {
+    List positions, Widget playerAddButton, Function onClick) {
   if (selectedColorObject != null) {
     return Align(
         alignment: Alignment.bottomLeft,
@@ -43,6 +44,38 @@ Widget bottomLeft(selectedColorObject, BuildContext context, int position,
               ],
             )));
   } else {
-    return Container();
+    // return Align(
+    //     alignment: Alignment.bottomLeft,
+    //     child: Container(
+    //         alignment: Alignment.center,
+    //         height: MediaQuery.of(context).size.width * 0.4,
+    //         width: MediaQuery.of(context).size.width * 0.4,
+    //         margin: EdgeInsets.only(
+    //             left: MediaQuery.of(context).size.width * 0.0038),
+    //         child: GestureDetector(
+    //           onTap: () {
+    //             print("ON CLICKKK");
+    //             onClick(0, true, user: User(), exists: false);
+    //           },
+    //           child: Center(child: selfPlayerAddButton),
+    //         )));
+    return Align(
+        alignment: Alignment.bottomLeft,
+        child: Container(
+            alignment: Alignment.center,
+            // color: Colors.red,
+            margin: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.001),
+            height: MediaQuery.of(context).size.width * 0.4,
+            width: MediaQuery.of(context).size.width * 0.4,
+            child: GestureDetector(
+              onTap: () {
+                print("TAPPINNGGG");
+                onClick(0, true, user: User(), exists: false);
+              },
+              child: Center(
+                child: playerAddButton,
+              ),
+            )));
   }
 }

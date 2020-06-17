@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
     {"name": "blue", "value": Colors.blue},
     {"name": "green", "value": Colors.green},
   ];
-  String selectedColor;
+  String selectedColor = "red";
   String currentPlayerName;
   List<Map<String, dynamic>> selectedColorList = [null, null, null, null];
   List<Widget> gridItems = List.generate(15, (index) => Container());
@@ -81,6 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
   // List<Map<int, dynamic>>;
   List<Map<int, dynamic>> prevOffsets = [];
   bool showSplash = true;
+  bool infoRecvd = false;
+  bool offsetsSet = false;
+  bool dbSet = false;
   final TextEditingController _typeAheadController = TextEditingController();
 
   static const double BASEBOTTOM2 = 2.0;
@@ -99,6 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+  // print("VARS --------------__________________----------------------_________________________________________________");
+  // print(!(infoRecvd && dbSet && offsetsSet));
     return Stack(children: [
       Container(
         decoration: BoxDecoration(
@@ -108,25 +113,30 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Scaffold(
             backgroundColor: Colors.transparent,
             appBar: appBar(context, showSplash, undo),
-            body: showSplash
+            body: showSplash || !(infoRecvd && dbSet && offsetsSet)
                 ? SplashScreen()
                 : Stack(children: [
                     Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          availableColors.length < 2
-                              ? Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[playerAddButton(2)],
-                                )
-                              : Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    playerAddButton(1),
-                                    playerAddButton(2)
-                                  ],
-                                ),
+                          selectedColorList[2] == null
+                              ? Container(
+                                  width: 50,
+                                  height: 50,
+                                  color: Colors.transparent)
+                              : availableColors.length < 2
+                                  ? Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[playerAddButton(2)],
+                                    )
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        playerAddButton(1),
+                                        playerAddButton(2)
+                                      ],
+                                    ),
                           Center(
                             child: Container(
                                 height: MediaQuery.of(context).size.width,
@@ -141,7 +151,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              playerAddButton(0),
+                              selectedColorList[0] == null
+                                  ? Container(
+                                      width: 50,
+                                      height: 50,
+                                      color: Colors.transparent)
+                                  : playerAddButton(0),
                               playerAddButton(3)
                             ],
                           ),
@@ -154,25 +169,30 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.all(0),
-                        child: Text("v1.1.5"),
+                        child: Text("v1.1.8"),
                       )),
                     ),
-                    Positioned(
-                      bottom: MediaQuery.of(context).size.height * 0.15,
-                      right: 10,
-                      child: Center(
-                          child: Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.all(0),
-                        child: FlatButton(
-                          child: Text('END GAME'),
-                          onPressed: () {
-                            endGame();
-                          },
-                          color: Colors.green,
-                        ),
-                      )),
-                    ),
+                    // Positioned(
+                    //   top: 0,
+                    //   right: 10,
+                    //   child: Row(
+                    //     children: <Widget>[
+                    //       Text('UNDO'),
+                    //       SizedBox(
+                    //         width: 10,
+                    //       ),
+                    //       GestureDetector(
+                    //         onTap: undo,
+                    //         child: Image.asset(
+                    //           "assets/undo_icon.png",
+                    //           width: 30,
+                    //           fit: BoxFit.contain,
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    selfDiceRow(),
                     Visibility(
                         visible: tappedPlayer == 0,
                         child: Positioned(
@@ -186,86 +206,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Text(predictionText),
                           )),
                         )),
-                    Visibility(
-                        visible: availableColors.length < 2 &&
-                            ((selectedColorList.length > 2 &&
-                                    selectedColorList[2] != null)
-                                ? selectedColorList[2]['user'] != null
-                                    ? true
-                                    : false
-                                : false),
-                        child: Positioned(
-                            left: 2,
-                            child: Container(
-                              alignment: Alignment.topLeft,
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.all(0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Row(
-                                      children: [1, 2, 3, 4, 5, 6]
-                                          .map((e) => GestureDetector(
-                                                onTap: () {
-                                                  print('onTap #10');
-                                                  setState(() {
-                                                    playerAutoMove = true;
-                                                    tappedPlayer = 2;
-                                                  });
-                                                  onDiceTap(e, 2);
-                                                },
-                                                child: Image.asset(
-                                                  "assets/dice-$e.png",
-                                                  fit: BoxFit.fill,
-                                                  width: diceNo == e &&
-                                                          tappedPlayer == 2
-                                                      ? MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.12
-                                                      : MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.10,
-                                                  height: diceNo == e &&
-                                                          tappedPlayer == 2
-                                                      ? MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.12
-                                                      : MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.10,
-                                                ),
-                                              ))
-                                          .toList()),
-                                  Text(selectedColorList[2] == null
-                                      ? ''
-                                      : selectedColorList[2]['user'] == null
-                                          ? ''
-                                          : "Winning Stats: ${selectedColorList[2]['user'].wins}/${selectedColorList[2]['user'].games} (${((selectedColorList[2]['user'].wins / selectedColorList[2]['user'].games) * 100).round()} %)"),
-                                  Text(
-                                    "Total Houses: ${getTotalHouses(2)}",
-                                    style: TextStyle(color: Color(0xff465e6e)),
-                                  ),
-                                  Text("Sixes to start: ${getSixToStart(2)}",
-                                      style:
-                                          TextStyle(color: Color(0xff465e6e))),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      Text("Killed: ${getKills(2)}",
-                                          style: TextStyle(
-                                              color: Color(0xff465e6e))),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ))),
+                    oppDiceRow(),
                     Positioned(
-                      top: MediaQuery.of(context).size.height * 0.1,
+                      top: MediaQuery.of(context).size.height * 0.12,
                       child: Visibility(
                           visible: availableColors.length < 2 &&
                               ((selectedColorList.length > 2 &&
@@ -274,26 +217,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ? true
                                       : false
                                   : false) &&
-                              invalidDiceNos.length > 0,
+                              invalidDiceNos.length > 0 &&
+                              tappedPlayer == 2,
                           child: Center(
                               child: Container(
                             alignment: Alignment.center,
                             width: MediaQuery.of(context).size.width,
                             child: Text(
-                                "Cannot get ${invalidDiceNos.join(',')}",
+                                "CANNOT GET ${invalidDiceNos.join(',')}",
                                 style: TextStyle(color: Color(0xff465e6e))),
                           ))),
-                    )
+                    ),
+                    endGameButton(),
+                    selfStats()
                   ])),
       ),
     ]);
   }
 
   void undo() {
-    print("PREV OFFSETS LENGTH ____________________");
-    print(prevOffsets.length);
+  // print("PREV OFFSETS LENGTH ____________________");
+  // print(prevOffsets.length);
+  // print(prevOffsets[0][00]);
+
     if ([...prevOffsets].length != 0) {
       List<Map<int, dynamic>> tempOffsets = prevOffsets;
+    // print(tempOffsets[tempOffsets.length - 1]);
 
       // Map<int, dynamic> offsetRecvd = tempOffsets[0][00];
 
@@ -597,8 +546,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void reset() {
-    print('------------->in reset()');
+  // print('------------->in reset()');
     setState(() {
+      prevOffsets = [];
       availableColors = [
         {"name": "red", "value": Colors.red},
         {"name": "yellow", "value": Colors.yellow},
@@ -612,295 +562,6 @@ class _HomeScreenState extends State<HomeScreen> {
       move = false;
       diceNo = null;
       moveItem = null;
-      //   offsets = {
-      //     // 00: offsets[00],
-      //     // 10: offsets[10],
-      //     // 20: offsets[20],
-      //     // 30: offsets[30],
-
-      //     00: {
-      //       "initBottom":
-      //           getBottom(context, 2) * 0.5 + getBottom(context, 1) * 0.5,
-      //       "initLeft": getLeft(context, 2) * 0.4 + getLeft(context, 1) * 0.6,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 0,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     10: {
-      //       "initBottom":
-      //           getBottom(context, 3) * 0.5 + getBottom(context, 4) * 0.5,
-      //       "initLeft": getLeft(context, 2) * 0.4 + getLeft(context, 1) * 0.6,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 0,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     20: {
-      //       "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
-      //       "initLeft": getLeft(context, 3) * 0.6 + getLeft(context, 4) * 0.4,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 0,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     30: {
-      //       "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
-      //       "initLeft": getLeft(context, 3) * 0.6 + getLeft(context, 4) * 0.4,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 0,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     01: {
-      //       "initBottom":
-      //           getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
-      //       "initLeft": (getLeft(context, 2) + getLeft(context, 1)) / 2,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 1,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     11: {
-      //       "initBottom":
-      //           getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
-      //       "initLeft": (getLeft(context, 2) + getLeft(context, 1)) / 2,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 1,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     21: {
-      //       "initBottom":
-      //           getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
-      //       "initLeft": (getLeft(context, 3) + getLeft(context, 4)) / 2,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 1,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     31: {
-      //       "initBottom":
-      //           getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
-      //       "initLeft": (getLeft(context, 3) + getLeft(context, 4)) / 2,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 1,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     02: {
-      //       "initBottom":
-      //           getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
-      //       "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 2,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     12: {
-      //       "initBottom":
-      //           getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
-      //       "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 2,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     22: {
-      //       "initBottom":
-      //           getBottom(context, 14) * 0.2 + getBottom(context, 13) * 0.8,
-      //       "initLeft": getLeft(context, 12) * 0.4 + getLeft(context, 13) * 0.6,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 2,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     32: {
-      //       "initBottom":
-      //           getBottom(context, 11) * 0.8 + getBottom(context, 12) * 0.2,
-      //       "initLeft": getLeft(context, 12) * 0.4 + getLeft(context, 13) * 0.6,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 2,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     03: {
-      //       "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
-      //       "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 3,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     13: {
-      //       "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
-      //       "initLeft": getLeft(context, 11) * 0.7 + getLeft(context, 10) * 0.3,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 3,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     23: {
-      //       "initBottom": (getBottom(context, 3) + getBottom(context, 4)) / 2,
-      //       "initLeft": getLeft(context, 12) * 0.3 + getLeft(context, 13) * 0.7,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 3,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //     33: {
-      //       "initBottom": (getBottom(context, 2) + getBottom(context, 1)) / 2,
-      //       "initLeft": getLeft(context, 12) * 0.3 + getLeft(context, 13) * 0.7,
-      //       "bottom": null,
-      //       "left": null,
-      //       "sameBottom": null,
-      //       "sameLeft": null,
-      //       "moved": false,
-      //       "position": -1,
-      //       "highlighted": false,
-      //       "predicted": false,
-      //       "xPosition": -1,
-      //       "sizeMultiplier": 1,
-      //       "playerIndex": 3,
-      //       "onMultiple": false,
-      //       "kills": 0
-      //     },
-      //   };
     });
     getInfo();
     setOffsets();
@@ -925,10 +586,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void getUsers() async {
     List<User> temporaryUsers = await DBProvider.db.getUsers();
-    print("TEMP USERS ==========>>>>>>>>>>>>");
-    print(temporaryUsers);
+  // print("TEMP USERS ==========>>>>>>>>>>>>");
+  // print(temporaryUsers);
     setState(() {
       users = temporaryUsers;
+      dbSet = true;
     });
   }
 
@@ -936,38 +598,45 @@ class _HomeScreenState extends State<HomeScreen> {
     // setState(() {
     //   currentPlayerName = query;
     // });
-    List<User> tempUsers = [...users];
+    if (query.trim() == '') {
+      return [];
+    } else {
+      List<User> tempUsers = [...users];
 
-    List<String> userNames = [];
-    tempUsers.retainWhere((s) {
-      if (s.name == null) {
-        return false;
-      } else {
-        print(s.name.toLowerCase());
-        print(query.toLowerCase());
-        print(s.name.toLowerCase().contains(query.toLowerCase()));
-        return s.name.toLowerCase().contains(query.toLowerCase());
-      }
-    });
+      List<String> userNames = [];
+      tempUsers.retainWhere((s) {
+        if (s.name == null) {
+          return false;
+        } else {
+        // print(s.name.toLowerCase());
+        // print(query.toLowerCase());
+        // print(s.name.toLowerCase().contains(query.toLowerCase()));
+          return s.name.toLowerCase().contains(query.toLowerCase());
+        }
+      });
 
-    [...tempUsers].asMap().forEach((key, value) {
-      userNames.add(value.name);
-    });
+      [...tempUsers].asMap().forEach((key, value) {
+        userNames.add(value.name);
+      });
 
-    return userNames;
+      return userNames;
+    }
   }
 
   void getInfo() async {
     // await DBProvider.db.deleteUser(1);
     // debugger();
     User user = await DBProvider.db.getSelfUser();
-    print("GET UNFO $user");
+  // print("GET UNFO $user");
     if (user == null) {
-      print("USER -----------> $user");
-      addMemberDialog(0, true);
+    // print("USER -----------> $user");
+      addMemberDialog(0, true, user: User(), exists: false);
     } else {
       saveSelfPlayer(user);
     }
+    setState(() {
+      infoRecvd = true;
+    });
     setSplash();
   }
 
@@ -1257,6 +926,7 @@ class _HomeScreenState extends State<HomeScreen> {
           "kills": 0
         },
       };
+      offsetsSet = true;
     });
   }
 
@@ -1277,9 +947,24 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void setPrevOffset(Map<int, dynamic> offsetRecvd) {
-    print("OFFFFSEEETTT RECVVDDD +++++++++++++++++++++++++++++++++++++++");
-    print(offsetRecvd[00]);
     Map<int, dynamic> tempofsetmap = {
+      00: {
+        "initBottom": offsetRecvd[00]["initBottom"],
+        "initLeft": offsetRecvd[00]["initLeft"],
+        "bottom": offsetRecvd[00]["bottom"],
+        "left": offsetRecvd[00]["left"],
+        "sameBottom": offsetRecvd[00]["sameBottom"],
+        "sameLeft": offsetRecvd[00]["sameLeft"],
+        "moved": offsetRecvd[00]["moved"],
+        "position": offsetRecvd[00]["position"],
+        "highlighted": offsetRecvd[00]["highlighted"],
+        "predicted": offsetRecvd[00]["predicted"],
+        "xPosition": offsetRecvd[00]["xPosition"],
+        "sizeMultiplier": offsetRecvd[00]["sizeMultiplier"],
+        "playerIndex": offsetRecvd[00]["playerIndex"],
+        "onMultiple": offsetRecvd[00]["onMultiple"],
+        "kills": offsetRecvd[00]["kills"],
+      },
       10: {
         "initBottom": offsetRecvd[10]["initBottom"],
         "initLeft": offsetRecvd[10]["initLeft"],
@@ -1547,7 +1232,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget renderGoti(int count, int position) {
-    print('------------->in renderGoti()');
+  // print('------------->in renderGoti()');
     if (selectedColorList[position] != null) {
       if (selectedColorList[position]["playerName"] != null &&
           selectedColorList[position]["playerName"] != "") {
@@ -1573,7 +1258,7 @@ class _HomeScreenState extends State<HomeScreen> {
               left: initLeft,
               child: GestureDetector(
                   onTap: () {
-                    print('onTap #1 move: ' + move.toString());
+                  // print('onTap #1 move: ' + move.toString());
                     if (move) {
                       Map<int, dynamic> currentOffsets = offsets;
                       currentOffsets[moveItem]["moved"] = false;
@@ -1606,181 +1291,181 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     // await new Future.delayed(const Duration(seconds : 5));
                     if (playerAutoMove && position == tappedPlayer) {
-                      print("AUTOMOVE TRUE");
+                    // print("AUTOMOVE TRUE");
 
                       moveGotiToV2(
                           currentOffsets, int.parse("$count$position"), diceNo);
                     } else {
-                      if (move) {
-                        int row = get2Dfrom1D(
-                            offsets[int.parse("$count$position")]
-                                ['xPosition'])[0];
-                        int clm = get2Dfrom1D(
-                            offsets[int.parse("$count$position")]
-                                ['xPosition'])[1];
-                        print('onTap #2 move: ' +
-                            move.toString() +
-                            " : " +
-                            get2Dfrom1D(offsets[int.parse("$count$position")]
-                                    ['xPosition'])
-                                .toString());
-                        if (!isLegal(row, clm, moveItem)) {
-                          return;
-                        }
+                      // if (move) {
+                      //   int row = get2Dfrom1D(
+                      //       offsets[int.parse("$count$position")]
+                      //           ['xPosition'])[0];
+                      //   int clm = get2Dfrom1D(
+                      //       offsets[int.parse("$count$position")]
+                      //           ['xPosition'])[1];
+                      // // print('onTap #2 move: ' +
+                      //       move.toString() +
+                      //       " : " +
+                      //       get2Dfrom1D(offsets[int.parse("$count$position")]
+                      //               ['xPosition'])
+                      //           .toString());
+                      //   if (!isLegal(row, clm, moveItem)) {
+                      //     return;
+                      //   }
 
-                        print("SET MOVE FALSE");
+                      //   print("SET MOVE FALSE");
 
-                        if (moveItem == int.parse("$count$position") &&
-                            currentOffsets[moveItem]["moved"] == false) {
-                          print("UNMARKING THE POSITION TO MOVE");
-                          currentOffsets[moveItem]["xPosition"] = -1;
-                          currentOffsets[moveItem]["bottom"] =
-                              offsets[int.parse("$count$position")]
-                                  ["initBottom"];
-                          currentOffsets[moveItem]["left"] =
-                              offsets[int.parse("$count$position")]["initLeft"];
-                          currentOffsets[moveItem]["moved"] = false;
-                          currentOffsets[moveItem]["highlighted"] = false;
-                          currentOffsets[moveItem]["predicted"] = false;
-                          currentOffsets = unhighlightAll(currentOffsets);
-                          setState(() {
-                            move = false;
-                            offsets = currentOffsets;
-                            diceNo = null;
-                          });
-                        } else if (moveItem == int.parse("$count$position") &&
-                            currentOffsets[moveItem]["moved"]) {
-                          currentOffsets[moveItem]["highlighted"] = false;
-                          setState(() {
-                            move = false;
-                            offsets = currentOffsets;
-                            diceNo = null;
-                          });
-                        } else {
-                          print("OUGHT TO MOVE");
-                          // first check if the goti that was clicked is it in home.
-                          // if it is home then change the selection without moving
-                          if (offsets[int.parse("$count$position")]
-                                  ["xPosition"] ==
-                              -1) {
-                            unhighlightAll(currentOffsets);
-                            print("EXCHANGING SELECTION");
-                            // TODO: do the exchange here
-                            moveItem = int.parse("$count$position");
-                            currentOffsets[moveItem]["highlighted"] = true;
-                            setState(() {
-                              move = true;
-                              offsets = currentOffsets;
-                            });
-                          } else {
-                            print("MOVING SELECTION");
-                            // this will set xPosition
-                            currentOffsets[moveItem]["xPosition"] =
-                                offsets[int.parse("$count$position")]
-                                    ["xPosition"];
-                            currentOffsets[moveItem]["bottom"] =
-                                offsets[int.parse("$count$position")]["bottom"];
-                            currentOffsets[moveItem]["left"] =
-                                offsets[int.parse("$count$position")]["left"];
-                            currentOffsets[moveItem]["moved"] = true;
-                            currentOffsets[moveItem]["highlighted"] = false;
-                            currentOffsets[moveItem]["predicted"] = false;
-                            currentOffsets = unhighlightAll(currentOffsets);
-                            // check if it is a non safe position so kill
-                            if (currentOffsets[moveItem]["playerIndex"] !=
-                                    currentOffsets[int.parse("$count$position")]
-                                        ["playerIndex"] &&
-                                isSafePosition(currentOffsets[
-                                            int.parse("$count$position")]
-                                        ["xPosition"]) ==
-                                    false) {
-                              currentOffsets[moveItem]["playerIndex"] += 1;
-                              print("KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                              currentOffsets[moveItem]["kills"] += 1;
-                              // currentOffsets[int.parse("$count$position")] =
-                              //     defaultOffsets[int.parse("$count$position")];
-                              currentOffsets[int.parse("$count$position")]
-                                  ["xPosition"] = -1;
-                              currentOffsets[int.parse("$count$position")]
-                                  ["onMultiple"] = false;
-                              currentOffsets[int.parse("$count$position")]
-                                  ["sizeMultiplier"] = 1;
-                              print(currentOffsets[int.parse("$count$position")]
-                                  ["xPosition"]);
-                              currentOffsets[int.parse("$count$position")]
-                                  ["moved"] = false;
-                            }
+                      //   if (moveItem == int.parse("$count$position") &&
+                      //       currentOffsets[moveItem]["moved"] == false) {
+                      //     print("UNMARKING THE POSITION TO MOVE");
+                      //     currentOffsets[moveItem]["xPosition"] = -1;
+                      //     currentOffsets[moveItem]["bottom"] =
+                      //         offsets[int.parse("$count$position")]
+                      //             ["initBottom"];
+                      //     currentOffsets[moveItem]["left"] =
+                      //         offsets[int.parse("$count$position")]["initLeft"];
+                      //     currentOffsets[moveItem]["moved"] = false;
+                      //     currentOffsets[moveItem]["highlighted"] = false;
+                      //     currentOffsets[moveItem]["predicted"] = false;
+                      //     currentOffsets = unhighlightAll(currentOffsets);
+                      //     setState(() {
+                      //       move = false;
+                      //       offsets = currentOffsets;
+                      //       diceNo = null;
+                      //     });
+                      //   } else if (moveItem == int.parse("$count$position") &&
+                      //       currentOffsets[moveItem]["moved"]) {
+                      //     currentOffsets[moveItem]["highlighted"] = false;
+                      //     setState(() {
+                      //       move = false;
+                      //       offsets = currentOffsets;
+                      //       diceNo = null;
+                      //     });
+                      //   } else {
+                      //     print("OUGHT TO MOVE");
+                      //     // first check if the goti that was clicked is it in home.
+                      //     // if it is home then change the selection without moving
+                      //     if (offsets[int.parse("$count$position")]
+                      //             ["xPosition"] ==
+                      //         -1) {
+                      //       unhighlightAll(currentOffsets);
+                      //       print("EXCHANGING SELECTION");
+                      //       // TODO: do the exchange here
+                      //       moveItem = int.parse("$count$position");
+                      //       currentOffsets[moveItem]["highlighted"] = true;
+                      //       setState(() {
+                      //         move = true;
+                      //         offsets = currentOffsets;
+                      //       });
+                      //     } else {
+                      //       print("MOVING SELECTION");
+                      //       // this will set xPosition
+                      //       currentOffsets[moveItem]["xPosition"] =
+                      //           offsets[int.parse("$count$position")]
+                      //               ["xPosition"];
+                      //       currentOffsets[moveItem]["bottom"] =
+                      //           offsets[int.parse("$count$position")]["bottom"];
+                      //       currentOffsets[moveItem]["left"] =
+                      //           offsets[int.parse("$count$position")]["left"];
+                      //       currentOffsets[moveItem]["moved"] = true;
+                      //       currentOffsets[moveItem]["highlighted"] = false;
+                      //       currentOffsets[moveItem]["predicted"] = false;
+                      //       currentOffsets = unhighlightAll(currentOffsets);
+                      //       // check if it is a non safe position so kill
+                      //       if (currentOffsets[moveItem]["playerIndex"] !=
+                      //               currentOffsets[int.parse("$count$position")]
+                      //                   ["playerIndex"] &&
+                      //           isSafePosition(currentOffsets[
+                      //                       int.parse("$count$position")]
+                      //                   ["xPosition"]) ==
+                      //               false) {
+                      //         currentOffsets[moveItem]["playerIndex"] += 1;
+                      //         print("KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                      //         currentOffsets[moveItem]["kills"] += 1;
+                      //         // currentOffsets[int.parse("$count$position")] =
+                      //         //     defaultOffsets[int.parse("$count$position")];
+                      //         currentOffsets[int.parse("$count$position")]
+                      //             ["xPosition"] = -1;
+                      //         currentOffsets[int.parse("$count$position")]
+                      //             ["onMultiple"] = false;
+                      //         currentOffsets[int.parse("$count$position")]
+                      //             ["sizeMultiplier"] = 1;
+                      //         print(currentOffsets[int.parse("$count$position")]
+                      //             ["xPosition"]);
+                      //         currentOffsets[int.parse("$count$position")]
+                      //             ["moved"] = false;
+                      //       }
 
-                            // Check multiple on one walla case
-                            currentOffsets =
-                                adjustForMultipleOnOne(currentOffsets);
-                            print("SETSTATE----------------");
+                      //       // Check multiple on one walla case
+                      //       currentOffsets =
+                      //           adjustForMultipleOnOne(currentOffsets);
+                      //       print("SETSTATE----------------");
 
-                            setState(() {
-                              move = false;
-                              offsets = currentOffsets;
-                              diceNo = null;
-                            });
-                          }
-                        }
-                        // itterate over the offsets to check ki kis kis ka
+                      //       setState(() {
+                      //         move = false;
+                      //         offsets = currentOffsets;
+                      //         diceNo = null;
+                      //       });
+                      //     }
+                      //   }
+                      //   // itterate over the offsets to check ki kis kis ka
+                      // } else {
+                      // print("SET MOVE TRUE");
+                      // print(int.parse("$count$position"));
+                      // print(offsets[01]);
+                      // Map<int, dynamic> currentOffsets = offsets;
+
+                      // // Check if multiple Gotis are in the same box
+
+                      // if (currentOffsets[int.parse("$count$position")]
+                      //     ["onMultiple"]) {
+                      //   List<int> keys = [];
+                      //   List<int> countpos = [];
+
+                      //   int x = currentOffsets[int.parse("$count$position")]
+                      //       ["xPosition"];
+                      //   // for(int i; i < currentOffsets.length; i++) {
+                      //   //   currentOffsets[i]
+                      //   // }
+                      //   currentOffsets.forEach((index, value) {
+                      //     print(index);
+                      //     if (value["xPosition"] == x) {
+                      //       keys.add(index);
+                      //     }
+                      //   });
+                      //   List<int> currentOffsetkeys =
+                      //       currentOffsets.keys.toList();
+                      //   for (int i = 0; i < keys.length; i++) {
+                      //     countpos.add(currentOffsetkeys[i]);
+                      //   }
+                      //   moveGotiDialog(keys);
+                      // }
+
+                      if (currentOffsets[int.parse("$count$position")]
+                          ["predicted"]) {
+                      // print("---------------------> PREDICTED");
+                        moveGotiToV2(currentOffsets,
+                            int.parse("$count$position"), diceNo);
                       } else {
-                        print("SET MOVE TRUE");
-                        print(int.parse("$count$position"));
-                        print(offsets[01]);
-                        Map<int, dynamic> currentOffsets = offsets;
-
-                        // Check if multiple Gotis are in the same box
-
-                        if (currentOffsets[int.parse("$count$position")]
-                            ["onMultiple"]) {
-                          List<int> keys = [];
-                          List<int> countpos = [];
-
-                          int x = currentOffsets[int.parse("$count$position")]
-                              ["xPosition"];
-                          // for(int i; i < currentOffsets.length; i++) {
-                          //   currentOffsets[i]
-                          // }
-                          currentOffsets.forEach((index, value) {
-                            print(index);
-                            if (value["xPosition"] == x) {
-                              keys.add(index);
-                            }
-                          });
-                          List<int> currentOffsetkeys =
-                              currentOffsets.keys.toList();
-                          for (int i = 0; i < keys.length; i++) {
-                            countpos.add(currentOffsetkeys[i]);
-                          }
-                          moveGotiDialog(keys);
-                        }
-
-                        if (currentOffsets[int.parse("$count$position")]
-                            ["predicted"]) {
-                          print("---------------------> PREDICTED");
-                          moveGotiToV2(currentOffsets,
-                              int.parse("$count$position"), diceNo);
-                        } else {
-                          currentOffsets = unhighlightAll(currentOffsets);
-                          currentOffsets[int.parse("$count$position")]
-                              ["highlighted"] = true;
-                          setState(() {
-                            move = true;
-                            moveItem = int.parse("$count$position");
-                            offsets = currentOffsets;
-                          });
-                        }
+                        // currentOffsets = unhighlightAll(currentOffsets);
+                        // currentOffsets[int.parse("$count$position")]
+                        //     ["highlighted"] = true;
+                        // setState(() {
+                        //   move = true;
+                        //   moveItem = int.parse("$count$position");
+                        //   offsets = currentOffsets;
+                        // });
                       }
                     }
+                    // }
                   },
                   child: Container(
                       child: offsets[int.parse("$count$position")]["predicted"]
                           ? BlinkingWidget(Image.asset(
                               offsets[int.parse("$count$position")]
                                       ["highlighted"]
-                                  ? "assets/_goti_${selectedColorList[position]["name"]}.png"
-                                  : "assets/goti_${selectedColorList[position]["name"]}.png",
+                                  ? "assets/_goti_${selectedColorList[position]["name"]}_${count + 1}.png"
+                                  : "assets/goti_${selectedColorList[position]["name"]}_${count + 1}.png",
                               width: size,
                               height: size,
                               fit: BoxFit.fitHeight,
@@ -1788,8 +1473,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           : Image.asset(
                               offsets[int.parse("$count$position")]
                                       ["highlighted"]
-                                  ? "assets/_goti_${selectedColorList[position]["name"]}.png"
-                                  : "assets/goti_${selectedColorList[position]["name"]}.png",
+                                  ? "assets/_goti_${selectedColorList[position]["name"]}_${count + 1}.png"
+                                  : "assets/goti_${selectedColorList[position]["name"]}_${count + 1}.png",
                               width: size,
                               height: size,
                               fit: BoxFit.fitHeight,
@@ -1807,7 +1492,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Map<int, dynamic> adjustForMultipleOnOne(Map<int, dynamic> currentOffsets) {
     for (int xPosition = 0; xPosition < 75; xPosition++) {
-      print('in adjustForMultipleOnOne xPosition: ' + xPosition.toString());
+    // print('in adjustForMultipleOnOne xPosition: ' + xPosition.toString());
       List<int> rowClm = get2Dfrom1D(xPosition);
       int row = rowClm[0];
       int clm = rowClm[1];
@@ -1825,40 +1510,40 @@ class _HomeScreenState extends State<HomeScreen> {
       }
 
       if (overlapingKeys.length > 1 && xPosition != -1) {
-        print(">>>>>>>>>>>>>>>>>>>>>>GREATER THAN 0 ${overlapingKeys.length}");
+      // print(">>>>>>>>>>>>>>>>>>>>>>GREATER THAN 0 ${overlapingKeys.length}");
         double gap = ((getLeft(context, 1) - getLeft(context, 0)) /
                 overlapingKeys.length) *
             0.6;
 
         for (int i = 0; i < overlapingKeys.length; i++) {
-          print("KEYYSSS >>>>>>>>>>> ${overlapingKeys[i]}");
+        // print("KEYYSSS >>>>>>>>>>> ${overlapingKeys[i]}");
           int center = (overlapingKeys.length / 2).floor();
           if ((overlapingKeys.length % 2) == 0) {
             //print("even");
             if (i < center) {
-              print(i.toString() +
-                  ' : ' +
-                  getLeft(context, clm).toString() +
-                  " : " +
-                  (getLeft(context, clm) + gap * (i - center)).toString());
+            // print(i.toString() +
+            //       ' : ' +
+            //       getLeft(context, clm).toString() +
+            //       " : " +
+            //       (getLeft(context, clm) + gap * (i - center)).toString());
               currentOffsets[overlapingKeys[i]]['left'] =
                   getLeft(context, clm) + gap * (i - center);
             } else {
-              print(i.toString() +
-                  ' : ' +
-                  getLeft(context, clm).toString() +
-                  " : " +
-                  (getLeft(context, clm) + gap * (i - center + 1)).toString());
+              // print(i.toString() +
+              //     ' : ' +
+              //     getLeft(context, clm).toString() +
+              //     " : " +
+              //     (getLeft(context, clm) + gap * (i - center + 1)).toString());
               currentOffsets[overlapingKeys[i]]['left'] =
                   getLeft(context, clm) + gap * (i - center + 1);
             }
           } else {
-            print("odd");
-            print(i.toString() +
-                ' : ' +
-                getLeft(context, clm).toString() +
-                " : " +
-                (getLeft(context, clm) + gap * (i - center)).toString());
+          // print("odd");
+            // print(i.toString() +
+            //     ' : ' +
+            //     getLeft(context, clm).toString() +
+            //     " : " +
+            //     (getLeft(context, clm) + gap * (i - center)).toString());
             currentOffsets[overlapingKeys[i]]['left'] =
                 getLeft(context, clm) + gap * (i - center);
           }
@@ -1867,17 +1552,17 @@ class _HomeScreenState extends State<HomeScreen> {
           currentOffsets[overlapingKeys[i]]['onMultiple'] = true;
         }
 
-        print("adjustForMultipleOnOne gap: " +
-            gap.toString() +
-            " : " +
-            overlapingKeys.toString());
+        // print("adjustForMultipleOnOne gap: " +
+        //     gap.toString() +
+        //     " : " +
+        //     overlapingKeys.toString());
       } else if (overlapingKeys.length == 1) {
-        print("ONLY ONE KEY IN BOX");
+      // print("ONLY ONE KEY IN BOX");
         currentOffsets[overlapingKeys[0]]['onMultiple'] = false;
         currentOffsets[overlapingKeys[0]]['sizeMultiplier'] = 1;
         currentOffsets[overlapingKeys[0]]['left'] = getLeft(context, clm);
       } else if (xPosition == -1 && overlapingKeys.length > 0) {
-        print("MULTIPLE -1 _____________________--");
+      // print("MULTIPLE -1 _____________________--");
 
         for (int i = 0; i < overlapingKeys.length; i++) {
           currentOffsets[overlapingKeys[i]]['sizeMultiplier'] = 1;
@@ -1886,8 +1571,8 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       }
     }
-    print(currentOffsets.toString());
-    print("------------------------DOONNEEE WITH CALCULATION");
+  // print(currentOffsets.toString());
+  // print("------------------------DOONNEEE WITH CALCULATION");
     return currentOffsets;
   }
 
@@ -1904,20 +1589,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
     currentOffsets = adjustForMultipleOnOne(currentOffsets);
 
-    print("SETSTATE----------------");
+  // print("SETSTATE----------------");
 
     return currentOffsets;
   }
 
   void moveGotiTo(int row, int clm, currentOffsets, moveItem) {
-    print('moveGotiTo: ' +
-        row.toString() +
-        ' : ' +
-        clm.toString() +
-        ' : ' +
-        currentOffsets.toString() +
-        ' : ' +
-        moveItem.toString());
+    // print('moveGotiTo: ' +
+    //     row.toString() +
+    //     ' : ' +
+    //     clm.toString() +
+    //     ' : ' +
+    //     currentOffsets.toString() +
+    //     ' : ' +
+    //     moveItem.toString());
 
     double bottom = getBottom(context, row);
     double left = getLeft(context, clm);
@@ -1929,7 +1614,7 @@ class _HomeScreenState extends State<HomeScreen> {
     currentOffsets[moveItem]["predicted"] = false;
     currentOffsets[moveItem]["position"] =
         getActualposition(x, int.parse(moveItem.toString().split("").last));
-    print('############ 1 SETTING xPosition to' + x.toString());
+  // print('############ 1 SETTING xPosition to' + x.toString());
     currentOffsets[moveItem]["xPosition"] = x;
 
     var temp = currentOffsets[moveItem];
@@ -1941,7 +1626,7 @@ class _HomeScreenState extends State<HomeScreen> {
           (key != moveItem) &&
           (currentOffsets[key]["xPosition"] == x) &&
           (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
-        print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      // print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
         currentOffsets[moveItem]["kills"] += 1;
         // currentOffsets[key] = defaultOffsets[key];
         currentOffsets[key]["xPosition"] = -1;
@@ -1953,7 +1638,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Check multiple on one walla case
     currentOffsets = adjustForMultipleOnOne(currentOffsets);
-    print("SETSTATE----------------");
+  // print("SETSTATE----------------");
 
     currentOffsets[moveItem] = temp;
 
@@ -1967,7 +1652,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void moveGotiToV2(currentOffsets, moveItem, diceCount) {
-    print('in moveGotiToV2');
+  // print('in moveGotiToV2');
     List<int> rowClm;
     if (currentOffsets[moveItem]["xPosition"] == -1) {
       if (currentOffsets[moveItem]["playerIndex"] == 0) {
@@ -1984,14 +1669,17 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     } else {
       int newXPos = currentOffsets[moveItem]["xPosition"] + diceNo;
-      print("newXPos: " + newXPos.toString());
+    // print("newXPos: " + newXPos.toString());
       if (newXPos == 52 && diceNo == 1) {
         newXPos = 0;
       } else if (currentOffsets[moveItem]["playerIndex"] == 0) {
+        if (newXPos == 51) {
+          newXPos = newXPos + 1;
+        }
         rowClm = get2Dfrom1D(newXPos);
       } else {
         if (currentOffsets[moveItem]["playerIndex"] == 1) {
-          print('player 1');
+        // print('player 1');
           if (newXPos >= 51 && newXPos <= 56) {
             // if x >= 53 so x-53
             if (newXPos == 52) {
@@ -2009,7 +1697,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         }
         if (currentOffsets[moveItem]["playerIndex"] == 2) {
-          print('player 2');
+        // print('player 2');
           if (newXPos >= 51 && newXPos <= 56) {
             // if x >= 53 so x-53
             if (newXPos == 52) {
@@ -2027,7 +1715,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         }
         if (currentOffsets[moveItem]["playerIndex"] == 3) {
-          print('player 3');
+        // print('player 3');
           if (newXPos >= 51 && newXPos <= 56) {
             // if x >= 53 so x-53
             if (newXPos == 52) {
@@ -2051,14 +1739,14 @@ class _HomeScreenState extends State<HomeScreen> {
     int row = rowClm[0];
     int clm = rowClm[1];
 
-    print('moveGotiTo: ' +
-        row.toString() +
-        ' : ' +
-        clm.toString() +
-        ' : ' +
-        currentOffsets.toString() +
-        ' : ' +
-        moveItem.toString());
+  // print('moveGotiTo: ' +
+        // row.toString() +
+        // ' : ' +
+        // clm.toString() +
+        // ' : ' +
+        // currentOffsets.toString() +
+        // ' : ' +
+        // moveItem.toString());
 
     double bottom = getBottom(context, row);
     double left = getLeft(context, clm);
@@ -2070,7 +1758,7 @@ class _HomeScreenState extends State<HomeScreen> {
     currentOffsets[moveItem]["predicted"] = false;
     currentOffsets[moveItem]["position"] =
         getActualposition(x, int.parse(moveItem.toString().split("").last));
-    print('############ 1 SETTING xPosition to' + x.toString());
+  // print('############ 1 SETTING xPosition to' + x.toString());
     currentOffsets[moveItem]["xPosition"] = x;
 
     var temp = currentOffsets[moveItem];
@@ -2082,7 +1770,7 @@ class _HomeScreenState extends State<HomeScreen> {
           (key != moveItem) &&
           (currentOffsets[key]["xPosition"] == x) &&
           (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
-        print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      // print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
         currentOffsets[moveItem]["kills"] += 1;
         // currentOffsets[key] = defaultOffsets[key];
         currentOffsets[key]["xPosition"] = -1;
@@ -2094,7 +1782,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Check multiple on one walla case
     currentOffsets = adjustForMultipleOnOne(currentOffsets);
-    print("SETSTATE----------------");
+  // print("SETSTATE----------------");
 
     currentOffsets[moveItem] = temp;
 
@@ -2105,7 +1793,7 @@ class _HomeScreenState extends State<HomeScreen> {
       offsets = currentOffsets;
     });
     if (diceNo != 6) {
-      print("DICE NUMBER NOT 6 $diceNo");
+    // print("DICE NUMBER NOT 6 $diceNo");
 
       setState(() {
         tappedPlayer = tappedPlayer == 0 ? 2 : 0;
@@ -2116,7 +1804,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //   setState(() {
     //     tappedPlayer = 2;
     //   });
-    print("DICE NO 6 $diceNo");
+  // print("DICE NO 6 $diceNo");
     // }
 
     setState(() {
@@ -2135,7 +1823,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     [1, 2, 3, 4, 5, 6].forEach((diceNo) {
-      print(diceNo);
+    // print(diceNo);
       player2xPositions.forEach((xPos) {
         if (!isSafePosition(xPos + diceNo)) {
           int index = player2xPositions
@@ -2143,7 +1831,7 @@ class _HomeScreenState extends State<HomeScreen> {
           if (index != -1) {
             if (invalidNos.indexOf(diceNo) == -1) {
               invalidNos.add(diceNo);
-              print("INVALID $diceNo");
+            // print("INVALID $diceNo");
             }
 
             return;
@@ -2253,8 +1941,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      HomeScreen(Image.asset("assets/ludo_background.png"))),
+                                  builder: (BuildContext context) => HomeScreen(
+                                      Image.asset(
+                                          "assets/ludo_background.png"))),
                               ModalRoute.withName('/'),
                             );
                           },
@@ -2282,8 +1971,8 @@ class _HomeScreenState extends State<HomeScreen> {
             border: selectedColorList[position] != null
                 ? null
                 : Border.all(color: Color(0xff465e6e))),
-        width: 50,
-        height: 50,
+        width: 70,
+        height: 70,
         child: selectedColorList[position] != null
             ? Center(
                 child: Column(children: [
@@ -2291,6 +1980,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     "assets/${position == winningPlayer ? '_' : ''}avatar_${selectedColorList[position]["name"]}.png",
                     height: 50,
                     width: 50),
+                Text(selectedColorList[position] != null
+                    ? selectedColorList[position]["playerName"] != null
+                        ? selectedColorList[position]["playerName"]
+                        : ""
+                    : "")
               ]))
             : Center(
                 child: Icon(Icons.add),
@@ -2299,9 +1993,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void addMemberDialog(int position, bool self, {User user}) {
-    print('------------->in addMemberDialog()');
-    print(availableColors);
+  void addMemberDialog(int position, bool self,
+      {User user, bool exists = true}) {
+    User usertobeSent = exists ? user : null;
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -2342,9 +2036,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   expands: false,
                                   initialValue: user.name,
                                   onChanged: (value) {
-                                    print("ONCHANGED $value");
+                                  // print("ONCHANGED $value");
                                     setState(() {
-                                      print(value);
+                                    // print(value);
                                       currentPlayerName = value;
                                     });
                                   },
@@ -2382,7 +2076,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 20,
                         ),
-                        bottomRow(position, self, user: user)
+                        bottomRow(position, self,
+                            user: usertobeSent, exists: exists)
                       ],
                     ),
                   ])),
@@ -2416,8 +2111,19 @@ class _HomeScreenState extends State<HomeScreen> {
         });
         this._typeAheadController.text = suggestion;
       },
+      validator: (String value) {
+        // setState(() {
+        //   currentPlayerName = value;
+        // });
+        if (value.isEmpty) {
+          return 'Enter a name!';
+        } else {
+          return '';
+        }
+      },
+      autovalidate: true,
       onSaved: (value) {
-        print(value);
+      // print(value);
         setState(() {
           currentPlayerName = value;
         });
@@ -2426,7 +2132,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void resetDialog() {
-    print('------------->in resetDialog()');
+  // print('------------->in resetDialog()');
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -2444,7 +2150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      print('onTap #4');
+                    // print('onTap #4');
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -2491,7 +2197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: TextStyle(color: Colors.white),
                               )),
                           onTap: () {
-                            print('onTap #5');
+                          // print('onTap #5');
                             reset();
                             Navigator.pop(context);
                           },
@@ -2505,7 +2211,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<Widget> layout() {
-    print('------------->in layout()');
+  // print('------------->in layout()');
     List<Widget> layoutItems = [];
     layoutItems.addAll([colorBox(0), colorBox(1), colorBox(3), centerSquare()]);
     if (selectedColorList[2] != null) {
@@ -2537,41 +2243,40 @@ class _HomeScreenState extends State<HomeScreen> {
                 ? IgnorePointer(child: Container())
                 : GestureDetector(
                     onTap: () {
-                      print("================LAYOUT============");
+                      // print("================LAYOUT============");
 
-                      print('onTap #6 move: ' +
-                          move.toString() +
-                          ' moveItem: ' +
-                          moveItem.toString());
-                      if (move && isLegal(row, col, moveItem)) {
-                        currentOffsets = unhighlightAll(currentOffsets);
-                        currentOffsets[moveItem]["bottom"] = bottom * 1.05;
-                        currentOffsets[moveItem]["left"] = left;
-                        currentOffsets[moveItem]["moved"] = true;
-                        currentOffsets[moveItem]["highlighted"] = false;
-                        currentOffsets[moveItem]["predicted"] = false;
-                        currentOffsets[moveItem]["position"] =
-                            getActualposition(x,
-                                int.parse(moveItem.toString().split("").last));
-                        print('############ 2 SETTING xPosition OF $moveItem' +
-                            x.toString());
-                        currentOffsets[moveItem]["xPosition"] = x;
-                        currentOffsets = unhighlightAll(currentOffsets);
+                      // print('onTap #6 move: ' +
+                      //     move.toString() +
+                      //     ' moveItem: ' +
+                      //     moveItem.toString());
+                      // if (move && isLegal(row, col, moveItem)) {
+                      //   currentOffsets = unhighlightAll(currentOffsets);
+                      //   currentOffsets[moveItem]["bottom"] = bottom * 1.05;
+                      //   currentOffsets[moveItem]["left"] = left;
+                      //   currentOffsets[moveItem]["moved"] = true;
+                      //   currentOffsets[moveItem]["highlighted"] = false;
+                      //   currentOffsets[moveItem]["predicted"] = false;
+                      //   currentOffsets[moveItem]["position"] =
+                      //       getActualposition(x,
+                      //           int.parse(moveItem.toString().split("").last));
+                      //   print('############ 2 SETTING xPosition OF $moveItem' +
+                      //       x.toString());
+                      //   currentOffsets[moveItem]["xPosition"] = x;
+                      //   currentOffsets = unhighlightAll(currentOffsets);
 
-                        setState(() {
-                          move = false;
-                          offsets = currentOffsets;
-                          diceNo = null;
-                        });
-                      }
+                      //   setState(() {
+                      //     move = false;
+                      //     offsets = currentOffsets;
+                      //     diceNo = null;
+                      //   });
+                      // }
                     },
                     child: Container(
                         alignment: Alignment.center,
 //                        margin: EdgeInsets.only(
 //                          bottom: 5,
 //                        ),
-                        // child:
-                        // Text(
+                        // child: Text(
                         //   // $row,$col\n
                         //   "$x",
                         //   style: TextStyle(color: Colors.black, fontSize: 10),
@@ -2603,11 +2308,15 @@ class _HomeScreenState extends State<HomeScreen> {
     if (selectedColorList[2] == null) {
       layoutItems.add(colorBox(2));
     }
+    if (selectedColorList[0] == null) {
+    // print("NULL");
+      layoutItems.add(colorBox(0));
+    }
     return layoutItems;
   }
 
   void changeSize(x, moveItem) {
-    print('------------->in changeSize()');
+  // print('------------->in changeSize()');
     Map<int, dynamic> currentOffsets = offsets;
 
     List keysToBeModfied = [];
@@ -2634,8 +2343,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget colorDropDown(String label, Function setStateFunc, {User user}) {
     List<Map<String, dynamic>> temp =
         user == null ? availableColors : allColors;
-    print(temp);
-    print('------------->in colorDropDown()');
+  // print(temp);
+  // print('------------->in colorDropDown()');
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
@@ -2655,7 +2364,7 @@ class _HomeScreenState extends State<HomeScreen> {
         itemExtent: 40,
         onSelectedItemChanged: (item) {
           setStateFunc(() {
-            print("CHANGING SELECTED COLOR");
+          // print("CHANGING SELECTED COLOR");
             selectedColor = user == null
                 ? availableColors[item]["name"]
                 : allColors[item]["name"];
@@ -2675,7 +2384,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget androidDropdown(
       String label, Function setStateFunc, List<Map<String, dynamic>> colorlist,
       {User user}) {
-    print("SELECTED COLOR $selectedColor");
+  // print("SELECTED COLOR $selectedColor");
     return DropdownButton(
       underline: Container(),
       style: TextStyle(fontSize: 18, fontFamily: 'Roboto'),
@@ -2731,46 +2440,256 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget bottomRow(int position, bool self, {User user}) {
-    print('------------->in bottomRow()');
+  Widget endGameButton() {
+    return Visibility(
+        visible: selectedColorList[2] != null &&
+            selectedColorList[1] != null &&
+            selectedColorList[0] != null &&
+            selectedColorList[3] != null,
+        child: Positioned(
+          bottom: 5,
+          right: 10,
+          child: Container(
+              width: MediaQuery.of(context).size.width,
+              alignment: Alignment.centerRight,
+              child: FlatButton(
+                child: Text(
+                  'END GAME',
+                ),
+                color: Colors.green,
+                onPressed: () {
+                  endGame();
+                },
+              )),
+        ));
+  }
+
+  List<Widget> getEachGoti(int position) {
+    List<Widget> columns = [];
+
+    if (selectedColorList[position] != null) {
+      [
+        int.parse('0$position'),
+        int.parse('1$position'),
+        int.parse('2$position'),
+        int.parse('3$position')
+      ].forEach((element) {
+        int homePos = position == 0 ? 56 : 69;
+      // print("POSITION -------->>>>>>>>>>>>>>>>>> $position \n");
+      // print(getActualposition(offsets[element]['xPosition'], position));
+        int positionsLeft = offsets[element]['xPosition'] == -1
+            ? 56
+            : gethouses(element, position);
+
+        columns.add(Padding(
+            padding: EdgeInsets.only(right: 5),
+            child: Column(
+              children: <Widget>[
+                Text(
+                    '${selectedColorList[position]['name'].toString().substring(0, 1).toUpperCase()}${(int.parse(element.toString().split('').first) + 1)}'),
+                Text('$positionsLeft')
+              ],
+            )));
+      });
+      columns.add(
+        Column(
+          children: <Widget>[Text('M6'), Text('${getSixToStart(position)}')],
+        ),
+      );
+      columns.add(Padding(
+        padding: EdgeInsets.only(right: 5, left: 5),
+        child: Column(
+          children: <Widget>[
+            Text('TOTAL'),
+            Text('${getTotalHouses(position)}')
+          ],
+        ),
+      ));
+    }
+
+    return columns;
+  }
+
+  String getWinningStats(int pos) {
+    int wins = selectedColorList[pos]['user'].wins;
+    int games = selectedColorList[pos]['user'].games;
+    double percent = games == 0 ? 0 : (wins / games) * 100;
+    return "Winning Stats: $wins/$games (${((percent).round())} %)";
+  }
+
+  Widget selfStats() {
+    return Positioned(
+        bottom: MediaQuery.of(context).size.height * 0.06,
+        right: 10,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
+          Row(children: getEachGoti(0)),
+          Text(selectedColorList[0] == null
+              ? ''
+              : selectedColorList[0]['user'] == null ? '' : getWinningStats(0)),
+          Text("Total killed: ${getKills(0)}",
+              style: TextStyle(color: Color(0xff465e6e))),
+          Text("No sixes: ${getNoSixCount(0)}",
+              style: TextStyle(color: Color(0xff465e6e))),
+          SizedBox(
+            height: 10,
+          )
+        ]));
+  }
+
+  Widget oppDiceRow() {
+    // selectedColorList[2]['user'] != null
+    return Visibility(
+        visible: availableColors.length < 2 &&
+            ((selectedColorList.length > 2 && selectedColorList[2] != null)
+                ? true ? true : false
+                : false),
+        child: Positioned(
+            left: 2,
+            child: Container(
+              alignment: Alignment.topLeft,
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.all(0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                      children: [1, 2, 3, 4, 5, 6]
+                          .map((e) => GestureDetector(
+                                onTap: () {
+                                // print('onTap #10');
+                                  setState(() {
+                                    playerAutoMove = true;
+                                    tappedPlayer = 2;
+                                  });
+                                  onDiceTap(e, 2);
+                                },
+                                child: Image.asset(
+                                  "assets/dice-$e.png",
+                                  fit: BoxFit.fill,
+                                  width: diceNo == e && tappedPlayer == 2
+                                      ? MediaQuery.of(context).size.width * 0.12
+                                      : MediaQuery.of(context).size.width *
+                                          0.10,
+                                  height: diceNo == e && tappedPlayer == 2
+                                      ? MediaQuery.of(context).size.width * 0.12
+                                      : MediaQuery.of(context).size.width *
+                                          0.10,
+                                ),
+                              ))
+                          .toList()),
+                  Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(children: getEachGoti(2)),
+                            Text(selectedColorList[2] == null
+                                ? ''
+                                : selectedColorList[2]['user'] == null
+                                    ? ''
+                                    : getWinningStats(2)),
+                            Text("Total killed: ${getKills(2)}",
+                                style: TextStyle(color: Color(0xff465e6e))),
+                            Text("No sixes: ${getNoSixCount(2)}",
+                                style: TextStyle(color: Color(0xff465e6e))),
+                          ]))
+                ],
+              ),
+            )));
+  }
+
+  int getNoSixCount(int pos) {
+    if (selectedColorList[pos] == null) {
+      return 0;
+    } else {
+      return selectedColorList[pos]['nosix'];
+    }
+  }
+
+  Widget selfDiceRow() {
+    return Visibility(
+      visible: true,
+      child: Positioned(
+          bottom: MediaQuery.of(context).size.height * 0.18,
+          right: 10,
+          child: Row(
+              children: [1, 2, 3, 4, 5, 6]
+                  .map((e) => GestureDetector(
+                        onTap: () {
+                        // print('onTap #10');
+                          setState(() {
+                            tappedPlayer = 0;
+                          });
+                          onDiceTap(e, 0);
+                        },
+                        child: Image.asset(
+                          "assets/dice-$e.png",
+                          fit: BoxFit.fill,
+                          width: diceNo == e && tappedPlayer == 0
+                              ? MediaQuery.of(context).size.width * 0.12
+                              : MediaQuery.of(context).size.width * 0.10,
+                          height: diceNo == e && tappedPlayer == 0
+                              ? MediaQuery.of(context).size.width * 0.12
+                              : MediaQuery.of(context).size.width * 0.10,
+                        ),
+                      ))
+                  .toList())),
+    );
+  }
+
+  Widget bottomRow(int position, bool self, {User user, bool exists}) {
+  // print('------------->in bottomRow()');
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Stack(children: [
         GestureDetector(
-          // child: SvgPicture.asset(
-          //   "assets/popup_ok.svg",
-          //   height: 40,
-          //   color: Colors.green.shade300,
-          // ),
           child: Container(
               width: 140,
               height: 40,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: Colors.green.shade400,
+                  color:
+                      // ((_typeAheadController.text == '' ||
+                      //                 _typeAheadController.text == null) &&
+                      //             position == 2 ||
+                      (position == 0 &&
+                              (currentPlayerName == null ||
+                                  currentPlayerName == ''))
+                          // )
+                          ? Colors.grey
+                          : Colors.green.shade400,
                   borderRadius: BorderRadius.circular(30),
-                  border: Border.all(color: Colors.green.shade400, width: 6)),
+                  border: Border.all(
+                      color:
+                          // ((_typeAheadController.text == '' ||
+                          //                 _typeAheadController.text == null) &&
+                          //             position == 2 ||
+                          (position == 0 &&
+                                  (currentPlayerName == null ||
+                                      currentPlayerName == ''))
+                              // )
+                              ? Colors.grey
+                              : Colors.green.shade400,
+                      width: 6)),
               child: Text(
                 'OK',
                 style: TextStyle(color: Colors.white),
               )),
           onTap: () {
-            if (user == null) {
-              setState(() {
-                currentPlayerName = _typeAheadController.text;
-              });
-            }
+            if (!((_typeAheadController.text == '' ||
+                        _typeAheadController.text == null) &&
+                    position == 2 ||
+                (position == 0 &&
+                    (currentPlayerName == null || currentPlayerName == '')))) {
+              if (user == null && !self) {
+                setState(() {
+                  currentPlayerName = _typeAheadController.text;
+                });
+              }
 
-            // if (currentPlayerName != null) {
-            savePlayer(position, self, user: user);
-            Navigator.pop(context);
-            // } else {
-            //   SnackBar(
-            //     content: Text(
-            //       "Please insert a name to save the player",
-            //     ),
-            //     duration: Duration(seconds: 1),
-            //   );
-            // }
+              savePlayer(position, self, user: user, exists: exists);
+              Navigator.pop(context);
+            }
           },
         ),
       ])
@@ -2780,61 +2699,63 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget playerAddButton(int position) {
     return GestureDetector(
       onTap: () {
-        print('onTap #8');
+      // print('onTap #8');
         Map<int, dynamic> currentOffsets = offsets;
 
         if (selectedColorList[position] == null) {
           addMemberDialog(position, false);
-        } else {
-          if (position != 0) {
-            if (playerAutoMove) {
-              for (int i = 0; i < 4; i++) {
-                currentOffsets[int.parse("$i$tappedPlayer")]["highlighted"] =
-                    false;
-                print("AUTOMOVE TRUE");
-              }
-              setState(() {
-                offsets = currentOffsets;
-              });
-              if (position == tappedPlayer) {
-                setState(() {
-                  playerAutoMove = false;
-                  tappedPlayer = null;
-                });
-              } else {
-                setState(() {
-                  playerAutoMove = true;
-                  tappedPlayer = position;
-                });
-              }
-            } else {
-              setState(() {
-                playerAutoMove = true;
-                tappedPlayer = position;
-              });
-            }
-          } else {
-            if (playerAutoMove) {
-              for (int i = 0; i < 4; i++) {
-                currentOffsets[int.parse("$i$tappedPlayer")]["highlighted"] =
-                    false;
-                print("AUTOMOVE TRUE");
-              }
-              setState(() {
-                offsets = currentOffsets;
-              });
-              setState(() {
-                playerAutoMove = false;
-                tappedPlayer = null;
-              });
-            } else {
-              setState(() {
-                playerAutoMove = true;
-                tappedPlayer = position;
-              });
-            }
-          }
         }
+
+        // else {
+        //   if (position != 0) {
+        //     if (playerAutoMove) {
+        //       for (int i = 0; i < 4; i++) {
+        //         currentOffsets[int.parse("$i$tappedPlayer")]["highlighted"] =
+        //             false;
+        //       // print("AUTOMOVE TRUE");
+        //       }
+        //       setState(() {
+        //         offsets = currentOffsets;
+        //       });
+        //       if (position == tappedPlayer) {
+        //         setState(() {
+        //           playerAutoMove = false;
+        //           tappedPlayer = null;
+        //         });
+        //       } else {
+        //         setState(() {
+        //           playerAutoMove = true;
+        //           tappedPlayer = position;
+        //         });
+        //       }
+        //     } else {
+        //       setState(() {
+        //         playerAutoMove = true;
+        //         tappedPlayer = position;
+        //       });
+        //     }
+        //   } else {
+        //     if (playerAutoMove) {
+        //       for (int i = 0; i < 4; i++) {
+        //         currentOffsets[int.parse("$i$tappedPlayer")]["highlighted"] =
+        //             false;
+        //       // print("AUTOMOVE TRUE");
+        //       }
+        //       setState(() {
+        //         offsets = currentOffsets;
+        //       });
+        //       setState(() {
+        //         playerAutoMove = false;
+        //         tappedPlayer = null;
+        //       });
+        //     } else {
+        //       setState(() {
+        //         playerAutoMove = true;
+        //         tappedPlayer = position;
+        //       });
+        //     }
+        // }
+        // }
       },
       child: Row(
         children: <Widget>[
@@ -2917,6 +2838,70 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return totalHouses;
+  }
+
+  int gethouses(int key, int player) {
+  // print("____________________$key ______________________$player");
+    int house = 0;
+    // player 0
+    if (player == 0) {
+      if (offsets[key]['xPosition'] == -1) {
+        house += 62;
+      }
+      if (offsets[key]['xPosition'] >= 0 && offsets[key]['xPosition'] <= 50) {
+        house += (56 - (offsets[key]['xPosition']));
+      }
+      if (offsets[key]['xPosition'] >= 52 && offsets[key]['xPosition'] <= 57) {
+        house += (57 - offsets[key]['xPosition']);
+      }
+    }
+
+    // player 1
+    if (player == 1) {
+      if (offsets[key]['xPosition'] == -1) {
+        house += 6 + 56;
+      }
+      if (offsets[key]['xPosition'] >= 13 && offsets[key]['xPosition'] <= 51) {
+        house += (56 - (offsets[key]['xPosition'] - 13));
+      }
+      if (offsets[key]['xPosition'] >= 0 && offsets[key]['xPosition'] <= 11) {
+        house += (17 - offsets[key]['xPosition']);
+      }
+      if (offsets[key]['xPosition'] >= 58 && offsets[key]['xPosition'] <= 63) {
+        house += (63 - offsets[key]['xPosition']);
+      }
+    }
+
+    // player 2
+    if (player == 2) {
+      if (offsets[key]['xPosition'] >= 26 && offsets[key]['xPosition'] <= 51) {
+        house += (56 - (offsets[key]['xPosition'] - 26));
+      }
+      if (offsets[key]['xPosition'] >= 0 && offsets[key]['xPosition'] <= 24) {
+        house += (30 - offsets[key]['xPosition']);
+      }
+      if (offsets[key]['xPosition'] >= 64 && offsets[key]['xPosition'] <= 69) {
+        house += (69 - offsets[key]['xPosition']);
+      }
+    }
+
+    // player 3
+    if (player == 3) {
+      if (offsets[key]['xPosition'] == -1) {
+        house += 6 + 56;
+      }
+      if (offsets[key]['xPosition'] >= 13 && offsets[key]['xPosition'] <= 51) {
+        house += (56 - (offsets[key]['xPosition'] - 13));
+      }
+      if (offsets[key]['xPosition'] >= 0 && offsets[key]['xPosition'] <= 11) {
+        house += (17 - offsets[key]['xPosition']);
+      }
+      if (offsets[key]['xPosition'] >= 58 && offsets[key]['xPosition'] <= 63) {
+        house += (63 - offsets[key]['xPosition']);
+      }
+    }
+
+    return house;
   }
 
   int getSixToStart(player) {
@@ -3004,7 +2989,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   selectedColor = selectedColorList[0]['user'].color;
                   currentPlayerName = selectedColorList[0]['user'].name;
                 });
-                print(selectedColorList[0]['user'].color);
+              // print(selectedColorList[0]['user'].color);
                 addMemberDialog(0, true, user: selectedColorList[0]['user']);
               }
             },
@@ -3019,19 +3004,19 @@ class _HomeScreenState extends State<HomeScreen> {
           //             selectedColorList[position]["playerName"] != '')
           //         ? GestureDetector(
           //             onTap: () {
-          //               print("Get Stats for: " + position.toString());
+          //             // print("Get Stats for: " + position.toString());
 
           //               // calculate stats
           //               int totalHouses = getTotalHouses(position);
-          //               print("totalHouses :" + totalHouses.toString());
+          //             // print("totalHouses :" + totalHouses.toString());
 
           //               // calculate stats
           //               int sixToStart = getSixToStart(position);
-          //               print("sixToStart :" + sixToStart.toString());
+          //             // print("sixToStart :" + sixToStart.toString());
 
           //               // calculate stats
           //               int kills = getKills(position);
-          //               print("kills :" + kills.toString());
+          //             // print("kills :" + kills.toString());
 
           //               showStats(position);
           //             },
@@ -3102,7 +3087,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void saveSelfPlayer(User user) {
-    print("SELFPLAYERNAME ${user.color}");
+  // print("SELFPLAYERNAME ${user.color}");
     List<Map<String, dynamic>> currentList = selectedColorList;
     currentList[0] =
         availableColors.firstWhere((element) => element["name"] == user.color);
@@ -3111,6 +3096,7 @@ class _HomeScreenState extends State<HomeScreen> {
     currentList[0]["houses"] = 0;
     currentList[0]["sixes"] = 0;
     currentList[0]['user'] = user;
+    currentList[0]['nosix'] = 0;
 
     List<Map<String, dynamic>> currentColors = availableColors;
     currentColors.removeWhere((element) => element["name"] == user.color);
@@ -3123,25 +3109,28 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void savePlayer(int position, bool self, {User user}) async {
+  void savePlayer(int position, bool self,
+      {User user, bool exists = true}) async {
+  // print("CURRENTUSERNAME $currentPlayerName");
     List<Map<String, dynamic>> currentColors = availableColors;
-    if (user != null && selectedColorList[0]['color'] != selectedColor) {
-      print("ADD COLORRR");
-      print(selectedColorList[0]);
+    if ((user != null && exists) &&
+        (selectedColorList[0] != null
+            ? selectedColorList[0]['color'] != selectedColor
+            : false)) {
       currentColors.add(allColors.firstWhere(
           (element) => element["name"] == selectedColorList[0]['name']));
     }
-    print('------------->in savePlayer()');
+  // print('------------->in savePlayer()');
     List<Map<String, dynamic>> currentList = selectedColorList;
-    currentList[position] = user == null
+    currentList[position] = user == null || exists == false
         ? availableColors
             .firstWhere((element) => element["name"] == selectedColor)
         : allColors.firstWhere((element) => element["name"] == selectedColor);
     currentList[position]["playerName"] = currentPlayerName;
-    print("CURRENT PLAYER NAME $currentPlayerName");
     currentList[position]["kills"] = 0;
     currentList[position]["houses"] = 0;
     currentList[position]["sixes"] = 0;
+    currentList[position]['nosix'] = 0;
 
     currentColors.removeWhere((element) => element["name"] == selectedColor);
 
@@ -3155,7 +3144,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     if (position == 2 || position == 0) {
-      print("CURRENT PLAYER NAME $currentPlayerName");
+    // print("CURRENT PLAYER NAME $currentPlayerName");
       if (user != null) {
         await DBProvider.db.updateUser(User(
             id: user.id,
@@ -3172,21 +3161,27 @@ class _HomeScreenState extends State<HomeScreen> {
             wins: user.wins,
             self: self);
       } else {
-        User userRcvd = await DBProvider.db.newUser(User(
-            color: selectedColor,
-            name: currentPlayerName,
-            games: 0,
-            wins: 0,
-            self: self));
+        User userRcvd = await DBProvider.db.newUser(
+            User(
+                color: selectedColor,
+                name: currentPlayerName,
+                games: 0,
+                wins: 0,
+                self: self),
+            selectedColorList[0]['user']);
         currentList[position]["user"] = userRcvd;
       }
     }
+    String color = currentColors[0]["name"];
+  // print("FREAKING COLOR MC ------------>>>>>>>>>>>>>>>>>>>>>> $color");
+    _typeAheadController.text = '';
     setState(() {
       selectedColorList = currentList;
       availableColors = currentColors;
-      selectedColor = availableColors[0]["name"];
-      currentPlayerName = null;
+      selectedColor = color;
+      currentPlayerName = '';
     });
+    getUsers();
   }
 
   Widget colorBox(int position) {
@@ -3194,7 +3189,7 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (position) {
       case 0:
         return bottomLeft(selectedColorList[position], context, position,
-            positions, playerAddButton(0));
+            positions, avatar(0), addMemberDialog);
 
         break;
       case 1:
@@ -3218,7 +3213,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget screenBottomRow() {
-    print('------------->in screenBottomRow()');
+  // print('------------->in screenBottomRow()');
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -3228,7 +3223,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           GestureDetector(
             onTap: () {
-              print('onTap #9');
+            // print('onTap #9');
               resetDialog();
             },
             child: Image.asset(
@@ -3240,40 +3235,29 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(
             width: 10,
           ),
-          Text('reset game')
+          Text('RESET GAME')
         ]),
         SizedBox(
           width: 20,
         ),
-        Row(
-            children: [1, 2, 3, 4, 5, 6]
-                .map((e) => GestureDetector(
-                      onTap: () {
-                        print('onTap #10');
-                        setState(() {
-                          tappedPlayer = 0;
-                        });
-                        onDiceTap(e, 0);
-                      },
-                      child: Image.asset(
-                        "assets/dice-$e.png",
-                        fit: BoxFit.fill,
-                        width: diceNo == e && tappedPlayer == 0
-                            ? MediaQuery.of(context).size.width * 0.12
-                            : MediaQuery.of(context).size.width * 0.10,
-                        height: diceNo == e && tappedPlayer == 0
-                            ? MediaQuery.of(context).size.width * 0.12
-                            : MediaQuery.of(context).size.width * 0.10,
-                      ),
-                    ))
-                .toList())
       ],
     );
   }
 
   void onDiceTap(int number, int position) {
-    print('------------->in onDiceTap()');
+    unhighlightAll(offsets);
+  // print('------------->in onDiceTap()');
     Map<int, dynamic> currentOffsets = offsets;
+    List<Map<String, dynamic>> tempList = selectedColorList;
+    if (number == 6) {
+      if (tempList[position] != null) {
+        tempList[position]['nosix'] = 0;
+      }
+    } else {
+      if (tempList[position] != null) {
+        tempList[position]['nosix'] = tempList[position]['nosix'] + 1;
+      }
+    }
 
     setState(() {
       diceNo = number;
@@ -3286,7 +3270,7 @@ class _HomeScreenState extends State<HomeScreen> {
       int index = startGameSuggestion(getCurrentBoardStatus(number));
       setState(() {
         predictionText =
-            "MOVE ${selectedColorList[0]['name'].toString().substring(0, 1).toUpperCase()}$index";
+            "MOVE AHEAD ${selectedColorList[0]['name'].toString().substring(0, 1).toUpperCase()}${index + 1}";
       });
       if (index != -1) {
         currentOffsets = unhighlightAll(currentOffsets);
@@ -3294,7 +3278,7 @@ class _HomeScreenState extends State<HomeScreen> {
         currentOffsets[int.parse("${index}0")]["predicted"] = true;
         setState(() {
           diceNo = number;
-
+          selectedColorList = tempList;
           offsets = currentOffsets;
         });
       }
@@ -3302,7 +3286,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   bool isSafePosition(int xPosition) {
-    print('isSafePosition: ' + xPosition.toString());
+  // print('isSafePosition: ' + xPosition.toString());
     List<int> safePositions = [0, 8, 13, 21, 26, 34, 39, 47];
     for (int i = 0; i < safePositions.length; i++) {
       if (safePositions[i] == xPosition) {
@@ -3313,7 +3297,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Map getCurrentBoardStatus(int noOnDice) {
-    print('------------->in getCurrentBoardStatus()');
+  // print('------------->in getCurrentBoardStatus()');
     return {
       "0": {
         "0": offsets[00]["position"],
@@ -3345,7 +3329,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // x is xposition and pos is playerIndex
   int getActualposition(int x, int pos) {
-    print('------------->in getActualposition()');
+  // print('------------->in getActualposition()');
     int offset =
         pos == 0 ? 0 : pos == 1 ? 13 : pos == 2 ? 26 : pos == 3 ? 39 : null;
 
@@ -3361,7 +3345,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void moveGotiDialog(List<int> positions) {
-    print("MULTIPLE MOVE DIALOG $positions");
+  // print("MULTIPLE MOVE DIALOG $positions");
     double size = MediaQuery.of(context).size.width * 0.064;
     Map<int, dynamic> currentOffsets = offsets;
 

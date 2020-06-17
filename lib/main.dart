@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
           fontFamily: 'RifficFree',
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
-          textTheme: TextTheme(bodyText2: TextStyle(color: Color(0xff465e6e)))),
+          textTheme: TextTheme(bodyText2: TextStyle(color: Color(0xff465e6e), fontSize: 12))),
       routes: {
         '/': (context) => HomeScreen(Image.asset("assets/ludo_background.png")),
       },
