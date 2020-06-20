@@ -68,16 +68,17 @@ class DBProvider {
     return res;
   }
 
-  newUser(User newUser, User selfUser) async {
+  newUser(User newUser, User selfUser, bool selfFirstGame) async {
     final db = await database;
     var user =
         await db.query("User", where: "name = ?", whereArgs: [newUser.name]);
 
     if (user.isEmpty) {
       var res = await db.insert("User", newUser.toMap());
+      newUser.id = res;
       newUser.games = newUser.games + 1;
       await updateUser(newUser);
-      if (selfUser != null) {
+      if (selfUser != null && !selfFirstGame) {
         selfUser.games = selfUser.games + 1;
         await updateSelfUser(selfUser);
       }

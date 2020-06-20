@@ -84,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool infoRecvd = false;
   bool offsetsSet = false;
   bool dbSet = false;
+  bool first = true;
   final TextEditingController _typeAheadController = TextEditingController();
 
   static const double BASEBOTTOM2 = 2.0;
@@ -102,8 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-  // print("VARS --------------__________________----------------------_________________________________________________");
-  // print(!(infoRecvd && dbSet && offsetsSet));
+    // print("VARS --------------__________________----------------------_________________________________________________");
+    // print(!(infoRecvd && dbSet && offsetsSet));
     return Stack(children: [
       Container(
         decoration: BoxDecoration(
@@ -236,13 +237,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void undo() {
-  // print("PREV OFFSETS LENGTH ____________________");
-  // print(prevOffsets.length);
-  // print(prevOffsets[0][00]);
+    // print("PREV OFFSETS LENGTH ____________________");
+    // print(prevOffsets.length);
+    // print(prevOffsets[0][00]);
 
     if ([...prevOffsets].length != 0) {
       List<Map<int, dynamic>> tempOffsets = prevOffsets;
-    // print(tempOffsets[tempOffsets.length - 1]);
+      // print(tempOffsets[tempOffsets.length - 1]);
 
       // Map<int, dynamic> offsetRecvd = tempOffsets[0][00];
 
@@ -546,7 +547,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void reset() {
-  // print('------------->in reset()');
+    // print('------------->in reset()');
     setState(() {
       prevOffsets = [];
       availableColors = [
@@ -586,8 +587,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void getUsers() async {
     List<User> temporaryUsers = await DBProvider.db.getUsers();
-  // print("TEMP USERS ==========>>>>>>>>>>>>");
-  // print(temporaryUsers);
+    // print("TEMP USERS ==========>>>>>>>>>>>>");
+    // print(temporaryUsers);
     setState(() {
       users = temporaryUsers;
       dbSet = true;
@@ -608,9 +609,9 @@ class _HomeScreenState extends State<HomeScreen> {
         if (s.name == null) {
           return false;
         } else {
-        // print(s.name.toLowerCase());
-        // print(query.toLowerCase());
-        // print(s.name.toLowerCase().contains(query.toLowerCase()));
+          // print(s.name.toLowerCase());
+          // print(query.toLowerCase());
+          // print(s.name.toLowerCase().contains(query.toLowerCase()));
           return s.name.toLowerCase().contains(query.toLowerCase());
         }
       });
@@ -627,11 +628,14 @@ class _HomeScreenState extends State<HomeScreen> {
     // await DBProvider.db.deleteUser(1);
     // debugger();
     User user = await DBProvider.db.getSelfUser();
-  // print("GET UNFO $user");
+    print("GET UNFO $user");
     if (user == null) {
-    // print("USER -----------> $user");
+      // print("USER -----------> $user");
       addMemberDialog(0, true, user: User(), exists: false);
     } else {
+      setState(() {
+        first = false;
+      });
       saveSelfPlayer(user);
     }
     setState(() {
@@ -1232,7 +1236,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget renderGoti(int count, int position) {
-  // print('------------->in renderGoti()');
+    // print('------------->in renderGoti()');
     if (selectedColorList[position] != null) {
       if (selectedColorList[position]["playerName"] != null &&
           selectedColorList[position]["playerName"] != "") {
@@ -1258,7 +1262,7 @@ class _HomeScreenState extends State<HomeScreen> {
               left: initLeft,
               child: GestureDetector(
                   onTap: () {
-                  // print('onTap #1 move: ' + move.toString());
+                    // print('onTap #1 move: ' + move.toString());
                     if (move) {
                       Map<int, dynamic> currentOffsets = offsets;
                       currentOffsets[moveItem]["moved"] = false;
@@ -1291,7 +1295,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                     // await new Future.delayed(const Duration(seconds : 5));
                     if (playerAutoMove && position == tappedPlayer) {
-                    // print("AUTOMOVE TRUE");
+                      // print("AUTOMOVE TRUE");
 
                       moveGotiToV2(
                           currentOffsets, int.parse("$count$position"), diceNo);
@@ -1443,7 +1447,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       if (currentOffsets[int.parse("$count$position")]
                           ["predicted"]) {
-                      // print("---------------------> PREDICTED");
+                        // print("---------------------> PREDICTED");
                         moveGotiToV2(currentOffsets,
                             int.parse("$count$position"), diceNo);
                       } else {
@@ -1492,7 +1496,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Map<int, dynamic> adjustForMultipleOnOne(Map<int, dynamic> currentOffsets) {
     for (int xPosition = 0; xPosition < 75; xPosition++) {
-    // print('in adjustForMultipleOnOne xPosition: ' + xPosition.toString());
+      // print('in adjustForMultipleOnOne xPosition: ' + xPosition.toString());
       List<int> rowClm = get2Dfrom1D(xPosition);
       int row = rowClm[0];
       int clm = rowClm[1];
@@ -1510,22 +1514,22 @@ class _HomeScreenState extends State<HomeScreen> {
       }
 
       if (overlapingKeys.length > 1 && xPosition != -1) {
-      // print(">>>>>>>>>>>>>>>>>>>>>>GREATER THAN 0 ${overlapingKeys.length}");
+        // print(">>>>>>>>>>>>>>>>>>>>>>GREATER THAN 0 ${overlapingKeys.length}");
         double gap = ((getLeft(context, 1) - getLeft(context, 0)) /
                 overlapingKeys.length) *
             0.6;
 
         for (int i = 0; i < overlapingKeys.length; i++) {
-        // print("KEYYSSS >>>>>>>>>>> ${overlapingKeys[i]}");
+          // print("KEYYSSS >>>>>>>>>>> ${overlapingKeys[i]}");
           int center = (overlapingKeys.length / 2).floor();
           if ((overlapingKeys.length % 2) == 0) {
             //print("even");
             if (i < center) {
-            // print(i.toString() +
-            //       ' : ' +
-            //       getLeft(context, clm).toString() +
-            //       " : " +
-            //       (getLeft(context, clm) + gap * (i - center)).toString());
+              // print(i.toString() +
+              //       ' : ' +
+              //       getLeft(context, clm).toString() +
+              //       " : " +
+              //       (getLeft(context, clm) + gap * (i - center)).toString());
               currentOffsets[overlapingKeys[i]]['left'] =
                   getLeft(context, clm) + gap * (i - center);
             } else {
@@ -1538,7 +1542,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   getLeft(context, clm) + gap * (i - center + 1);
             }
           } else {
-          // print("odd");
+            // print("odd");
             // print(i.toString() +
             //     ' : ' +
             //     getLeft(context, clm).toString() +
@@ -1557,12 +1561,12 @@ class _HomeScreenState extends State<HomeScreen> {
         //     " : " +
         //     overlapingKeys.toString());
       } else if (overlapingKeys.length == 1) {
-      // print("ONLY ONE KEY IN BOX");
+        // print("ONLY ONE KEY IN BOX");
         currentOffsets[overlapingKeys[0]]['onMultiple'] = false;
         currentOffsets[overlapingKeys[0]]['sizeMultiplier'] = 1;
         currentOffsets[overlapingKeys[0]]['left'] = getLeft(context, clm);
       } else if (xPosition == -1 && overlapingKeys.length > 0) {
-      // print("MULTIPLE -1 _____________________--");
+        // print("MULTIPLE -1 _____________________--");
 
         for (int i = 0; i < overlapingKeys.length; i++) {
           currentOffsets[overlapingKeys[i]]['sizeMultiplier'] = 1;
@@ -1571,8 +1575,8 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       }
     }
-  // print(currentOffsets.toString());
-  // print("------------------------DOONNEEE WITH CALCULATION");
+    // print(currentOffsets.toString());
+    // print("------------------------DOONNEEE WITH CALCULATION");
     return currentOffsets;
   }
 
@@ -1589,7 +1593,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     currentOffsets = adjustForMultipleOnOne(currentOffsets);
 
-  // print("SETSTATE----------------");
+    // print("SETSTATE----------------");
 
     return currentOffsets;
   }
@@ -1614,7 +1618,7 @@ class _HomeScreenState extends State<HomeScreen> {
     currentOffsets[moveItem]["predicted"] = false;
     currentOffsets[moveItem]["position"] =
         getActualposition(x, int.parse(moveItem.toString().split("").last));
-  // print('############ 1 SETTING xPosition to' + x.toString());
+    // print('############ 1 SETTING xPosition to' + x.toString());
     currentOffsets[moveItem]["xPosition"] = x;
 
     var temp = currentOffsets[moveItem];
@@ -1626,7 +1630,7 @@ class _HomeScreenState extends State<HomeScreen> {
           (key != moveItem) &&
           (currentOffsets[key]["xPosition"] == x) &&
           (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
-      // print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        // print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
         currentOffsets[moveItem]["kills"] += 1;
         // currentOffsets[key] = defaultOffsets[key];
         currentOffsets[key]["xPosition"] = -1;
@@ -1638,7 +1642,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Check multiple on one walla case
     currentOffsets = adjustForMultipleOnOne(currentOffsets);
-  // print("SETSTATE----------------");
+    // print("SETSTATE----------------");
 
     currentOffsets[moveItem] = temp;
 
@@ -1652,7 +1656,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void moveGotiToV2(currentOffsets, moveItem, diceCount) {
-  // print('in moveGotiToV2');
+    // print('in moveGotiToV2');
     List<int> rowClm;
     if (currentOffsets[moveItem]["xPosition"] == -1) {
       if (currentOffsets[moveItem]["playerIndex"] == 0) {
@@ -1669,7 +1673,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     } else {
       int newXPos = currentOffsets[moveItem]["xPosition"] + diceNo;
-    // print("newXPos: " + newXPos.toString());
+      // print("newXPos: " + newXPos.toString());
       if (newXPos == 52 && diceNo == 1) {
         newXPos = 0;
       } else if (currentOffsets[moveItem]["playerIndex"] == 0) {
@@ -1679,7 +1683,7 @@ class _HomeScreenState extends State<HomeScreen> {
         rowClm = get2Dfrom1D(newXPos);
       } else {
         if (currentOffsets[moveItem]["playerIndex"] == 1) {
-        // print('player 1');
+          // print('player 1');
           if (newXPos >= 51 && newXPos <= 56) {
             // if x >= 53 so x-53
             if (newXPos == 52) {
@@ -1697,7 +1701,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         }
         if (currentOffsets[moveItem]["playerIndex"] == 2) {
-        // print('player 2');
+          // print('player 2');
           if (newXPos >= 51 && newXPos <= 56) {
             // if x >= 53 so x-53
             if (newXPos == 52) {
@@ -1715,7 +1719,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         }
         if (currentOffsets[moveItem]["playerIndex"] == 3) {
-        // print('player 3');
+          // print('player 3');
           if (newXPos >= 51 && newXPos <= 56) {
             // if x >= 53 so x-53
             if (newXPos == 52) {
@@ -1739,14 +1743,14 @@ class _HomeScreenState extends State<HomeScreen> {
     int row = rowClm[0];
     int clm = rowClm[1];
 
-  // print('moveGotiTo: ' +
-        // row.toString() +
-        // ' : ' +
-        // clm.toString() +
-        // ' : ' +
-        // currentOffsets.toString() +
-        // ' : ' +
-        // moveItem.toString());
+    // print('moveGotiTo: ' +
+    // row.toString() +
+    // ' : ' +
+    // clm.toString() +
+    // ' : ' +
+    // currentOffsets.toString() +
+    // ' : ' +
+    // moveItem.toString());
 
     double bottom = getBottom(context, row);
     double left = getLeft(context, clm);
@@ -1758,7 +1762,7 @@ class _HomeScreenState extends State<HomeScreen> {
     currentOffsets[moveItem]["predicted"] = false;
     currentOffsets[moveItem]["position"] =
         getActualposition(x, int.parse(moveItem.toString().split("").last));
-  // print('############ 1 SETTING xPosition to' + x.toString());
+    // print('############ 1 SETTING xPosition to' + x.toString());
     currentOffsets[moveItem]["xPosition"] = x;
 
     var temp = currentOffsets[moveItem];
@@ -1770,7 +1774,7 @@ class _HomeScreenState extends State<HomeScreen> {
           (key != moveItem) &&
           (currentOffsets[key]["xPosition"] == x) &&
           (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
-      // print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        // print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
         currentOffsets[moveItem]["kills"] += 1;
         // currentOffsets[key] = defaultOffsets[key];
         currentOffsets[key]["xPosition"] = -1;
@@ -1782,7 +1786,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     // Check multiple on one walla case
     currentOffsets = adjustForMultipleOnOne(currentOffsets);
-  // print("SETSTATE----------------");
+    // print("SETSTATE----------------");
 
     currentOffsets[moveItem] = temp;
 
@@ -1793,7 +1797,7 @@ class _HomeScreenState extends State<HomeScreen> {
       offsets = currentOffsets;
     });
     if (diceNo != 6) {
-    // print("DICE NUMBER NOT 6 $diceNo");
+      // print("DICE NUMBER NOT 6 $diceNo");
 
       setState(() {
         tappedPlayer = tappedPlayer == 0 ? 2 : 0;
@@ -1804,7 +1808,7 @@ class _HomeScreenState extends State<HomeScreen> {
     //   setState(() {
     //     tappedPlayer = 2;
     //   });
-  // print("DICE NO 6 $diceNo");
+    // print("DICE NO 6 $diceNo");
     // }
 
     setState(() {
@@ -1823,7 +1827,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     [1, 2, 3, 4, 5, 6].forEach((diceNo) {
-    // print(diceNo);
+      // print(diceNo);
       player2xPositions.forEach((xPos) {
         if (!isSafePosition(xPos + diceNo)) {
           int index = player2xPositions
@@ -1831,7 +1835,7 @@ class _HomeScreenState extends State<HomeScreen> {
           if (index != -1) {
             if (invalidNos.indexOf(diceNo) == -1) {
               invalidNos.add(diceNo);
-            // print("INVALID $diceNo");
+              // print("INVALID $diceNo");
             }
 
             return;
@@ -1934,6 +1938,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                             temp[winningPlayer]['user'] = user;
                             setState(() {
+                              first = false;
                               selectedColorList = temp;
                             });
                             DBProvider.db.updateUser(user);
@@ -2036,9 +2041,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   expands: false,
                                   initialValue: user.name,
                                   onChanged: (value) {
-                                  // print("ONCHANGED $value");
+                                    // print("ONCHANGED $value");
                                     setState(() {
-                                    // print(value);
+                                      // print(value);
                                       currentPlayerName = value;
                                     });
                                   },
@@ -2123,7 +2128,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       autovalidate: true,
       onSaved: (value) {
-      // print(value);
+        // print(value);
         setState(() {
           currentPlayerName = value;
         });
@@ -2132,7 +2137,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void resetDialog() {
-  // print('------------->in resetDialog()');
+    // print('------------->in resetDialog()');
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -2150,7 +2155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                    // print('onTap #4');
+                      // print('onTap #4');
                       Navigator.pop(context);
                     },
                     child: Container(
@@ -2197,7 +2202,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 style: TextStyle(color: Colors.white),
                               )),
                           onTap: () {
-                          // print('onTap #5');
+                            // print('onTap #5');
                             reset();
                             Navigator.pop(context);
                           },
@@ -2211,7 +2216,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<Widget> layout() {
-  // print('------------->in layout()');
+    // print('------------->in layout()');
     List<Widget> layoutItems = [];
     layoutItems.addAll([colorBox(0), colorBox(1), colorBox(3), centerSquare()]);
     if (selectedColorList[2] != null) {
@@ -2309,14 +2314,14 @@ class _HomeScreenState extends State<HomeScreen> {
       layoutItems.add(colorBox(2));
     }
     if (selectedColorList[0] == null) {
-    // print("NULL");
+      // print("NULL");
       layoutItems.add(colorBox(0));
     }
     return layoutItems;
   }
 
   void changeSize(x, moveItem) {
-  // print('------------->in changeSize()');
+    // print('------------->in changeSize()');
     Map<int, dynamic> currentOffsets = offsets;
 
     List keysToBeModfied = [];
@@ -2343,8 +2348,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget colorDropDown(String label, Function setStateFunc, {User user}) {
     List<Map<String, dynamic>> temp =
         user == null ? availableColors : allColors;
-  // print(temp);
-  // print('------------->in colorDropDown()');
+    // print(temp);
+    // print('------------->in colorDropDown()');
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
@@ -2364,7 +2369,7 @@ class _HomeScreenState extends State<HomeScreen> {
         itemExtent: 40,
         onSelectedItemChanged: (item) {
           setStateFunc(() {
-          // print("CHANGING SELECTED COLOR");
+            // print("CHANGING SELECTED COLOR");
             selectedColor = user == null
                 ? availableColors[item]["name"]
                 : allColors[item]["name"];
@@ -2384,7 +2389,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget androidDropdown(
       String label, Function setStateFunc, List<Map<String, dynamic>> colorlist,
       {User user}) {
-  // print("SELECTED COLOR $selectedColor");
+    // print("SELECTED COLOR $selectedColor");
     return DropdownButton(
       underline: Container(),
       style: TextStyle(fontSize: 18, fontFamily: 'Roboto'),
@@ -2475,8 +2480,8 @@ class _HomeScreenState extends State<HomeScreen> {
         int.parse('3$position')
       ].forEach((element) {
         int homePos = position == 0 ? 56 : 69;
-      // print("POSITION -------->>>>>>>>>>>>>>>>>> $position \n");
-      // print(getActualposition(offsets[element]['xPosition'], position));
+        // print("POSITION -------->>>>>>>>>>>>>>>>>> $position \n");
+        // print(getActualposition(offsets[element]['xPosition'], position));
         int positionsLeft = offsets[element]['xPosition'] == -1
             ? 56
             : gethouses(element, position);
@@ -2557,7 +2562,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [1, 2, 3, 4, 5, 6]
                           .map((e) => GestureDetector(
                                 onTap: () {
-                                // print('onTap #10');
+                                  // print('onTap #10');
                                   setState(() {
                                     playerAutoMove = true;
                                     tappedPlayer = 2;
@@ -2617,7 +2622,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [1, 2, 3, 4, 5, 6]
                   .map((e) => GestureDetector(
                         onTap: () {
-                        // print('onTap #10');
+                          // print('onTap #10');
                           setState(() {
                             tappedPlayer = 0;
                           });
@@ -2639,7 +2644,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget bottomRow(int position, bool self, {User user, bool exists}) {
-  // print('------------->in bottomRow()');
+    // print('------------->in bottomRow()');
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Stack(children: [
         GestureDetector(
@@ -2699,7 +2704,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget playerAddButton(int position) {
     return GestureDetector(
       onTap: () {
-      // print('onTap #8');
+        // print('onTap #8');
         Map<int, dynamic> currentOffsets = offsets;
 
         if (selectedColorList[position] == null) {
@@ -2841,7 +2846,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   int gethouses(int key, int player) {
-  // print("____________________$key ______________________$player");
+    // print("____________________$key ______________________$player");
     int house = 0;
     // player 0
     if (player == 0) {
@@ -2989,7 +2994,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   selectedColor = selectedColorList[0]['user'].color;
                   currentPlayerName = selectedColorList[0]['user'].name;
                 });
-              // print(selectedColorList[0]['user'].color);
+                // print(selectedColorList[0]['user'].color);
                 addMemberDialog(0, true, user: selectedColorList[0]['user']);
               }
             },
@@ -3048,9 +3053,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             savePlayer(position, false);
                           },
                           child: Container(
-                            margin: EdgeInsets.only(right: 5),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: e["value"]),
+                            margin: EdgeInsets.only(left:5),
+                            decoration: BoxDecoration(shape: BoxShape.circle),
+                            child: ClipOval(
+                                child: Image.asset(
+                                    "assets/dot_${e['name']}.png",
+                                    height: 25,
+                                    width: 25)),
                             width: 25,
                             height: 25,
                           )))
@@ -3087,7 +3096,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void saveSelfPlayer(User user) {
-  // print("SELFPLAYERNAME ${user.color}");
+    // print("SELFPLAYERNAME ${user.color}");
     List<Map<String, dynamic>> currentList = selectedColorList;
     currentList[0] =
         availableColors.firstWhere((element) => element["name"] == user.color);
@@ -3111,7 +3120,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void savePlayer(int position, bool self,
       {User user, bool exists = true}) async {
-  // print("CURRENTUSERNAME $currentPlayerName");
+    // print("CURRENTUSERNAME $currentPlayerName");
     List<Map<String, dynamic>> currentColors = availableColors;
     if ((user != null && exists) &&
         (selectedColorList[0] != null
@@ -3120,7 +3129,7 @@ class _HomeScreenState extends State<HomeScreen> {
       currentColors.add(allColors.firstWhere(
           (element) => element["name"] == selectedColorList[0]['name']));
     }
-  // print('------------->in savePlayer()');
+    // print('------------->in savePlayer()');
     List<Map<String, dynamic>> currentList = selectedColorList;
     currentList[position] = user == null || exists == false
         ? availableColors
@@ -3144,7 +3153,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     if (position == 2 || position == 0) {
-    // print("CURRENT PLAYER NAME $currentPlayerName");
+      // print("CURRENT PLAYER NAME $currentPlayerName");
       if (user != null) {
         await DBProvider.db.updateUser(User(
             id: user.id,
@@ -3168,12 +3177,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 games: 0,
                 wins: 0,
                 self: self),
-            selectedColorList[0]['user']);
+            selectedColorList[0]['user'],
+            first);
         currentList[position]["user"] = userRcvd;
       }
     }
     String color = currentColors[0]["name"];
-  // print("FREAKING COLOR MC ------------>>>>>>>>>>>>>>>>>>>>>> $color");
+    // print("FREAKING COLOR MC ------------>>>>>>>>>>>>>>>>>>>>>> $color");
     _typeAheadController.text = '';
     setState(() {
       selectedColorList = currentList;
@@ -3213,7 +3223,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget screenBottomRow() {
-  // print('------------->in screenBottomRow()');
+    // print('------------->in screenBottomRow()');
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -3223,7 +3233,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           GestureDetector(
             onTap: () {
-            // print('onTap #9');
+              // print('onTap #9');
               resetDialog();
             },
             child: Image.asset(
@@ -3246,7 +3256,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void onDiceTap(int number, int position) {
     unhighlightAll(offsets);
-  // print('------------->in onDiceTap()');
+    // print('------------->in onDiceTap()');
     Map<int, dynamic> currentOffsets = offsets;
     List<Map<String, dynamic>> tempList = selectedColorList;
     if (number == 6) {
@@ -3286,7 +3296,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   bool isSafePosition(int xPosition) {
-  // print('isSafePosition: ' + xPosition.toString());
+    // print('isSafePosition: ' + xPosition.toString());
     List<int> safePositions = [0, 8, 13, 21, 26, 34, 39, 47];
     for (int i = 0; i < safePositions.length; i++) {
       if (safePositions[i] == xPosition) {
@@ -3297,7 +3307,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Map getCurrentBoardStatus(int noOnDice) {
-  // print('------------->in getCurrentBoardStatus()');
+    // print('------------->in getCurrentBoardStatus()');
     return {
       "0": {
         "0": offsets[00]["position"],
@@ -3329,7 +3339,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // x is xposition and pos is playerIndex
   int getActualposition(int x, int pos) {
-  // print('------------->in getActualposition()');
+    // print('------------->in getActualposition()');
     int offset =
         pos == 0 ? 0 : pos == 1 ? 13 : pos == 2 ? 26 : pos == 3 ? 39 : null;
 
@@ -3345,7 +3355,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void moveGotiDialog(List<int> positions) {
-  // print("MULTIPLE MOVE DIALOG $positions");
+    // print("MULTIPLE MOVE DIALOG $positions");
     double size = MediaQuery.of(context).size.width * 0.064;
     Map<int, dynamic> currentOffsets = offsets;
 
