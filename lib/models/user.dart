@@ -38,6 +38,6 @@ class User {
         "color": color,
         "wins": wins,
         "games": games,
-        "self": self
+        "self": self ? 1 : 0
       };
 }

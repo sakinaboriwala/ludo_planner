@@ -170,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.all(0),
-                        child: Text("v1.1.8"),
+                        child: Text("v1.1.9"),
                       )),
                     ),
                     // Positioned(
@@ -197,14 +197,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     Visibility(
                         visible: tappedPlayer == 0,
                         child: Positioned(
-                          bottom: MediaQuery.of(context).size.height * 0.15,
-                          left: 0,
+                          bottom: MediaQuery.of(context).size.height * 0.1,
+                          left: 10,
                           child: Center(
                               child: Container(
                             alignment: Alignment.center,
-                            width: MediaQuery.of(context).size.width,
+                            // width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.all(0),
-                            child: Text(predictionText),
+                            child: Text(
+                              predictionText.toUpperCase(),
+                              style: TextStyle(fontSize: 16),
+                            ),
                           )),
                         )),
                     oppDiceRow(),
@@ -945,6 +948,7 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
+
     completer.future.then((value) => setState(() {
           showSplash = false;
         }));
@@ -1447,7 +1451,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       if (currentOffsets[int.parse("$count$position")]
                           ["predicted"]) {
-                        // print("---------------------> PREDICTED");
+                        print("---------------------> PREDICTED");
                         moveGotiToV2(currentOffsets,
                             int.parse("$count$position"), diceNo);
                       } else {
@@ -1656,7 +1660,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void moveGotiToV2(currentOffsets, moveItem, diceCount) {
-    // print('in moveGotiToV2');
+    print('in moveGotiToV2');
     List<int> rowClm;
     if (currentOffsets[moveItem]["xPosition"] == -1) {
       if (currentOffsets[moveItem]["playerIndex"] == 0) {
@@ -2039,7 +2043,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ? nameTextForm()
                               : TextFormField(
                                   expands: false,
-                                  initialValue: user.name,
+                                  initialValue: exists ? user.name : '',
                                   onChanged: (value) {
                                     // print("ONCHANGED $value");
                                     setState(() {
@@ -2075,7 +2079,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            colorDropDown('Color', setState, user: user)
+                            colorDropDown('Color', setState, user: usertobeSent)
                           ],
                         ),
                         SizedBox(
@@ -2222,13 +2226,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (selectedColorList[2] != null) {
       layoutItems.add(colorBox(2));
     }
-    layoutItems.add(
-        // Image.asset(
-        //   "assets/board_wireframe.png",
-        //   width: MediaQuery.of(context).size.width,
-        //   height: MediaQuery.of(context).size.width,
-        // ),
-        image);
+    layoutItems.add(image);
     List<List<Widget>> gridArray = List.generate(15, (_) => new List(15));
 
     gridArray.asMap().forEach((row, items) {
@@ -2355,7 +2353,7 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
           border: Border.all(color: Colors.green.shade400, width: 2),
           borderRadius: BorderRadius.circular(25)),
-      width: MediaQuery.of(context).size.width * 0.65,
+      width: MediaQuery.of(context).size.width * 0.64,
       child: Platform.isIOS
           ? iOSDropDown(label, setStateFunc, temp, user: user)
           : androidDropdown(label, setStateFunc, temp, user: user),
@@ -2471,31 +2469,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Widget> getEachGoti(int position) {
     List<Widget> columns = [];
-
     if (selectedColorList[position] != null) {
-      [
-        int.parse('0$position'),
-        int.parse('1$position'),
-        int.parse('2$position'),
-        int.parse('3$position')
-      ].forEach((element) {
-        int homePos = position == 0 ? 56 : 69;
-        // print("POSITION -------->>>>>>>>>>>>>>>>>> $position \n");
-        // print(getActualposition(offsets[element]['xPosition'], position));
-        int positionsLeft = offsets[element]['xPosition'] == -1
+      for (int i = 0; i < 4; i++) {
+        int positionsLeft = offsets[int.parse("$i$position")]['xPosition'] == -1
             ? 56
-            : gethouses(element, position);
+            : gethouses(int.parse("$i$position"), position);
 
         columns.add(Padding(
             padding: EdgeInsets.only(right: 5),
             child: Column(
               children: <Widget>[
                 Text(
-                    '${selectedColorList[position]['name'].toString().substring(0, 1).toUpperCase()}${(int.parse(element.toString().split('').first) + 1)}'),
+                    '${selectedColorList[position]['name'].toString().substring(0, 1).toUpperCase()}${i + 1}'),
                 Text('$positionsLeft')
               ],
             )));
-      });
+      }
+
       columns.add(
         Column(
           children: <Widget>[Text('M6'), Text('${getSixToStart(position)}')],
@@ -2546,7 +2536,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Visibility(
         visible: availableColors.length < 2 &&
             ((selectedColorList.length > 2 && selectedColorList[2] != null)
-                ? true ? true : false
+                ? true
                 : false),
         child: Positioned(
             left: 2,
@@ -2561,16 +2551,25 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                       children: [1, 2, 3, 4, 5, 6]
                           .map((e) => GestureDetector(
-                                onTap: () {
-                                  // print('onTap #10');
+                              onTap: () {
+                                // print('onTap #10');
+                                if (tappedPlayer == 2) {
                                   setState(() {
                                     playerAutoMove = true;
-                                    tappedPlayer = 2;
+                                    // tappedPlayer = 2;
                                   });
-                                  onDiceTap(e, 2);
-                                },
+                                }
+
+                                onDiceTap(e, 2);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    right: tappedPlayer != 2 ? 10 : 5,
+                                    bottom: tappedPlayer != 2 ? 5 : 0),
                                 child: Image.asset(
-                                  "assets/dice-$e.png",
+                                  tappedPlayer == 2
+                                      ? "assets/dice-$e.png"
+                                      : "assets/dice_disable.png",
                                   fit: BoxFit.fill,
                                   width: diceNo == e && tappedPlayer == 2
                                       ? MediaQuery.of(context).size.width * 0.12
@@ -2581,7 +2580,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       : MediaQuery.of(context).size.width *
                                           0.10,
                                 ),
-                              ))
+                              )))
                           .toList()),
                   Padding(
                       padding: EdgeInsets.only(left: 10),
@@ -2621,15 +2620,15 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Row(
               children: [1, 2, 3, 4, 5, 6]
                   .map((e) => GestureDetector(
-                        onTap: () {
-                          // print('onTap #10');
-                          setState(() {
-                            tappedPlayer = 0;
-                          });
-                          onDiceTap(e, 0);
-                        },
+                      onTap: () {
+                        onDiceTap(e, 0);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 5),
                         child: Image.asset(
-                          "assets/dice-$e.png",
+                          tappedPlayer == 0
+                              ? "assets/dice-$e.png"
+                              : "assets/dice_disable.png",
                           fit: BoxFit.fill,
                           width: diceNo == e && tappedPlayer == 0
                               ? MediaQuery.of(context).size.width * 0.12
@@ -2638,7 +2637,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ? MediaQuery.of(context).size.width * 0.12
                               : MediaQuery.of(context).size.width * 0.10,
                         ),
-                      ))
+                      )))
                   .toList())),
     );
   }
@@ -2653,28 +2652,20 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 40,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color:
-                      // ((_typeAheadController.text == '' ||
-                      //                 _typeAheadController.text == null) &&
-                      //             position == 2 ||
-                      (position == 0 &&
+                  color: (position == 0 &&
+                          (currentPlayerName == null ||
+                              currentPlayerName == ''))
+                      // )
+                      ? Colors.grey
+                      : Colors.green.shade400,
+                  borderRadius: BorderRadius.circular(30),
+                  border: Border.all(
+                      color: (position == 0 &&
                               (currentPlayerName == null ||
                                   currentPlayerName == ''))
                           // )
                           ? Colors.grey
                           : Colors.green.shade400,
-                  borderRadius: BorderRadius.circular(30),
-                  border: Border.all(
-                      color:
-                          // ((_typeAheadController.text == '' ||
-                          //                 _typeAheadController.text == null) &&
-                          //             position == 2 ||
-                          (position == 0 &&
-                                  (currentPlayerName == null ||
-                                      currentPlayerName == ''))
-                              // )
-                              ? Colors.grey
-                              : Colors.green.shade400,
                       width: 6)),
               child: Text(
                 'OK',
@@ -3053,7 +3044,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             savePlayer(position, false);
                           },
                           child: Container(
-                            margin: EdgeInsets.only(left:5),
+                            margin: EdgeInsets.only(left: 5),
                             decoration: BoxDecoration(shape: BoxShape.circle),
                             child: ClipOval(
                                 child: Image.asset(
@@ -3255,42 +3246,44 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void onDiceTap(int number, int position) {
-    unhighlightAll(offsets);
-    // print('------------->in onDiceTap()');
-    Map<int, dynamic> currentOffsets = offsets;
-    List<Map<String, dynamic>> tempList = selectedColorList;
-    if (number == 6) {
-      if (tempList[position] != null) {
-        tempList[position]['nosix'] = 0;
+    if (position == tappedPlayer) {
+      unhighlightAll(offsets);
+      // print('------------->in onDiceTap()');
+      Map<int, dynamic> currentOffsets = offsets;
+      List<Map<String, dynamic>> tempList = selectedColorList;
+      if (number == 6) {
+        if (tempList[position] != null) {
+          tempList[position]['nosix'] = 0;
+        }
+      } else {
+        if (tempList[position] != null) {
+          tempList[position]['nosix'] = tempList[position]['nosix'] + 1;
+        }
       }
-    } else {
-      if (tempList[position] != null) {
-        tempList[position]['nosix'] = tempList[position]['nosix'] + 1;
-      }
-    }
 
-    setState(() {
-      diceNo = number;
-    });
-    if (position == 2) {
-      for (int i = 0; i < 4; i++) {
-        currentOffsets[int.parse("$i$tappedPlayer")]["highlighted"] = true;
-      }
-    } else {
-      int index = startGameSuggestion(getCurrentBoardStatus(number));
       setState(() {
-        predictionText =
-            "MOVE AHEAD ${selectedColorList[0]['name'].toString().substring(0, 1).toUpperCase()}${index + 1}";
+        diceNo = number;
       });
-      if (index != -1) {
-        currentOffsets = unhighlightAll(currentOffsets);
-        currentOffsets[int.parse("${index}0")]["highlighted"] = true;
-        currentOffsets[int.parse("${index}0")]["predicted"] = true;
+      if (position == 2) {
+        for (int i = 0; i < 4; i++) {
+          currentOffsets[int.parse("$i$tappedPlayer")]["highlighted"] = true;
+        }
+      } else {
+        int index = startGameSuggestion(getCurrentBoardStatus(number));
         setState(() {
-          diceNo = number;
-          selectedColorList = tempList;
-          offsets = currentOffsets;
+          predictionText =
+              "MOVE AHEAD ${selectedColorList[0]['name'].toString().substring(0, 1).toUpperCase()}${index + 1}";
         });
+        if (index != -1) {
+          currentOffsets = unhighlightAll(currentOffsets);
+          currentOffsets[int.parse("${index}0")]["highlighted"] = true;
+          currentOffsets[int.parse("${index}0")]["predicted"] = true;
+          setState(() {
+            diceNo = number;
+            selectedColorList = tempList;
+            offsets = currentOffsets;
+          });
+        }
       }
     }
   }
