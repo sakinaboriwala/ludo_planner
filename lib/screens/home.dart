@@ -170,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.all(0),
-                        child: Text("v1.1.9"),
+                        child: Text("v1.1.10"),
                       )),
                     ),
                     // Positioned(
@@ -205,8 +205,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             // width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.all(0),
                             child: Text(
-                              predictionText.toUpperCase(),
-                              style: TextStyle(fontSize: 16),
+                              predictionText,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: 'Roboto',
+                                  fontWeight: FontWeight.w600),
                             ),
                           )),
                         )),
@@ -1306,8 +1309,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     } else {
                       // if (move) {
                       //   int row = get2Dfrom1D(
-                      //       offsets[int.parse("$count$position")]
-                      //           ['xPosition'])[0];
+                      // offsets[int.parse("$count$position")]
+                      //     ['xPosition'])[0];
                       //   int clm = get2Dfrom1D(
                       //       offsets[int.parse("$count$position")]
                       //           ['xPosition'])[1];
@@ -1602,63 +1605,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return currentOffsets;
   }
 
-  void moveGotiTo(int row, int clm, currentOffsets, moveItem) {
-    // print('moveGotiTo: ' +
-    //     row.toString() +
-    //     ' : ' +
-    //     clm.toString() +
-    //     ' : ' +
-    //     currentOffsets.toString() +
-    //     ' : ' +
-    //     moveItem.toString());
-
-    double bottom = getBottom(context, row);
-    double left = getLeft(context, clm);
-    int x = get1DPosfrom2D(int.parse("$row$clm"));
-    currentOffsets[moveItem]["bottom"] = bottom * 1.05;
-    currentOffsets[moveItem]["left"] = left;
-    currentOffsets[moveItem]["moved"] = true;
-    currentOffsets[moveItem]["highlighted"] = false;
-    currentOffsets[moveItem]["predicted"] = false;
-    currentOffsets[moveItem]["position"] =
-        getActualposition(x, int.parse(moveItem.toString().split("").last));
-    // print('############ 1 SETTING xPosition to' + x.toString());
-    currentOffsets[moveItem]["xPosition"] = x;
-
-    var temp = currentOffsets[moveItem];
-
-    // loop over all the offsets to see agar kissi ka xPossition same as this one to nahi
-    currentOffsets.forEach((key, value) {
-      if ((currentOffsets[moveItem]["playerIndex"] !=
-              currentOffsets[key]["playerIndex"]) &&
-          (key != moveItem) &&
-          (currentOffsets[key]["xPosition"] == x) &&
-          (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
-        // print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        currentOffsets[moveItem]["kills"] += 1;
-        // currentOffsets[key] = defaultOffsets[key];
-        currentOffsets[key]["xPosition"] = -1;
-        currentOffsets[key]["onMultiple"] = false;
-        currentOffsets[key]["sizeMultiplier"] = 1;
-        currentOffsets[key]["moved"] = false;
-      }
-    });
-
-    // Check multiple on one walla case
-    currentOffsets = adjustForMultipleOnOne(currentOffsets);
-    // print("SETSTATE----------------");
-
-    currentOffsets[moveItem] = temp;
-
-    currentOffsets = unhighlightAll(currentOffsets);
-
-    setState(() {
-      move = false;
-      offsets = currentOffsets;
-      diceNo = null;
-    });
-  }
-
   void moveGotiToV2(currentOffsets, moveItem, diceCount) {
     print('in moveGotiToV2');
     List<int> rowClm;
@@ -1747,15 +1693,6 @@ class _HomeScreenState extends State<HomeScreen> {
     int row = rowClm[0];
     int clm = rowClm[1];
 
-    // print('moveGotiTo: ' +
-    // row.toString() +
-    // ' : ' +
-    // clm.toString() +
-    // ' : ' +
-    // currentOffsets.toString() +
-    // ' : ' +
-    // moveItem.toString());
-
     double bottom = getBottom(context, row);
     double left = getLeft(context, clm);
     int x = get1DPosfrom2D(int.parse("$row$clm"));
@@ -1766,7 +1703,6 @@ class _HomeScreenState extends State<HomeScreen> {
     currentOffsets[moveItem]["predicted"] = false;
     currentOffsets[moveItem]["position"] =
         getActualposition(x, int.parse(moveItem.toString().split("").last));
-    // print('############ 1 SETTING xPosition to' + x.toString());
     currentOffsets[moveItem]["xPosition"] = x;
 
     var temp = currentOffsets[moveItem];
@@ -1808,12 +1744,6 @@ class _HomeScreenState extends State<HomeScreen> {
         predictionText = '';
       });
     }
-    // else {
-    //   setState(() {
-    //     tappedPlayer = 2;
-    //   });
-    // print("DICE NO 6 $diceNo");
-    // }
 
     setState(() {
       diceNo = null;
@@ -2475,28 +2405,61 @@ class _HomeScreenState extends State<HomeScreen> {
             ? 56
             : gethouses(int.parse("$i$position"), position);
 
-        columns.add(Padding(
-            padding: EdgeInsets.only(right: 5),
+        columns.add(Container(
+            decoration: BoxDecoration(
+                border: Border(
+              left: BorderSide(color: Colors.black),
+              top: BorderSide(color: Colors.black),
+              bottom: BorderSide(color: Colors.black),
+            )),
             child: Column(
               children: <Widget>[
-                Text(
-                    '${selectedColorList[position]['name'].toString().substring(0, 1).toUpperCase()}${i + 1}'),
-                Text('$positionsLeft')
+                Container(
+                  decoration: BoxDecoration(
+                      border: Border(
+                    bottom: BorderSide(color: Colors.black),
+                  )),
+                  child: Text(
+                      '  ${selectedColorList[position]['name'].toString().substring(0, 1).toUpperCase()}${i + 1} '),
+                ),
+                Text('  $positionsLeft ')
               ],
             )));
       }
 
-      columns.add(
-        Column(
-          children: <Widget>[Text('M6'), Text('${getSixToStart(position)}')],
-        ),
-      );
-      columns.add(Padding(
-        padding: EdgeInsets.only(right: 5, left: 5),
+      columns.add(Container(
+        // margin: EdgeInsets.only(right: 5, left: 5),
+        decoration: BoxDecoration(
+            border: Border(
+          left: BorderSide(color: Colors.black),
+          top: BorderSide(color: Colors.black),
+          bottom: BorderSide(color: Colors.black),
+        )),
         child: Column(
           children: <Widget>[
-            Text('TOTAL'),
-            Text('${getTotalHouses(position)}')
+            Container(
+              decoration: BoxDecoration(
+                  border: Border(
+                bottom: BorderSide(color: Colors.black),
+              )),
+              child: Text('  M6  '),
+            ),
+            Text('  ${getSixToStart(position)}  ')
+          ],
+        ),
+      ));
+      columns.add(Container(
+        decoration: BoxDecoration(border: Border.all(color: Colors.black)),
+        child: Column(
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                  border: Border(
+                bottom: BorderSide(color: Colors.black),
+              )),
+              child: Text('  TOTAL '),
+            ),
+            Text('  ${getTotalHouses(position)} ')
           ],
         ),
       ));
@@ -2518,6 +2481,9 @@ class _HomeScreenState extends State<HomeScreen> {
         right: 10,
         child: Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
           Row(children: getEachGoti(0)),
+          SizedBox(
+            height: 5,
+          ),
           Text(selectedColorList[0] == null
               ? ''
               : selectedColorList[0]['user'] == null ? '' : getWinningStats(0)),
@@ -2588,6 +2554,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Row(children: getEachGoti(2)),
+                            SizedBox(
+                              height: 5,
+                            ),
                             Text(selectedColorList[2] == null
                                 ? ''
                                 : selectedColorList[2]['user'] == null
@@ -3264,15 +3233,39 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         diceNo = number;
       });
-      if (position == 2) {
-        for (int i = 0; i < 4; i++) {
-          currentOffsets[int.parse("$i$tappedPlayer")]["highlighted"] = true;
+      int legalCount = 0;
+      List<int> movableGotis = [];
+      for (int i = 0; i < 4; i++) {
+        bool legal = isLegalPos(
+            currentOffsets[int.parse("$i$tappedPlayer")]["xPosition"],
+            number,
+            position);
+        if (legal) {
+          legalCount = legalCount + 1;
+          movableGotis.add(int.parse("$i$tappedPlayer"));
         }
-      } else {
+      }
+      if (legalCount == 0) {
+        setState(() {
+          tappedPlayer = tappedPlayer == 0 ? 2 : 0;
+        });
+      } else if (legalCount > 1 && tappedPlayer == 2) {
+        for (int j = 0; j < movableGotis.length; j++) {
+          currentOffsets[int.parse("${movableGotis[j]}")]["highlighted"] = true;
+        }
+      } else if (legalCount == 1) {
+        moveGotiToV2(currentOffsets, movableGotis[0], number);
+        return;
+      }
+
+      print(
+          "LEEEEEEEEEEGGGGGGGGGGGGAAAAAAAAAAAAALLLLLLLLLLLCCCCCCCCCCCOOOOOOOOOUNNNNNNNTTTTTTTt");
+      print(legalCount);
+      if (position != 2) {
         int index = startGameSuggestion(getCurrentBoardStatus(number));
         setState(() {
           predictionText =
-              "MOVE AHEAD ${selectedColorList[0]['name'].toString().substring(0, 1).toUpperCase()}${index + 1}";
+              "Move ${selectedColorList[0]['name'].toString().substring(0, 1).toUpperCase()}${index + 1} ahead";
         });
         if (index != -1) {
           currentOffsets = unhighlightAll(currentOffsets);
@@ -3287,6 +3280,65 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
   }
+
+  bool isLegalPos(int currentXPos, int diceNo, int position) {
+    print(
+        "INSIDE LEGAP POS =========>>>>>>> $currentXPos , $diceNo ,  $position");
+    if (currentXPos == -1) {
+      if (diceNo == 6) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    if (position == 2) {
+      if (currentXPos == 24) {
+        if (diceNo < 6) {
+          print(true);
+          return true;
+        } else {
+          print(false);
+
+          return false;
+        }
+      } else if (currentXPos >= 64) {
+        if ((69 - currentXPos) >= diceNo) {
+          print("111111111111");
+          print(true);
+
+          return true;
+        } else
+          print("22222222222");
+
+        print(false);
+
+        return false;
+      } else {
+        print("33333333333333");
+
+        print(true);
+
+        return true;
+      }
+    } else {
+      if (currentXPos == 50) {
+        if (diceNo < 6) {
+          return true;
+        } else {
+          return false;
+        }
+      } else if (currentXPos >= 52) {
+        if (((57 - currentXPos) >= diceNo)) {
+          return true;
+        } else
+          return false;
+      } else {
+        return true;
+      }
+    }
+  }
+
+  void checkAutoMove(int diceNo, int position) {}
 
   bool isSafePosition(int xPosition) {
     // print('isSafePosition: ' + xPosition.toString());
