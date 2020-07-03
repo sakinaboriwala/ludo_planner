@@ -71,6 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool move = false;
   bool playerAutoMove = true;
   int tappedPlayer = 0;
+  bool init = false;
   int moveItem;
   int diceNo;
   List<int> invalidDiceNos = [];
@@ -170,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.all(0),
-                        child: Text("v1.1.10"),
+                        child: Text("v1.2.0"),
                       )),
                     ),
                     // Positioned(
@@ -1303,7 +1304,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     // await new Future.delayed(const Duration(seconds : 5));
                     if (playerAutoMove && position == tappedPlayer) {
                       // print("AUTOMOVE TRUE");
-
+                      Map<int, dynamic> newOffsets =
+                          new Map.fromEntries(offsets.entries);
+                      setPrevOffset(new Map.fromEntries(newOffsets.entries));
                       moveGotiToV2(
                           currentOffsets, int.parse("$count$position"), diceNo);
                     } else {
@@ -2519,7 +2522,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           .map((e) => GestureDetector(
                               onTap: () {
                                 // print('onTap #10');
-                                if (tappedPlayer == 2) {
+                                if (tappedPlayer == 2 || init) {
                                   setState(() {
                                     playerAutoMove = true;
                                     // tappedPlayer = 2;
@@ -2533,15 +2536,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                     right: tappedPlayer != 2 ? 10 : 5,
                                     bottom: tappedPlayer != 2 ? 5 : 0),
                                 child: Image.asset(
-                                  tappedPlayer == 2
+                                  tappedPlayer == 2 || init
                                       ? "assets/dice-$e.png"
                                       : "assets/dice_disable.png",
                                   fit: BoxFit.fill,
-                                  width: diceNo == e && tappedPlayer == 2
+                                  width: diceNo == e && tappedPlayer == 2 ||
+                                          init
                                       ? MediaQuery.of(context).size.width * 0.12
                                       : MediaQuery.of(context).size.width *
                                           0.10,
-                                  height: diceNo == e && tappedPlayer == 2
+                                  height: diceNo == e && tappedPlayer == 2 ||
+                                          init
                                       ? MediaQuery.of(context).size.width * 0.12
                                       : MediaQuery.of(context).size.width *
                                           0.10,
@@ -2595,14 +2600,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Container(
                         margin: EdgeInsets.only(left: 5),
                         child: Image.asset(
-                          tappedPlayer == 0
+                          tappedPlayer == 0 || init
                               ? "assets/dice-$e.png"
                               : "assets/dice_disable.png",
                           fit: BoxFit.fill,
-                          width: diceNo == e && tappedPlayer == 0
+                          width: diceNo == e && tappedPlayer == 0 || init
                               ? MediaQuery.of(context).size.width * 0.12
                               : MediaQuery.of(context).size.width * 0.10,
-                          height: diceNo == e && tappedPlayer == 0
+                          height: diceNo == e && tappedPlayer == 0 || init
                               ? MediaQuery.of(context).size.width * 0.12
                               : MediaQuery.of(context).size.width * 0.10,
                         ),
@@ -3042,7 +3047,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ? Center(
                 child: Column(children: [
                 Image.asset(
-                    "assets/${position == tappedPlayer ? '_' : ''}avatar_${selectedColorList[position]["name"]}.png",
+                    "assets/${(position == tappedPlayer || init) ? '_' : ''}avatar_${selectedColorList[position]["name"]}.png",
                     height: 50,
                     width: 50),
               ]))
@@ -3080,6 +3085,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void savePlayer(int position, bool self,
       {User user, bool exists = true}) async {
+    if (position == 2) {
+      setState(() {
+        init = true;
+      });
+    }
     // print("CURRENTUSERNAME $currentPlayerName");
     List<Map<String, dynamic>> currentColors = availableColors;
     if ((user != null && exists) &&
@@ -3215,75 +3225,100 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void onDiceTap(int number, int position) {
-    if (position == tappedPlayer) {
-      unhighlightAll(offsets);
-      // print('------------->in onDiceTap()');
-      Map<int, dynamic> currentOffsets = offsets;
-      List<Map<String, dynamic>> tempList = selectedColorList;
-      if (number == 6) {
-        if (tempList[position] != null) {
-          tempList[position]['nosix'] = 0;
-        }
-      } else {
-        if (tempList[position] != null) {
-          tempList[position]['nosix'] = tempList[position]['nosix'] + 1;
-        }
-      }
-
+    if (init) {
       setState(() {
-        diceNo = number;
+        tappedPlayer = position;
+        init = false;
       });
-      int legalCount = 0;
-      List<int> movableGotis = [];
-      for (int i = 0; i < 4; i++) {
-        bool legal = isLegalPos(
-            currentOffsets[int.parse("$i$tappedPlayer")]["xPosition"],
-            number,
-            position);
-        if (legal) {
-          legalCount = legalCount + 1;
-          movableGotis.add(int.parse("$i$tappedPlayer"));
+    }
+    unhighlightAll(offsets);
+    // print('------------->in onDiceTap()');
+    Map<int, dynamic> currentOffsets = offsets;
+    List<Map<String, dynamic>> tempList = selectedColorList;
+    if (number == 6) {
+      if (tempList[position] != null) {
+        tempList[position]['nosix'] = 0;
+      }
+    } else {
+      if (tempList[position] != null) {
+        tempList[position]['nosix'] = tempList[position]['nosix'] + 1;
+      }
+    }
+
+    setState(() {
+      diceNo = number;
+    });
+    int legalCount = 0;
+    bool samex = true;
+    List<int> movableGotis = [];
+    for (int i = 0; i < 4; i++) {
+      bool legal = isLegalPos(
+          currentOffsets[int.parse("$i$tappedPlayer")]["xPosition"],
+          number,
+          position);
+      if (legal) {
+        legalCount = legalCount + 1;
+        movableGotis.add(int.parse("$i$tappedPlayer"));
+        if (i > 0) {
+          if (samex) {
+            bool samexPos = true;
+            for (int j = 0; j < movableGotis.length; j++) {
+              if (samexPos) {
+                samexPos = currentOffsets[int.parse("${movableGotis[j]}")]
+                        ["xPosition"] ==
+                    currentOffsets[int.parse("$i$tappedPlayer")]["xPosition"];
+              }
+            }
+            samex = samexPos;
+            // samex = currentOffsets[int.parse("$i$tappedPlayer")]["xPosition"] ==
+            //     currentOffsets[int.parse("${i - 1}$tappedPlayer")]["xPosition"];
+          }
         }
       }
-      if (legalCount == 0) {
-        setState(() {
-          tappedPlayer = tappedPlayer == 0 ? 2 : 0;
-        });
-      } else if (legalCount > 1 && tappedPlayer == 2) {
+    }
+    if (legalCount == 0) {
+      setState(() {
+        tappedPlayer = tappedPlayer == 0 ? 2 : 0;
+      });
+    } else if (legalCount > 1) {
+      print("LEGAL COUNT $legalCount SAME X $samex");
+      if (samex) {
+        Map<int, dynamic> newOffsets = new Map.fromEntries(offsets.entries);
+        setPrevOffset(new Map.fromEntries(newOffsets.entries));
+        moveGotiToV2(currentOffsets, movableGotis[0], number);
+        return;
+      } else if (tappedPlayer == 2) {
         for (int j = 0; j < movableGotis.length; j++) {
           currentOffsets[int.parse("${movableGotis[j]}")]["highlighted"] = true;
         }
-      } else if (legalCount == 1) {
-        moveGotiToV2(currentOffsets, movableGotis[0], number);
-        return;
       }
+    } else if (legalCount == 1) {
+      Map<int, dynamic> newOffsets = new Map.fromEntries(offsets.entries);
+      setPrevOffset(new Map.fromEntries(newOffsets.entries));
+      moveGotiToV2(currentOffsets, movableGotis[0], number);
+      return;
+    }
 
-      print(
-          "LEEEEEEEEEEGGGGGGGGGGGGAAAAAAAAAAAAALLLLLLLLLLLCCCCCCCCCCCOOOOOOOOOUNNNNNNNTTTTTTTt");
-      print(legalCount);
-      if (position != 2) {
-        int index = startGameSuggestion(getCurrentBoardStatus(number));
+    if (position != 2) {
+      int index = startGameSuggestion(getCurrentBoardStatus(number));
+      setState(() {
+        predictionText =
+            "Move ${selectedColorList[0]['name'].toString().substring(0, 1).toUpperCase()}${index + 1} ahead";
+      });
+      if (index != -1) {
+        currentOffsets = unhighlightAll(currentOffsets);
+        currentOffsets[int.parse("${index}0")]["highlighted"] = true;
+        currentOffsets[int.parse("${index}0")]["predicted"] = true;
         setState(() {
-          predictionText =
-              "Move ${selectedColorList[0]['name'].toString().substring(0, 1).toUpperCase()}${index + 1} ahead";
+          diceNo = number;
+          selectedColorList = tempList;
+          offsets = currentOffsets;
         });
-        if (index != -1) {
-          currentOffsets = unhighlightAll(currentOffsets);
-          currentOffsets[int.parse("${index}0")]["highlighted"] = true;
-          currentOffsets[int.parse("${index}0")]["predicted"] = true;
-          setState(() {
-            diceNo = number;
-            selectedColorList = tempList;
-            offsets = currentOffsets;
-          });
-        }
       }
     }
   }
 
   bool isLegalPos(int currentXPos, int diceNo, int position) {
-    print(
-        "INSIDE LEGAP POS =========>>>>>>> $currentXPos , $diceNo ,  $position");
     if (currentXPos == -1) {
       if (diceNo == 6) {
         return true;
@@ -3294,30 +3329,16 @@ class _HomeScreenState extends State<HomeScreen> {
     if (position == 2) {
       if (currentXPos == 24) {
         if (diceNo < 6) {
-          print(true);
           return true;
         } else {
-          print(false);
-
           return false;
         }
       } else if (currentXPos >= 64) {
         if ((69 - currentXPos) >= diceNo) {
-          print("111111111111");
-          print(true);
-
           return true;
         } else
-          print("22222222222");
-
-        print(false);
-
-        return false;
+          return false;
       } else {
-        print("33333333333333");
-
-        print(true);
-
         return true;
       }
     } else {
@@ -3337,8 +3358,6 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
   }
-
-  void checkAutoMove(int diceNo, int position) {}
 
   bool isSafePosition(int xPosition) {
     // print('isSafePosition: ' + xPosition.toString());
