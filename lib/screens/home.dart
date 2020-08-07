@@ -53,19 +53,26 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Map<String, dynamic>> availableColors = [
     {"name": "red", "value": Colors.red},
+    {"name": "green", "value": Colors.green},
     {"name": "yellow", "value": Colors.yellow},
     {"name": "blue", "value": Colors.blue},
-    {"name": "green", "value": Colors.green},
   ];
   List<Map<String, dynamic>> allColors = [
     {"name": "red", "value": Colors.red},
+    {"name": "green", "value": Colors.green},
     {"name": "yellow", "value": Colors.yellow},
     {"name": "blue", "value": Colors.blue},
-    {"name": "green", "value": Colors.green},
   ];
+
   String selectedColor = "red";
   String currentPlayerName;
-  List<Map<String, dynamic>> selectedColorList = [null, null, null, null];
+  List<Map<String, dynamic>> selectedColorList = [
+    {"playerName": null, "kills": 0, "houses": 0, "name": null},
+    {"playerName": null, "kills": 0, "houses": 0, "name": null},
+    {"playerName": null},
+    {"playerName": null, "kills": 0, "houses": 0, "name": null}
+  ];
+
   List<Widget> gridItems = List.generate(15, (index) => Container());
   bool isLoading = true;
   bool move = false;
@@ -86,6 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool offsetsSet = false;
   bool dbSet = false;
   bool first = true;
+  bool killed = false;
   final TextEditingController _typeAheadController = TextEditingController();
 
   static const double BASEBOTTOM2 = 2.0;
@@ -171,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.all(0),
-                        child: Text("v1.2.0"),
+                        child: Text("v1.2.6"),
                       )),
                     ),
                     // Positioned(
@@ -565,7 +573,12 @@ class _HomeScreenState extends State<HomeScreen> {
       ];
       selectedColor = "red";
       currentPlayerName = "";
-      selectedColorList = [null, null, null, null];
+      selectedColorList = [
+        {"playerName": null, "kills": 0, "houses": 0, "name": null},
+        {"playerName": null, "kills": 0, "houses": 0, "name": null},
+        {"playerName": null},
+        {"playerName": null, "kills": 0, "houses": 0, "name": null}
+      ];
       gridItems = List.generate(15, (index) => Container());
       move = false;
       diceNo = null;
@@ -584,6 +597,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void initState() {
     super.initState();
+    Color color =
+        allColors.firstWhere((element) => element["name"] == "red")["value"];
 
     postInit(() {
       getInfo();
@@ -1709,7 +1724,7 @@ class _HomeScreenState extends State<HomeScreen> {
     currentOffsets[moveItem]["xPosition"] = x;
 
     var temp = currentOffsets[moveItem];
-
+    bool tempKilled = false;
     // loop over all the offsets to see agar kissi ka xPossition same as this one to nahi
     currentOffsets.forEach((key, value) {
       if ((currentOffsets[moveItem]["playerIndex"] !=
@@ -1717,7 +1732,11 @@ class _HomeScreenState extends State<HomeScreen> {
           (key != moveItem) &&
           (currentOffsets[key]["xPosition"] == x) &&
           (isSafePosition(currentOffsets[key]["xPosition"]) == false)) {
-        // print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        print("Auto Move KILLING!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        tempKilled = true;
+        setState(() {
+          killed = true;
+        });
         currentOffsets[moveItem]["kills"] += 1;
         // currentOffsets[key] = defaultOffsets[key];
         currentOffsets[key]["xPosition"] = -1;
@@ -1739,7 +1758,9 @@ class _HomeScreenState extends State<HomeScreen> {
       move = false;
       offsets = currentOffsets;
     });
-    if (diceNo != 6) {
+    print("KILLED");
+    print(killed);
+    if (diceNo != 6 && !killed) {
       // print("DICE NUMBER NOT 6 $diceNo");
 
       setState(() {
@@ -1750,6 +1771,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     setState(() {
       diceNo = null;
+      killed = false;
     });
     setinvalidDiceNumbers();
   }
@@ -1879,15 +1901,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               selectedColorList = temp;
                             });
                             DBProvider.db.updateUser(user);
+                            Navigator.pop(context);
+
                             reset();
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (BuildContext context) => HomeScreen(
-                                      Image.asset(
-                                          "assets/ludo_background.png"))),
-                              ModalRoute.withName('/'),
-                            );
+                            // Navigator.pushAndRemoveUntil(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (BuildContext context) => HomeScreen(
+                            //           Image.asset(
+                            //               "assets/ludo_background.png"))),
+                            //   ModalRoute.withName('/'),
+                            // );
                           },
                         )
                       ],
@@ -1915,7 +1939,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 : Border.all(color: Color(0xff465e6e))),
         width: 70,
         height: 70,
-        child: selectedColorList[position] != null
+        child: selectedColorList[position]["name"] != null
             ? Center(
                 child: Column(children: [
                 Image.asset(
@@ -1936,7 +1960,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void addMemberDialog(int position, bool self,
-      {User user, bool exists = true}) {
+      {User user, bool exists = true, showColor = true}) {
     User usertobeSent = exists ? user : null;
     showDialog(
         context: context,
@@ -1948,7 +1972,11 @@ class _HomeScreenState extends State<HomeScreen> {
               scrollable: true,
               title: Container(
                 width: MediaQuery.of(context).size.width * 0.66,
-                child: topRow(context, "SELECT COLOR"),
+                child: topRow(
+                    context,
+                    position == 2
+                        ? "SELECT OPPONENT"
+                        : !showColor ? "EDIT NAME" : "SELECT COLOR"),
               ),
               content: new Container(
                   // height: 250,
@@ -2000,26 +2028,34 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                         ),
+                        SizedBox(
+                          height: 20,
+                        ),
                         //   ],
                         // ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          'HOUSE COLOR ',
-                          style: TextStyle(fontSize: 18, fontFamily: 'Roboto'),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            colorDropDown('Color', setState, user: usertobeSent)
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
+                        position == 0 && showColor
+                            ? Column(children: [
+                                Text(
+                                  'HOUSE COLOR ',
+                                  style: TextStyle(
+                                      fontSize: 18, fontFamily: 'Roboto'),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    colorDropDown('Color', setState,
+                                        user: usertobeSent)
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 20,
+                                ),
+                              ])
+                            : Container(),
                         bottomRow(position, self,
-                            user: usertobeSent, exists: exists)
+                            user: usertobeSent,
+                            exists: exists,
+                            showColor: showColor)
                       ],
                     ),
                   ])),
@@ -2110,21 +2146,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               content: new Container(
-                  // height: 250,
                   width: MediaQuery.of(context).size.width,
                   child: Stack(children: [
-                    // SvgPicture.asset("assets/popup_bg.svg",
-                    //     color: Colors.white, semanticsLabel: 'A red up arrow'),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         GestureDetector(
-                          // child: SvgPicture.asset(
-                          //   "assets/popup_ok.svg",
-                          //   height: 40,
-                          //   color: Colors.green.shade300,
-                          // ),
                           child: Container(
                               width: 140,
                               height: 40,
@@ -2359,8 +2387,10 @@ class _HomeScreenState extends State<HomeScreen> {
         alignment: alignments[index],
         child: value == null
             ? Container()
-            : Image.asset(
-                "assets/${trianglePositions[index]}_${value["name"]}.png"),
+            : value["name"] == null
+                ? Container()
+                : Image.asset(
+                    "assets/${trianglePositions[index]}_${value["name"]}.png"),
       ));
     });
 
@@ -2503,10 +2533,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget oppDiceRow() {
     // selectedColorList[2]['user'] != null
     return Visibility(
-        visible: availableColors.length < 2 &&
-            ((selectedColorList.length > 2 && selectedColorList[2] != null)
-                ? true
-                : false),
+        visible: selectedColorList[2]['playerName'] != null ? true : false,
         child: Positioned(
             left: 2,
             child: Container(
@@ -2562,15 +2589,17 @@ class _HomeScreenState extends State<HomeScreen> {
                             SizedBox(
                               height: 5,
                             ),
-                            Text(selectedColorList[2] == null
-                                ? ''
-                                : selectedColorList[2]['user'] == null
-                                    ? ''
-                                    : getWinningStats(2)),
-                            Text("Total killed: ${getKills(2)}",
-                                style: TextStyle(color: Color(0xff465e6e))),
-                            Text("No sixes: ${getNoSixCount(2)}",
-                                style: TextStyle(color: Color(0xff465e6e))),
+                            Row(children: [
+                              Text(selectedColorList[2] == null
+                                  ? ''
+                                  : selectedColorList[2]['user'] == null
+                                      ? ''
+                                      : " ${getWinningStats(2)}; "),
+                              Text("Total killed: ${getKills(2)}; ",
+                                  style: TextStyle(color: Color(0xff465e6e))),
+                              Text("No sixes: ${getNoSixCount(2)}; ",
+                                  style: TextStyle(color: Color(0xff465e6e)))
+                            ]),
                           ]))
                 ],
               ),
@@ -2616,7 +2645,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget bottomRow(int position, bool self, {User user, bool exists}) {
+  Widget bottomRow(int position, bool self,
+      {User user, bool exists, bool showColor = true}) {
     // print('------------->in bottomRow()');
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Stack(children: [
@@ -2657,7 +2687,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 });
               }
 
-              savePlayer(position, self, user: user, exists: exists);
+              savePlayer(position, self,
+                  user: user, exists: exists, showColor: showColor);
               Navigator.pop(context);
             }
           },
@@ -2672,9 +2703,7 @@ class _HomeScreenState extends State<HomeScreen> {
         // print('onTap #8');
         Map<int, dynamic> currentOffsets = offsets;
 
-        if (selectedColorList[position] == null) {
-          addMemberDialog(position, false);
-        }
+        // addMemberDialog(position, false);
 
         // else {
         //   if (position != 0) {
@@ -2960,14 +2989,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   currentPlayerName = selectedColorList[0]['user'].name;
                 });
                 // print(selectedColorList[0]['user'].color);
-                addMemberDialog(0, true, user: selectedColorList[0]['user']);
+                addMemberDialog(0, true,
+                    user: selectedColorList[0]['user'],
+                    exists: true,
+                    showColor: false);
               }
             },
-            child: Text(selectedColorList[position] != null
-                ? selectedColorList[position]["playerName"] != null
-                    ? selectedColorList[position]["playerName"]
-                    : ""
-                : ""),
+            child: Text(position == 1 || position == 3
+                ? ""
+                : selectedColorList[position] != null
+                    ? selectedColorList[position]["playerName"] != null
+                        ? selectedColorList[position]["playerName"]
+                        : ""
+                    : ""),
           ),
           // selectedColorList[position] != null
           //     ? (selectedColorList[position]["playerName"] != null &&
@@ -3043,7 +3077,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 : Border.all(color: Color(0xff465e6e))),
         width: 50,
         height: 50,
-        child: selectedColorList[position] != null
+        child: selectedColorList[position]["name"] != null
             ? Center(
                 child: Column(children: [
                 Image.asset(
@@ -3063,6 +3097,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void saveSelfPlayer(User user) {
     // print("SELFPLAYERNAME ${user.color}");
     List<Map<String, dynamic>> currentList = selectedColorList;
+    // int index = availableColors.indexOf(
+    //     availableColors.firstWhere((element) => element["name"] == user.color));
     currentList[0] =
         availableColors.firstWhere((element) => element["name"] == user.color);
     currentList[0]["playerName"] = user.name;
@@ -3073,76 +3109,94 @@ class _HomeScreenState extends State<HomeScreen> {
     currentList[0]['nosix'] = 0;
 
     List<Map<String, dynamic>> currentColors = availableColors;
-    currentColors.removeWhere((element) => element["name"] == user.color);
+
+    // currentColors.removeWhere((element) => element["name"] == user.color);
+
+    // for (int i = 1; i <= 3; i++) {
+    //   print(i + index);
+    //   int colorIdx = (i + index) > 3 ? 3 - (((i + index) - 1)) : i + index;
+    //   currentList[i] = availableColors[colorIdx.abs()];
+    //   currentList[i]["playerName"] = null;
+    //   currentList[i]["kills"] = null;
+    //   currentList[i]["houses"] = null;
+    //   currentList[i]["sixes"] = null;
+    //   currentList[i]['user'] = null;
+    //   currentList[i]['nosix'] = null;
+    // }
 
     setState(() {
       selectedColorList = currentList;
       availableColors = currentColors;
-      selectedColor = currentColors[0]["name"];
-      currentPlayerName = null;
+      selectedColor = user.color;
+      currentPlayerName = user.name;
     });
+    addMemberDialog(0, true, exists: true, user: user);
   }
 
   void savePlayer(int position, bool self,
-      {User user, bool exists = true}) async {
+      {User user, bool exists = true, showColor = true}) async {
     if (position == 2) {
       setState(() {
         init = true;
       });
     }
-    // print("CURRENTUSERNAME $currentPlayerName");
     List<Map<String, dynamic>> currentColors = availableColors;
-    if ((user != null && exists) &&
-        (selectedColorList[0] != null
-            ? selectedColorList[0]['color'] != selectedColor
-            : false)) {
-      currentColors.add(allColors.firstWhere(
-          (element) => element["name"] == selectedColorList[0]['name']));
-    }
-    // print('------------->in savePlayer()');
     List<Map<String, dynamic>> currentList = selectedColorList;
-    currentList[position] = user == null || exists == false
-        ? availableColors
-            .firstWhere((element) => element["name"] == selectedColor)
-        : allColors.firstWhere((element) => element["name"] == selectedColor);
-    currentList[position]["playerName"] = currentPlayerName;
-    currentList[position]["kills"] = 0;
-    currentList[position]["houses"] = 0;
-    currentList[position]["sixes"] = 0;
-    currentList[position]['nosix'] = 0;
 
-    currentColors.removeWhere((element) => element["name"] == selectedColor);
-
-    if (currentColors.length == 1) {
-      int otherPos = position == 1 ? 3 : 1;
-      currentList[otherPos] = currentColors[0];
-      currentList[otherPos]["playerName"] = null;
-      currentList[otherPos]["kills"] = 0;
-      currentList[otherPos]["houses"] = 0;
-      currentList[otherPos]["sixes"] = 0;
+    if (position == 0 && showColor) {
+      print("SELECTED COLOR!! $selectedColor");
+      int index = allColors.indexOf(
+          allColors.firstWhere((element) => element["name"] == selectedColor));
+      _typeAheadController.text = '';
+      for (int i = 1; i <= 3; i++) {
+        print("NAME ${selectedColorList[i]["playerName"]}");
+        int colorIdx = (i + index) > 3 ? 3 - (((i + index) - 1)) : i + index;
+        currentList[i]["color"] = allColors[colorIdx.abs()];
+        currentList[i] = allColors[colorIdx.abs()];
+        currentList[i]["playerName"] = selectedColorList[i]["playerName"];
+        currentList[i]["kills"] = selectedColorList[i]["kills"];
+        currentList[i]["houses"] = selectedColorList[i]["houses"];
+        currentList[i]["sixes"] = selectedColorList[i]["sixes"];
+        currentList[i]['user'] = selectedColorList[i]["user"];
+        currentList[i]['nosix'] = selectedColorList[i]["nosix"] == null
+            ? 0
+            : selectedColorList[i]["nosix"];
+      }
     }
 
-    if (position == 2 || position == 0) {
-      // print("CURRENT PLAYER NAME $currentPlayerName");
+    if (position == 0 || position == 2) {
+      if (position == 0) {
+        currentList[0] =
+            allColors.firstWhere((element) => element["name"] == selectedColor);
+      }
       if (user != null) {
+        print(position);
+        print("COLOR uSER NULL");
+        print(currentList[2]["name"]);
         await DBProvider.db.updateUser(User(
             id: user.id,
-            color: selectedColor,
+            color:
+                position == 0 ? selectedColor : currentList[position]["name"],
             name: currentPlayerName,
             games: user.games,
             wins: user.wins,
             self: self));
         currentList[position]["user"] = User(
             id: user.id,
-            color: selectedColor,
+            color:
+                position == 0 ? selectedColor : currentList[position]["name"],
             name: currentPlayerName,
             games: user.games,
             wins: user.wins,
             self: self);
+        currentList[position]["playerName"] = currentPlayerName;
+        currentList[position]["nosix"] = 0;
       } else {
         User userRcvd = await DBProvider.db.newUser(
             User(
-                color: selectedColor,
+                color: position == 0
+                    ? selectedColor
+                    : currentList[position]["name"],
                 name: currentPlayerName,
                 games: 0,
                 wins: 0,
@@ -3150,11 +3204,12 @@ class _HomeScreenState extends State<HomeScreen> {
             selectedColorList[0]['user'],
             first);
         currentList[position]["user"] = userRcvd;
+        currentList[position]["playerName"] = userRcvd.name;
+        currentList[position]["nosix"] = 0;
       }
     }
     String color = currentColors[0]["name"];
-    // print("FREAKING COLOR MC ------------>>>>>>>>>>>>>>>>>>>>>> $color");
-    _typeAheadController.text = '';
+
     setState(() {
       selectedColorList = currentList;
       availableColors = currentColors;
@@ -3162,6 +3217,10 @@ class _HomeScreenState extends State<HomeScreen> {
       currentPlayerName = '';
     });
     getUsers();
+    print(selectedColorList[2]);
+    if (position == 0 && showColor) {
+      addMemberDialog(2, false);
+    }
   }
 
   Widget colorBox(int position) {

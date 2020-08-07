@@ -168,7 +168,9 @@ class GameOperations {
 //          else
         {
           isSafeProbList[pieceNo] = isSafeProbList[pieceNo] *
-              players[currentChancePlayerNo].pieces[pieceNo].position /
+              (players[currentChancePlayerNo].pieces[pieceNo].position == 0
+                  ? 1
+                  : players[currentChancePlayerNo].pieces[pieceNo].position) /
               56;
         }
       }
@@ -333,8 +335,7 @@ class GameOperations {
     if (this.currPieceKillPiecePosMap.isNotEmpty) {
       currPieceKillPiecePosMap.forEach((currPlayerPieceNo, withPlayerPiecePos) {
         killingProbList[currPlayerPieceNo] =
-            killingProbList[currPlayerPieceNo] *
-                (withPlayerPiecePos / 56);
+            killingProbList[currPlayerPieceNo] * (withPlayerPiecePos / 56);
       });
     }
 
