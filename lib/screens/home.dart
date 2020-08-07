@@ -3359,6 +3359,9 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     if (position != 2) {
+      print("===============================================");
+      print(getCurrentBoardStatus(number));
+      print("===============================================");
       int index = startGameSuggestion(getCurrentBoardStatus(number));
       setState(() {
         predictionText =
@@ -3438,11 +3441,17 @@ class _HomeScreenState extends State<HomeScreen> {
         "2": offsets[20]["position"],
         "3": offsets[30]["position"]
       },
+//      "1": {
+//        "0": offsets[01]["position"],
+//        "1": offsets[11]["position"],
+//        "2": offsets[21]["position"],
+//        "3": offsets[31]["position"]
+//      },
       "1": {
-        "0": offsets[01]["position"],
-        "1": offsets[11]["position"],
-        "2": offsets[21]["position"],
-        "3": offsets[31]["position"]
+        "0": -2,
+        "1": -2,
+        "2": -2,
+        "3": -2
       },
       "2": {
         "0": offsets[02]["position"],
@@ -3450,11 +3459,17 @@ class _HomeScreenState extends State<HomeScreen> {
         "2": offsets[22]["position"],
         "3": offsets[32]["position"]
       },
+//      "3": {
+//        "0": offsets[03]["position"],
+//        "1": offsets[13]["position"],
+//        "2": offsets[23]["position"],
+//        "3": offsets[33]["position"]
+//      },
       "3": {
-        "0": offsets[03]["position"],
-        "1": offsets[13]["position"],
-        "2": offsets[23]["position"],
-        "3": offsets[33]["position"]
+        "0": -2,
+        "1": -2,
+        "2": -2,
+        "3": -2
       },
       "noOnDice": noOnDice
     };
