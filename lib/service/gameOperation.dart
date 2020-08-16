@@ -168,10 +168,10 @@ class GameOperations {
 //          else
         {
           isSafeProbList[pieceNo] = isSafeProbList[pieceNo] *
-              (players[currentChancePlayerNo].pieces[pieceNo].position == 0
+              ((players[currentChancePlayerNo].pieces[pieceNo].position == 0
                   ? 1
                   : players[currentChancePlayerNo].pieces[pieceNo].position) /
-              56;
+              56) * 0.2;
         }
       }
     }
@@ -319,7 +319,7 @@ class GameOperations {
       dyingProbList[pieceNo] = dyingProbList[pieceNo] *
           ((players[currentChancePlayerNo].pieces[pieceNo].position +
                   noOnDice) /
-              56);
+              56) * 5;
     }
     return dyingProbList;
   }
