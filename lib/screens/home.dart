@@ -94,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool dbSet = false;
   bool first = true;
   bool killed = false;
+  List<int> playerTurns = [];
   final TextEditingController _typeAheadController = TextEditingController();
 
   static const double BASEBOTTOM2 = 2.0;
@@ -179,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.all(0),
-                        child: Text("v1.2.6"),
+                        child: Text("v1.2.7"),
                       )),
                     ),
                     // Positioned(
@@ -258,6 +259,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if ([...prevOffsets].length != 0) {
       List<Map<int, dynamic>> tempOffsets = prevOffsets;
+      List<int> tempPrevTurns = playerTurns;
+
+      int tempPlayer = tempPrevTurns[tempPrevTurns.length - 1];
+
       // print(tempOffsets[tempOffsets.length - 1]);
 
       // Map<int, dynamic> offsetRecvd = tempOffsets[0][00];
@@ -553,10 +558,12 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       };
       tempOffsets.removeAt(prevOffsets.length - 1);
+      tempPrevTurns.removeAt(tempPrevTurns.length - 1);
 
       setState(() {
         offsets = new Map.fromEntries(tempofsetmap.entries);
         prevOffsets = tempOffsets;
+        tappedPlayer = tempPlayer;
       });
     }
   }
@@ -1251,10 +1258,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
     List<Map<int, dynamic>> tempPrevOffsets = prevOffsets;
 
+    List<int> tempPrevTurns = playerTurns;
+
+    tempPrevTurns.add(tappedPlayer);
+
     tempPrevOffsets.add(new Map.fromEntries(tempofsetmap.entries));
 
     setState(() {
-      prevOffsets = tempPrevOffsets;
+      playerTurns = tempPrevTurns;
     });
   }
 
@@ -1760,12 +1771,17 @@ class _HomeScreenState extends State<HomeScreen> {
     });
     print("KILLED");
     print(killed);
-    if (diceNo != 6 && !killed) {
+    print("XPOSITION!!!!!!!!!!!!!!! $x");
+    if (diceNo != 6 && !killed && x != 57 && x != 69) {
       // print("DICE NUMBER NOT 6 $diceNo");
+      List<int> tempPrevTurns = playerTurns;
+
+      tempPrevTurns.add(tappedPlayer);
 
       setState(() {
         tappedPlayer = tappedPlayer == 0 ? 2 : 0;
         predictionText = '';
+        playerTurns = tempPrevTurns;
       });
     }
 
@@ -2240,11 +2256,11 @@ class _HomeScreenState extends State<HomeScreen> {
 //                        margin: EdgeInsets.only(
 //                          bottom: 5,
 //                        ),
-                        // child: Text(
-                        //   // $row,$col\n
-                        //   "$x",
-                        //   style: TextStyle(color: Colors.black, fontSize: 10),
-                        // ),
+                        child: Text(
+                          // $row,$col\n
+                          "$x",
+                          style: TextStyle(color: Colors.black, fontSize: 10),
+                        ),
                         color: Colors.transparent,
                         width: MediaQuery.of(context).size.width * 0.0667,
                         height: MediaQuery.of(context).size.width * 0.0667))));
@@ -3285,9 +3301,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void onDiceTap(int number, int position) {
     if (init) {
+      List<int> tempPrevTurns = playerTurns;
+
+      tempPrevTurns.add(tappedPlayer);
+
       setState(() {
         tappedPlayer = position;
         init = false;
+        playerTurns = tempPrevTurns;
       });
     }
     unhighlightAll(offsets);
@@ -3336,8 +3357,13 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
     if (legalCount == 0) {
+      List<int> tempPrevTurns = playerTurns;
+
+      tempPrevTurns.add(tappedPlayer);
+
       setState(() {
         tappedPlayer = tappedPlayer == 0 ? 2 : 0;
+        playerTurns = tempPrevTurns;
       });
     } else if (legalCount > 1) {
       print("LEGAL COUNT $legalCount SAME X $samex");
@@ -3447,12 +3473,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //        "2": offsets[21]["position"],
 //        "3": offsets[31]["position"]
 //      },
-      "1": {
-        "0": -2,
-        "1": -2,
-        "2": -2,
-        "3": -2
-      },
+      "1": {"0": -2, "1": -2, "2": -2, "3": -2},
       "2": {
         "0": offsets[02]["position"],
         "1": offsets[12]["position"],
@@ -3465,12 +3486,7 @@ class _HomeScreenState extends State<HomeScreen> {
 //        "2": offsets[23]["position"],
 //        "3": offsets[33]["position"]
 //      },
-      "3": {
-        "0": -2,
-        "1": -2,
-        "2": -2,
-        "3": -2
-      },
+      "3": {"0": -2, "1": -2, "2": -2, "3": -2},
       "noOnDice": noOnDice
     };
   }
