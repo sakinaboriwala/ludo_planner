@@ -1652,11 +1652,15 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     } else {
       int newXPos = currentOffsets[moveItem]["xPosition"] + diceNo;
+//      if (currentOffsets[moveItem]["playerIndex"] == 0 && currentOffsets[moveItem]["xPosition"] == 50) {
+//        newXPos = newXPos + 1;
+//        rowClm = get2Dfrom1D(newXPos);
+//      }
       // print("newXPos: " + newXPos.toString());
       if (newXPos == 52 && diceNo == 1) {
         newXPos = 0;
       } else if (currentOffsets[moveItem]["playerIndex"] == 0) {
-        if (newXPos == 51) {
+        if (newXPos == 51 || (newXPos > 51 && currentOffsets[moveItem]["xPosition"] < 51)) {
           newXPos = newXPos + 1;
         }
         rowClm = get2Dfrom1D(newXPos);
