@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.all(0),
-                        child: Text("v1.2.8"),
+                        child: Text("v1.2.9"),
                       )),
                     ),
                     // Positioned(

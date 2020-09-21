@@ -129,6 +129,9 @@ class GameConfiguration {
       return pieceNoForAnyPieceWithinInitialBox();
     }
 
+    // TODO: if all the opponents goti are in the home or home grid then move the goti which is the farthest.
+
+
     List<double> values = gameOperationsObj.returnValueListOfBoardOnOneMove(0);
     print(values);
 

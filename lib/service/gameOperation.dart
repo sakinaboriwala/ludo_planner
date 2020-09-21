@@ -37,22 +37,46 @@ class GameOperations {
         withPlayerPiecePos > 50)
       return 0.0;
     else {
+      // Start change#1 by Shikhar
+      // Exception Start //
+      // This exception will only work for 2 player game for now can be modified for 2+ players
+      // So the issue is: If opponent is going to go inside there house to win and i am not standing in the path
+      // then still i am getting dying probability whereas my dying probability should be 0 since oppononets goti
+      // will start going in the house and will never come to me to kill
+
+      if ((currPlayerPiecePos + noOnDice) == 25) return 0.0;
+      if (currPlayerPiecePos > 25 && withPlayerPiecePos > 37) return 0.0;
+
+      // Exception End //
+      // End change#1 by Shikhar
+
       int playerNoDiff = currentChancePlayerNo - withPlayerNo;
-      //Dying From Piece In Home Way  dying from itself
-      if (withPlayerPiecePos > 50 || playerNoDiff == 0) return 0.0;
+      //Dying From Self
+      if (currentChancePlayerNo == withPlayerNo) return 0.0;
+
+      // Start change#4 by Shikhar
+
+      if (withPlayerPiecePos == -1) withPlayerPiecePos = 0;
+
+      // End change#4 by Shikhar
 
       if (!hasNoOnDice && withPlayerPiecePos == -1) withPlayerPiecePos = 0;
 
       int posDiff = piecePositionDifferenceForDying(currentChancePlayerNo,
           withPlayerNo, currPlayerPiecePos + noOnDice, withPlayerPiecePos);
 //        print("Player no Diff :  $playerNoDiff  Piece Diff $posDiff");
+//      if(currentChancePlayerNo == 0 && currentChancePlayerPieceNo == 3){print("posDiff $posDiff");}
 
       if (posDiff > 0 && posDiff <= 6)
         return 1 / 6;
       else if (posDiff > 6 && posDiff <= 12)
-        return 1 / 36;
+        // Start change#3 by Shikhar
+        return 1 / (36 * 2);
+      // End change#3 by Shikhar
       else if (posDiff > 12 && posDiff <= 17)
-        return 1 / 216;
+        // Start change#3 by Shikhar
+        return 0;//1 / (216 * 8);
+      // End change#3 by Shikhar
       else
         return 0;
     }
@@ -78,15 +102,17 @@ class GameOperations {
           players[withPlayerNo].pieces[withPlayerPieceNo].position)) {
         mapForProbDyingCorrection
             .remove(players[withPlayerNo].pieces[withPlayerPieceNo].position);
-        probability = probability +
-            singlePieceDyingProbability(
-                currentChancePlayerNo,
-                currentChancePlayerPieceNo,
-                currPlayerPiecePos,
-                withPlayerNo,
-                withPlayerPieceNo,
-                players[withPlayerNo].pieces[withPlayerPieceNo].position,
-                hasNoOnDice: hasNoOnDice);
+        var temp = singlePieceDyingProbability(
+            currentChancePlayerNo,
+            currentChancePlayerPieceNo,
+            currPlayerPiecePos,
+            withPlayerNo,
+            withPlayerPieceNo,
+            players[withPlayerNo].pieces[withPlayerPieceNo].position,
+            hasNoOnDice: hasNoOnDice);
+//        print(
+//            "singlePieceDyingProbability for $currentChancePlayerPieceNo: $temp         -> $withPlayerNo $withPlayerPieceNo ${players[withPlayerNo].pieces[withPlayerPieceNo].position}");
+        probability = probability + temp;
       }
     }
     return probability;
@@ -111,16 +137,16 @@ class GameOperations {
         for (int currPlayerPieceNo = 0;
             currPlayerPieceNo < 4;
             currPlayerPieceNo++) {
+          var temp = calculateDyingProbability(
+              currentChancePlayerNo,
+              currPlayerPieceNo,
+              players[currentChancePlayerNo].pieces[currPlayerPieceNo].position,
+              playerNo,
+              hasNoOnDice: hasNoOnDice);
+//          print(dyingProbability[currPlayerPieceNo]);
+//          print("calculateDyingProbability for $currPlayerPieceNo: $temp");
           dyingProbability[currPlayerPieceNo] =
-              dyingProbability[currPlayerPieceNo] +
-                  calculateDyingProbability(
-                      currentChancePlayerNo,
-                      currPlayerPieceNo,
-                      players[currentChancePlayerNo]
-                          .pieces[currPlayerPieceNo]
-                          .position,
-                      playerNo,
-                      hasNoOnDice: hasNoOnDice);
+              dyingProbability[currPlayerPieceNo] + temp;
         }
       }
     }
@@ -161,17 +187,17 @@ class GameOperations {
         hasNoOnDice: hasNoOnDice);
     for (int pieceNo = 0; pieceNo < 4; pieceNo++) {
       if (isSafeProbList[pieceNo] == 1.0) {
-//          if(players[playerNo].pieces[pieceNo].position==-1)
-//            {
-//              isSafeProbList[pieceNo]=0;
-//            }
-//          else
-        {
+        if (players[currentChancePlayerNo].pieces[pieceNo].position == -1) {
+          isSafeProbList[pieceNo] = 0;
+        } else {
           isSafeProbList[pieceNo] = isSafeProbList[pieceNo] *
               ((players[currentChancePlayerNo].pieces[pieceNo].position == 0
-                  ? 1
-                  : players[currentChancePlayerNo].pieces[pieceNo].position) /
-              56) * 0.2;
+                      ? 1
+                      : players[currentChancePlayerNo]
+                          .pieces[pieceNo]
+                          .position) /
+                  56) *
+              (0.15);
         }
       }
     }
@@ -316,10 +342,19 @@ class GameOperations {
     print(dyingProbList);
 
     for (int pieceNo = 0; pieceNo < 4; pieceNo++) {
+      // Start change#2 by Shikhar
+      // (This change gives advantage to those goties who are ahead in the board and are safe)
+      if (dyingProbList[pieceNo] == 0 &&
+          players[currentChancePlayerNo].pieces[pieceNo].position >= 0) {
+        dyingProbList[pieceNo] = -0.1;
+      }
+      // Start change#2 by Shikhar
+
       dyingProbList[pieceNo] = dyingProbList[pieceNo] *
           ((players[currentChancePlayerNo].pieces[pieceNo].position +
                   noOnDice) /
-              56) * 5;
+              56) *
+          5;
     }
     return dyingProbList;
   }
@@ -366,7 +401,7 @@ class GameOperations {
     print(dyingProbList);
     print("Killing Probability Weighted ");
     print(killingProbabilityList);
-    print("IsSafe robability Weighed");
+    print("IsSafe Probability Weighed");
     print(isSafeProbList);
     print("Piece Values");
     print(valueOfPieces);
@@ -391,11 +426,11 @@ class GameOperations {
         if (pieceMoved != otherPiece) {
           boardImproveValueList[pieceMoved] =
               boardImproveValueList[pieceMoved] +
-                  withoutDiceNoValueList[otherPiece] / 4;
+                  withoutDiceNoValueList[otherPiece];
         }
       }
       boardImproveValueList[pieceMoved] = boardImproveValueList[pieceMoved] +
-          moveWithDiceNoValueList[pieceMoved] / 4;
+          moveWithDiceNoValueList[pieceMoved];
     }
     print("Board Improve probability");
 //print(boardImproveValueList);
