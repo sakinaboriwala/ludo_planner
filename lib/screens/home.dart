@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.center,
                         width: MediaQuery.of(context).size.width,
                         margin: EdgeInsets.all(0),
-                        child: Text("v1.2.9"),
+                        child: Text("v1.3.1"),
                       )),
                     ),
                     // Positioned(
@@ -253,6 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void undo() {
+    print('------------->in undo()');
     // print("PREV OFFSETS LENGTH ____________________");
     // print(prevOffsets.length);
     // print(prevOffsets[0][00]);
@@ -569,7 +570,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void reset() {
-    // print('------------->in reset()');
+    print('------------->in reset()');
     setState(() {
       prevOffsets = [];
       availableColors = [
@@ -1270,7 +1271,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget renderGoti(int count, int position) {
-    // print('------------->in renderGoti()');
+     print('------------->in renderGoti()');
     if (selectedColorList[position] != null) {
       if (selectedColorList[position]["playerName"] != null &&
           selectedColorList[position]["playerName"] != "") {
@@ -1531,6 +1532,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Map<int, dynamic> adjustForMultipleOnOne(Map<int, dynamic> currentOffsets) {
+    print('------------->in adjustForMultipleOnOne()');
     for (int xPosition = 0; xPosition < 75; xPosition++) {
       // print('in adjustForMultipleOnOne xPosition: ' + xPosition.toString());
       List<int> rowClm = get2Dfrom1D(xPosition);
@@ -1617,6 +1619,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Map<int, dynamic> unhighlightAll(Map<int, dynamic> currentOffsets) {
+    print('------------->in unhighlightAll()');
     currentOffsets.forEach((key, value) {
       value["highlighted"] = false;
       value["predicted"] = false;
@@ -1635,7 +1638,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void moveGotiToV2(currentOffsets, moveItem, diceCount) {
-    print('in moveGotiToV2');
+    print('------------->in moveGotiToV2()');
     List<int> rowClm;
     if (currentOffsets[moveItem]["xPosition"] == -1) {
       if (currentOffsets[moveItem]["playerIndex"] == 0) {
@@ -1797,6 +1800,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void setinvalidDiceNumbers() {
+    print('------------->in setinvalidDiceNumbers()');
     List<int> invalidNos = [];
     List player2xPositions = [
       offsets[02]['xPosition'],
@@ -2130,7 +2134,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void resetDialog() {
-    // print('------------->in resetDialog()');
+     print('------------->in resetDialog()');
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -2201,7 +2205,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   List<Widget> layout() {
-    // print('------------->in layout()');
+     print('------------->in layout()');
     List<Widget> layoutItems = [];
     layoutItems.addAll([colorBox(0), colorBox(1), colorBox(3), centerSquare()]);
     if (selectedColorList[2] != null) {
@@ -2260,11 +2264,11 @@ class _HomeScreenState extends State<HomeScreen> {
 //                        margin: EdgeInsets.only(
 //                          bottom: 5,
 //                        ),
-                        child: Text(
-                          // $row,$col\n
-                          "$x",
-                          style: TextStyle(color: Colors.black, fontSize: 10),
-                        ),
+//                        child: Text(
+//                          // $row,$col\n
+//                          "$x",
+//                          style: TextStyle(color: Colors.black, fontSize: 10),
+//                        ),
                         color: Colors.transparent,
                         width: MediaQuery.of(context).size.width * 0.0667,
                         height: MediaQuery.of(context).size.width * 0.0667))));
@@ -2300,7 +2304,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void changeSize(x, moveItem) {
-    // print('------------->in changeSize()');
+     print('------------->in changeSize()');
     Map<int, dynamic> currentOffsets = offsets;
 
     List keysToBeModfied = [];
@@ -2667,7 +2671,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget bottomRow(int position, bool self,
       {User user, bool exists, bool showColor = true}) {
-    // print('------------->in bottomRow()');
+     print('------------->in bottomRow()');
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       Stack(children: [
         GestureDetector(
@@ -3272,7 +3276,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget screenBottomRow() {
-    // print('------------->in screenBottomRow()');
+     print('------------->in screenBottomRow()');
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -3304,6 +3308,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void onDiceTap(int number, int position) {
+    print('------------->in onDiceTap()');
     if (init) {
       List<int> tempPrevTurns = playerTurns;
 
@@ -3368,6 +3373,8 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         tappedPlayer = tappedPlayer == 0 ? 2 : 0;
         playerTurns = tempPrevTurns;
+        move = false;
+        diceNo = null;
       });
     } else if (legalCount > 1) {
       print("LEGAL COUNT $legalCount SAME X $samex");
@@ -3411,6 +3418,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   bool isLegalPos(int currentXPos, int diceNo, int position) {
+    print('------------->in isLegalPos()');
     if (currentXPos == -1) {
       if (diceNo == 6) {
         return true;
@@ -3452,6 +3460,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   bool isSafePosition(int xPosition) {
+    print('------------->in isSafePosition()');
     // print('isSafePosition: ' + xPosition.toString());
     List<int> safePositions = [0, 8, 13, 21, 26, 34, 39, 47];
     for (int i = 0; i < safePositions.length; i++) {
@@ -3463,7 +3472,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Map getCurrentBoardStatus(int noOnDice) {
-    // print('------------->in getCurrentBoardStatus()');
+     print('------------->in getCurrentBoardStatus()');
     return {
       "0": {
         "0": offsets[00]["position"],
@@ -3497,7 +3506,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // x is xposition and pos is playerIndex
   int getActualposition(int x, int pos) {
-    // print('------------->in getActualposition()');
+     print('------------->in getActualposition()');
     int offset =
         pos == 0 ? 0 : pos == 1 ? 13 : pos == 2 ? 26 : pos == 3 ? 39 : null;
 
@@ -3513,6 +3522,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void moveGotiDialog(List<int> positions) {
+    print('------------->in moveGotiDialog()');
     // print("MULTIPLE MOVE DIALOG $positions");
     double size = MediaQuery.of(context).size.width * 0.064;
     Map<int, dynamic> currentOffsets = offsets;

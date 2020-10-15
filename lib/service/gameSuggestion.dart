@@ -129,8 +129,15 @@ class GameConfiguration {
       return pieceNoForAnyPieceWithinInitialBox();
     }
 
-    // TODO: if all the opponents goti are in the home or home grid then move the goti which is the farthest.
+    // if any goti can reach home, then move it bcoz you get one more move
+    for(int i =0; i<4; i++) {
+      if(players[0].pieces[i].position + noOnDice == 56){
+        print("Returning the goti which will reach HOME");
+        return i;
+      }
+    }
 
+    // TODO: if all the opponents goti are in the home or home grid then move the goti which is the farthest.
 
     List<double> values = gameOperationsObj.returnValueListOfBoardOnOneMove(0);
     print(values);
@@ -148,6 +155,7 @@ class GameConfiguration {
     }
     print("Borad Improve Probility After removing piece cannot move");
     print(values);
+
     return pieceNo;
   }
 }
