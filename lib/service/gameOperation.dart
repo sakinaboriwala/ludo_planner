@@ -56,17 +56,18 @@ class GameOperations {
 
       // Start change#4 by Shikhar
 
-      if (withPlayerPiecePos == -1) withPlayerPiecePos = 0;
+//      if (withPlayerPiecePos == -1) withPlayerPiecePos = 0;
+
+//      if (!hasNoOnDice && withPlayerPiecePos == -1) withPlayerPiecePos = 0;
 
       // End change#4 by Shikhar
-
-      if (!hasNoOnDice && withPlayerPiecePos == -1) withPlayerPiecePos = 0;
 
       int posDiff = piecePositionDifferenceForDying(currentChancePlayerNo,
           withPlayerNo, currPlayerPiecePos + noOnDice, withPlayerPiecePos);
 //        print("Player no Diff :  $playerNoDiff  Piece Diff $posDiff");
 //      if(currentChancePlayerNo == 0 && currentChancePlayerPieceNo == 3){print("posDiff $posDiff");}
 
+//      print("####>>>> $currentChancePlayerNo $withPlayerNo ${currPlayerPiecePos + noOnDice} $withPlayerPiecePos $posDiff");
       if (posDiff > 0 && posDiff <= 6)
         return 1 / 6;
       else if (posDiff > 6 && posDiff <= 12)

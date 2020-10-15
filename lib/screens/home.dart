@@ -1360,6 +1360,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       //       currentOffsets[moveItem]["moved"] == false) {
                       //     print("UNMARKING THE POSITION TO MOVE");
                       //     currentOffsets[moveItem]["xPosition"] = -1;
+                      //     currentOffsets[moveItem]["position"] = -1;
                       //     currentOffsets[moveItem]["bottom"] =
                       //         offsets[int.parse("$count$position")]
                       //             ["initBottom"];
@@ -1427,6 +1428,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       //         //     defaultOffsets[int.parse("$count$position")];
                       //         currentOffsets[int.parse("$count$position")]
                       //             ["xPosition"] = -1;
+                      //         currentOffsets[int.parse("$count$position")]["position"] = -1;
                       //         currentOffsets[int.parse("$count$position")]
                       //             ["onMultiple"] = false;
                       //         currentOffsets[int.parse("$count$position")]
@@ -1638,7 +1640,16 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void moveGotiToV2(currentOffsets, moveItem, diceCount) {
-    print('------------->in moveGotiToV2()');
+    print('------------->in moveGotiToV2() $moveItem $diceCount ${currentOffsets[moveItem]["xPosition"]}');
+
+    if(moveItem == 0 && (currentOffsets[moveItem]["xPosition"] + diceNo) > 57) {
+      return;
+    }
+
+    if(moveItem == 2 && (currentOffsets[moveItem]["xPosition"] + diceNo) > 69) {
+      return;
+    }
+
     List<int> rowClm;
     if (currentOffsets[moveItem]["xPosition"] == -1) {
       if (currentOffsets[moveItem]["playerIndex"] == 0) {
@@ -1758,6 +1769,7 @@ class _HomeScreenState extends State<HomeScreen> {
         currentOffsets[moveItem]["kills"] += 1;
         // currentOffsets[key] = defaultOffsets[key];
         currentOffsets[key]["xPosition"] = -1;
+        currentOffsets[key]["position"] = -1;
         currentOffsets[key]["onMultiple"] = false;
         currentOffsets[key]["sizeMultiplier"] = 1;
         currentOffsets[key]["moved"] = false;
@@ -3396,10 +3408,25 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     if (position != 2) {
-      print("===============================================");
-      print(getCurrentBoardStatus(number));
-      print("===============================================");
-      int index = startGameSuggestion(getCurrentBoardStatus(number));
+      var boardMap = getCurrentBoardStatus(number);
+
+      if(boardMap["0"]["0"] >= 52){
+        boardMap["0"]["0"] = boardMap["0"]["0"] - 1;
+      }
+      if(boardMap["0"]["1"] >= 52){
+        boardMap["0"]["1"] = boardMap["0"]["1"] - 1;
+      }
+      if(boardMap["0"]["2"] >= 52){
+        boardMap["0"]["2"] = boardMap["0"]["2"] - 1;
+      }
+      if(boardMap["0"]["3"] >= 52){
+        boardMap["0"]["3"] = boardMap["0"]["3"] - 1;
+      }
+
+      print("BOARDMAP =============================================== BOARDMAP");
+      print(boardMap);
+      print("BOARDMAP =============================================== BOARDMAP");
+      int index = startGameSuggestion(boardMap);
       setState(() {
         predictionText =
             "Move ${selectedColorList[0]['name'].toString().substring(0, 1).toUpperCase()}${index + 1} ahead";
@@ -3418,7 +3445,9 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   bool isLegalPos(int currentXPos, int diceNo, int position) {
-    print('------------->in isLegalPos()');
+    if(currentXPos + diceNo > 57) {
+      return false;
+    }
     if (currentXPos == -1) {
       if (diceNo == 6) {
         return true;
