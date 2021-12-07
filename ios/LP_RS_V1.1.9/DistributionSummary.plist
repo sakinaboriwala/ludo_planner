@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Runner.ipa</key>
+	<array>
+		<dict>
+			<key>architectures</key>
+			<array>
+				<string>armv7</string>
+				<string>arm64</string>
+			</array>
+			<key>certificate</key>
+			<dict>
+				<key>SHA1</key>
+				<string>73A6071343C51315E845DA432AD9E6CC2B2A539C</string>
+				<key>dateExpires</key>
+				<string>05/11/20</string>
+				<key>type</key>
+				<string>Apple Distribution</string>
+			</dict>
+			<key>embeddedBinaries</key>
+			<array>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>armv7</string>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>73A6071343C51315E845DA432AD9E6CC2B2A539C</string>
+						<key>dateExpires</key>
+						<string>05/11/20</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>App.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>4SV34YF4N2</string>
+						<key>name</key>
+						<string>aviabird technology private limited</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>armv7</string>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>73A6071343C51315E845DA432AD9E6CC2B2A539C</string>
+						<key>dateExpires</key>
+						<string>05/11/20</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>FMDB.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>4SV34YF4N2</string>
+						<key>name</key>
+						<string>aviabird technology private limited</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>armv7</string>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>73A6071343C51315E845DA432AD9E6CC2B2A539C</string>
+						<key>dateExpires</key>
+						<string>05/11/20</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>Flutter.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>4SV34YF4N2</string>
+						<key>name</key>
+						<string>aviabird technology private limited</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>armv7</string>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>73A6071343C51315E845DA432AD9E6CC2B2A539C</string>
+						<key>dateExpires</key>
+						<string>05/11/20</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>flutter_keyboard_visibility.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>4SV34YF4N2</string>
+						<key>name</key>
+						<string>aviabird technology private limited</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>armv7</string>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>73A6071343C51315E845DA432AD9E6CC2B2A539C</string>
+						<key>dateExpires</key>
+						<string>05/11/20</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>path_provider.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>4SV34YF4N2</string>
+						<key>name</key>
+						<string>aviabird technology private limited</string>
+					</dict>
+				</dict>
+				<dict>
+					<key>architectures</key>
+					<array>
+						<string>armv7</string>
+						<string>arm64</string>
+					</array>
+					<key>certificate</key>
+					<dict>
+						<key>SHA1</key>
+						<string>73A6071343C51315E845DA432AD9E6CC2B2A539C</string>
+						<key>dateExpires</key>
+						<string>05/11/20</string>
+						<key>type</key>
+						<string>Apple Distribution</string>
+					</dict>
+					<key>name</key>
+					<string>sqflite.framework</string>
+					<key>team</key>
+					<dict>
+						<key>id</key>
+						<string>4SV34YF4N2</string>
+						<key>name</key>
+						<string>aviabird technology private limited</string>
+					</dict>
+				</dict>
+			</array>
+			<key>entitlements</key>
+			<dict>
+				<key>application-identifier</key>
+				<string>4SV34YF4N2.com.suplai.app</string>
+				<key>com.apple.developer.team-identifier</key>
+				<string>4SV34YF4N2</string>
+				<key>get-task-allow</key>
+				<false/>
+				<key>keychain-access-groups</key>
+				<array>
+					<string>4SV34YF4N2.com.suplai.app</string>
+				</array>
+			</dict>
+			<key>name</key>
+			<string>Runner.app</string>
+			<key>profile</key>
+			<dict>
+				<key>UUID</key>
+				<string>1a9baff3-3ddb-47e4-84bc-d5a311d69c0f</string>
+				<key>name</key>
+				<string>iOS Team Ad Hoc Provisioning Profile: com.suplai.app</string>
+			</dict>
+			<key>team</key>
+			<dict>
+				<key>id</key>
+				<string>4SV34YF4N2</string>
+				<key>name</key>
+				<string>aviabird technology private limited</string>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>
