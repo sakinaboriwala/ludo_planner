@@ -3,7 +3,10 @@ import 'package:ludo_planner/models/user.dart';
 
 Widget bottomLeft(selectedColorObject, BuildContext context, int position,
     List positions, Widget playerAddButton, Function onClick) {
-  if (selectedColorObject != null) {
+  var colorObj = selectedColorObject == null
+      ? null
+      : selectedColorObject["name"] == null ? null : selectedColorObject;
+  if (colorObj != null) {
     return Align(
         alignment: Alignment.bottomLeft,
         child: Container(
@@ -18,14 +21,14 @@ Widget bottomLeft(selectedColorObject, BuildContext context, int position,
                   height: MediaQuery.of(context).size.width * 0.4,
                   child: Stack(children: [
                     Image.asset(
-                      "assets/bottom${position == 0 || position == 3 ? "left" : "right"}_${selectedColorObject["name"]}BOX.png",
+                      "assets/bottom${position == 0 || position == 3 ? "left" : "right"}_${colorObj["name"]}BOX.png",
                       width: MediaQuery.of(context).size.width * 0.4,
                       height: MediaQuery.of(context).size.width * 0.4,
                     ),
                     Align(
                         alignment: Alignment.center,
                         child: Image.asset(
-                          "assets/dots_${selectedColorObject["name"]}.png",
+                          "assets/dots_${colorObj["name"]}.png",
                           width: MediaQuery.of(context).size.width * 0.2,
                           height: MediaQuery.of(context).size.width * 0.2,
                         ))
@@ -38,27 +41,13 @@ Widget bottomLeft(selectedColorObject, BuildContext context, int position,
                         width: MediaQuery.of(context).size.width * 0.130,
                         height: MediaQuery.of(context).size.width * 0.33,
                         child: Image.asset(
-                          "assets/${positions[position]}_${selectedColorObject["name"]}L.png",
+                          "assets/${positions[position]}_${colorObj["name"]}L.png",
                           fit: BoxFit.fill,
                         )))
               ],
             )));
   } else {
-    // return Align(
-    //     alignment: Alignment.bottomLeft,
-    //     child: Container(
-    //         alignment: Alignment.center,
-    //         height: MediaQuery.of(context).size.width * 0.4,
-    //         width: MediaQuery.of(context).size.width * 0.4,
-    //         margin: EdgeInsets.only(
-    //             left: MediaQuery.of(context).size.width * 0.0038),
-    //         child: GestureDetector(
-    //           onTap: () {
-    //             print("ON CLICKKK");
-    //             onClick(0, true, user: User(), exists: false);
-    //           },
-    //           child: Center(child: selfPlayerAddButton),
-    //         )));
+    print("ELSE////////////////////////////// BOTTOMLEFT");
     return Align(
         alignment: Alignment.bottomLeft,
         child: Container(

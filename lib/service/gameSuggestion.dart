@@ -84,15 +84,14 @@ class GameConfiguration {
     }
     return index;
   }
-bool canCutAnyBody(List<double> list)
-{
-  for(int i=0;i<4;i++)
-    {
-      if(list[i]!=0)
-        return true;
+
+  bool canCutAnyBody(List<double> list) {
+    for (int i = 0; i < 4; i++) {
+      if (list[i] != 0) return true;
     }
-  return false;
-}
+    return false;
+  }
+
   int pieceNoToMove() {
     int pieceNo = -1;
 
@@ -113,19 +112,33 @@ bool canCutAnyBody(List<double> list)
     //Only one of the several Active Pieces can move
     if (canOnlyOneActivePieceMove(0)) return returnOnlyOneActivePieceCanMove(0);
 
-
-
-
     GameOperations gameOperationsObj = GameOperations(players, noOnDice);
 
     //can Cut AnyBody
-    List<double> canCutList=gameOperationsObj.returnKillingProbabilityWeightedList(0,hasNoOnDice: true);
-    if(canCutAnyBody(canCutList))
-      { print("From can cut anybody");
-        print("Weighed killProb");
-        print(canCutList);
-        return returnIndexWithHighestProb(canCutList);
+    List<double> canCutList = gameOperationsObj
+        .returnKillingProbabilityWeightedList(0, hasNoOnDice: true);
+    if (canCutAnyBody(canCutList)) {
+      print("From can cut anybody");
+      print("Weighed killProb");
+      print(canCutList);
+      return returnIndexWithHighestProb(canCutList);
+    }
+
+    //can open any piece if cannot cut
+    if (noOnDice == 6 && pieceNoForAnyPieceWithinInitialBox() != -1) {
+      return pieceNoForAnyPieceWithinInitialBox();
+    }
+
+    // if any goti can reach home, then move it bcoz you get one more move
+    for(int i =0; i<4; i++) {
+      if(players[0].pieces[i].position + noOnDice == 56){
+        print("Returning the goti which will reach HOME");
+        return i;
       }
+    }
+
+    // TODO: if all the opponents goti are in the home or home grid then move the goti which is the farthest.
+
     List<double> values = gameOperationsObj.returnValueListOfBoardOnOneMove(0);
     print(values);
 
@@ -142,6 +155,7 @@ bool canCutAnyBody(List<double> list)
     }
     print("Borad Improve Probility After removing piece cannot move");
     print(values);
+
     return pieceNo;
   }
 }

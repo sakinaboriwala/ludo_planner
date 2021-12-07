@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 
 Widget topRight(selectedColorObject, BuildContext context, int position,
     List positions, Widget playerAddButton, Function onClick) {
-  if (selectedColorObject != null) {
+  var colorObj = selectedColorObject == null
+      ? null
+      : selectedColorObject["name"] == null ? null : selectedColorObject;
+
+  if (colorObj != null) {
+    print("COLOR OBJECT ---------->>>>>>>>>> NOT NULL TOPRIG");
+
     return Align(
         alignment: Alignment.topRight,
         child: Container(
@@ -21,7 +27,7 @@ Widget topRight(selectedColorObject, BuildContext context, int position,
                         width: MediaQuery.of(context).size.width * 0.132,
                         height: MediaQuery.of(context).size.width * 0.34,
                         child: Image.asset(
-                          "assets/${positions[position]}_${selectedColorObject["name"]}L.png",
+                          "assets/${positions[position]}_${colorObj["name"]}L.png",
                           fit: BoxFit.fill,
                         ))),
                 Container(
@@ -29,14 +35,14 @@ Widget topRight(selectedColorObject, BuildContext context, int position,
                   height: MediaQuery.of(context).size.width * 0.4,
                   child: Stack(children: [
                     Image.asset(
-                      "assets/bottom${position == 0 || position == 3 ? "left" : "right"}_${selectedColorObject["name"]}BOX.png",
+                      "assets/bottom${position == 0 || position == 3 ? "left" : "right"}_${colorObj["name"]}BOX.png",
                       width: MediaQuery.of(context).size.width * 0.4,
                       height: MediaQuery.of(context).size.width * 0.4,
                     ),
                     Align(
                         alignment: Alignment.center,
                         child: Image.asset(
-                          "assets/dots_${selectedColorObject["name"]}.png",
+                          "assets/dots_${colorObj["name"]}.png",
                           width: MediaQuery.of(context).size.width * 0.2,
                           height: MediaQuery.of(context).size.width * 0.2,
                         ))
